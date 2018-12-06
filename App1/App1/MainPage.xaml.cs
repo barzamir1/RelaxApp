@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 /*
- *this class is only used for Debugging.
- * it is used to display HR and GSR measurements in the UI.
- *-BaseViewModel updates the controls in MainPage.xaml when one of its properties changes.
- *-DependencyService.Get<BandInterface>().func() is the way we use an android-only class in Xamarin
+ * this class is only used for Debugging.
+ * it displays the HR and GSR measurements in the UI.
+ * -BaseViewModel updates the controls in MainPage.xaml when one of its properties changes.
+ * -DependencyService.Get<BandInterface>().func() is the way we use an android-only class in Xamarin
  * we created an Interface BandInterface and implemented the functions in Band.cs (android-class)
  */
 namespace App1
