@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:App1"
+             x:Class="App1.MainPage">
+    <ContentPage.BindingContext>
+        <local:BaseViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Label Text="Welcome to Xamarin.Forms!" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+        <Label x:Name="isConnectedLabel" Text="{Binding IsConnected, StringFormat='connected: {0}'}"
+        HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>
+        <Label x:Name="HRLabel" Text="{Binding HR, StringFormat='your HR is: {0}'}"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>
+        <Label x:Name="GSRLabel" Text="{Binding GSR, StringFormat='your GSR is: {0}'}"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>
+        <Button x:Name="buttonConnect" Text="connect" Clicked="ButtonConnect_Clicked"/>
+        <Button x:Name="buttonHR" Text="get HR" Clicked="ButtonHR_Clicked"/>
+        <Button x:Name="buttonGSR" Text="get GSR" Clicked="ButtonGSR_Clicked"/>
+
+
+
+
+    </StackLayout>
+
+</ContentPage>
