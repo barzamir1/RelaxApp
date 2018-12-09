@@ -21,10 +21,13 @@
         <Label x:Name="GSRLabel" Text="{Binding GSR, StringFormat='your GSR is: {0}'}"
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand"/>
+        <Label x:Name="GSRWindowLabel" Text="{Binding GsrList}"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>
         <Button x:Name="buttonConnect" Text="connect" Clicked="ButtonConnect_Clicked"/>
         <Button x:Name="buttonHR" Text="get HR" Clicked="ButtonHR_Clicked"/>
         <Button x:Name="buttonGSR" Text="get GSR" Clicked="ButtonGSR_Clicked"/>
-
+        <Button x:Name="buttonGSRWindow" Text="get 30 sec. GSR" Clicked="ButtonGSRWindow_Clicked"/>
 
 
 

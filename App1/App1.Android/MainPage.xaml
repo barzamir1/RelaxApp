@@ -9,7 +9,6 @@
         <Label Text="Welcome to Xamarin.Forms!" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
-       <Button x:Name="button2" Text="click" Clicked="Button2_Clicked"/>
     </StackLayout>
 
 </ContentPage>

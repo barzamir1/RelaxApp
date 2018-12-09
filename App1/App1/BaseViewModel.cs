@@ -14,6 +14,7 @@ namespace App1
         public event PropertyChangedEventHandler PropertyChanged;
         private int _hr = 0;
         private int _gsr = 0;
+        private String _gsrListStr = "";
         private bool _isConnected = false;        
         
         public int HR
@@ -40,6 +41,23 @@ namespace App1
                 }
             }
         }
+        public String GsrList
+        {
+            get { return _gsrListStr; }
+            set
+            {
+                if (value.Equals("#"))
+                {
+                    _gsrListStr = "";
+                    return;
+                }
+                if (!GsrList.Equals(value))
+                {
+                    _gsrListStr = GsrList + value + ", ";
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("GsrList"));
+                }
+            }
+        }
         public bool IsConnected
         {
             get { return _isConnected; }
@@ -51,6 +69,10 @@ namespace App1
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsConnected"));
                 }
             }
+        }
+        public void ClearGsr()
+        {
+            _gsrListStr = "";
         }
     }
 }
