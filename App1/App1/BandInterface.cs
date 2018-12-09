@@ -14,7 +14,9 @@ namespace App1
         Task<bool> ConnectToBand(BaseViewModel b);
         Task<int> getHR(BaseViewModel b);
         Task<int> getGSR(BaseViewModel b, int sec);
-        List<int> getList();
-        void Clear();
+        Task<bool> getRRIntervals(int sec);
+        List<int> GsrReadings();
+        List<double> RRIntervalReadings();
+        void ClearAllReadings();
     }
 }

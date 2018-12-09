@@ -24,6 +24,7 @@ namespace App1
         private static IBandClient _client = null; //our band
         private List<int> _hrReadings = new List<int>();
         private List<int> _gsrReadings = new List<int>();
+        private List<double> _rrIntervalsReadings = new List<double>();
         private bool _gsrDone = false;
         private BandContactState _bandState = null;
         public List<int> windowGsr = new List<int>();
@@ -31,6 +32,7 @@ namespace App1
         //sensors
         private HeartRateSensor _hrSensor;
         private GsrSensor _gsrSensor;
+        private RRIntervalSensor _rrSensor;
         private ContactSensor _contactSensor;
 
         public async Task<bool> ConnectToBand(BaseViewModel b)
@@ -41,7 +43,7 @@ namespace App1
                 IBandInfo[] devices = BandClientManager.Instance.GetPairedBands();
                 if (devices.Length == 0)
                 {
-                    b.IsConnected = false;
+                    if (b != null) { b.IsConnected = false; }
                     Toast.MakeText(Droid.MainActivity.context,
                         "make sure your band is paired with this device and try again",
                         ToastLength.Short).Show();
@@ -51,11 +53,12 @@ namespace App1
             }
             else if (_client.ConnectionState == ConnectionState.Connected)
             {
+                if (b != null) { b.IsConnected = true; }
                 return true;
             }
             //connecting to device
             ConnectionState connectionState = await _client.ConnectTaskAsync();
-            b.IsConnected = _client.IsConnected; //update BaseViewModel
+            if (b != null) { b.IsConnected = _client.IsConnected; } //update BaseViewModel
             InitSensors(b); //register sensors listeners
             return _client.IsConnected;
         }
@@ -96,23 +99,49 @@ namespace App1
             return 0;
         }
 
-        public List<int> getList()
+        public async Task<bool> getRRIntervals(int sec)
+        {
+            Activity activity = Droid.MainActivity.instance;
+            _contactSensor.StartReadings();
+            while (_bandState == null) { } //get the band state
+            if (_bandState != BandContactState.Worn)
+            {
+                _bandState = null;
+                //should notify the user by sending a notification
+                return false;
+            }
+            _rrIntervalsReadings.Clear();
+            _rrSensor.StartReadings();
+            await Task.Delay(sec * 1000);
+            _rrSensor.StopReadings();
+            _contactSensor.StopReadings();
+            return true;
+        }
+
+        public List<int> GsrReadings()
         {
             return _gsrReadings;
         }
-        public void Clear()
+        public List<double> RRIntervalReadings()
+        {
+            return _rrIntervalsReadings;
+        }
+        public void ClearAllReadings()
         {
             _gsrReadings.Clear();
+            _rrIntervalsReadings.Clear();
+            _hrReadings.Clear();
         }
         public async void InitSensors(BaseViewModel b)
-        {
+        { 
             if (!_client.IsConnected)
                 return;
             _hrSensor = _client.SensorManager.CreateHeartRateSensor();
             _gsrSensor = _client.SensorManager.CreateGsrSensor();
+            _rrSensor = _client.SensorManager.CreateRRIntervalSensor();
             _contactSensor = _client.SensorManager.CreateContactSensor();
 
-            if (_contactSensor == null || _hrSensor == null || _gsrSensor == null)
+            if (_contactSensor == null || _hrSensor == null || _gsrSensor == null || _rrSensor == null)
                 return;
             Activity activity = Droid.MainActivity.instance;
 
@@ -143,7 +172,7 @@ namespace App1
                     {
                         _hrSensor.StopReadings();
                         _contactSensor.StopReadings();
-                        b.HR = _hrReadings[_hrReadings.Count - 1]; //update ViewModel
+                        if (b != null) { b.HR = _hrReadings[_hrReadings.Count - 1]; } //update ViewModel
                     }
                     if (_bandState != BandContactState.Worn) //user took off the band while reading
                     {
@@ -161,16 +190,31 @@ namespace App1
                 {
                     var gsrEvent = e.SensorReading;
                     _gsrReadings.Add(gsrEvent.Resistance);
-                    b.GsrList = gsrEvent.Resistance.ToString();
+                    if (b != null) { b.GsrList = gsrEvent.Resistance.ToString(); }
 
                     if (_gsrDone)
                     {
                         _gsrSensor.StopReadings();
                         _contactSensor.StopReadings();
-                        //b.GSR = gsrEvent.Resistance;
                         return;
                     }
                 });
+            };
+            //register RR Intervals listener
+            _rrSensor.ReadingChanged += (sender, e) =>
+            {
+                //activity.RunOnUiThread(() =>
+               // {
+                    if (_bandState != BandContactState.Worn) //user took off the band while reading
+                    {
+                        _rrSensor.StopReadings();
+                        _contactSensor.StopReadings();
+                        _bandState = null;
+                        return;
+                    }
+                    var rrEvent = e.SensorReading;
+                    _rrIntervalsReadings.Add(rrEvent.Interval);
+              //  });
             };
         }
     }

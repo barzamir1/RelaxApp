@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -52,6 +53,32 @@ namespace App1
             await DependencyService.Get<BandInterface>().getGSR(b,40);
             //List<int> windowReads = DependencyService.Get<BandInterface>().getList();
             this.buttonGSRWindow.IsEnabled = true;
+        }
+
+        private void ButtonRRInterval_Clicked(object sender, EventArgs e)
+        {
+            //this.buttonGSRWindow.IsEnabled = false;
+            BaseViewModel b = (BaseViewModel)BindingContext;
+            b.PNN50 = 0;
+            double PNN50 = 0;
+            Action onCompleted = () =>
+            {
+                b.PNN50 = PNN50;
+            };
+            //don't make the UI thread wait
+            var thread = new Thread(
+              () =>
+              {
+                  try
+                  {
+                     PNN50 = StressCalculator.CalcStressIndex();
+                  }
+                  finally
+                  {
+                      onCompleted();
+                  }
+              });
+            thread.Start();
         }
     }
 }
