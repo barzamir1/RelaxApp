@@ -15,6 +15,7 @@ namespace App1
         private int _hr = 0;
         private int _gsr = 0;
         private String _gsrListStr = "";
+        private double _PNN50 = 0;
         private bool _isConnected = false;        
         
         public int HR
@@ -38,6 +39,18 @@ namespace App1
                 {
                     _gsr = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("GSR"));
+                }
+            }
+        }
+        public double PNN50
+        {
+            get { return _PNN50; }
+            set
+            {
+                if (PNN50 != value)
+                {
+                    _PNN50 = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PNN50"));
                 }
             }
         }
