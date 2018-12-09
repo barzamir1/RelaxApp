@@ -27,7 +27,5 @@ namespace App1.Droid
             context = this.ApplicationContext;
             instance = this;
         }
-
-   
     }
 }
