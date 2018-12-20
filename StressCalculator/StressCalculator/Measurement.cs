@@ -16,7 +16,7 @@ namespace StressCalculator
 
         private List<double> RRIntervals;
         private List<double> IntervalsDiff; //the difference between each two following intervals
-        public double TRI; //the triangular index
+        public double TRI; //the triangular index, 1<TRI<n (n=number of intervals). higher => stressed
         public int NN50; //the number of following intervals that differ in more than 50ms. lower => stressed
         public double PNN50; //the % of NN50 relative to all intervals. lower => stressed
         public double SDNN; //the standard deviation of RR intervals. lower => stressed
@@ -42,6 +42,8 @@ namespace StressCalculator
             SetPNN50();
             SetSDNN();
             SetSDSD();
+            SetStressIndex();
+            SetIsStressed();
         }
 
         private void SetTRI()
@@ -51,7 +53,7 @@ namespace StressCalculator
             int lowBound = 0;
             int highBound = 5;
             List<int> counters = histCount(RRIntervals, binSize, lowBound, highBound);
-            this.TRI = (double)counters.Sum() / (double)counters.Max();
+            this.TRI = counters.Max(); //(double)counters.Sum() / (double)counters.Max();
         }
         private void SetPNN50()
         {
@@ -119,11 +121,34 @@ namespace StressCalculator
         
         private void SetStressIndex()
         {
-            StressIndex = (int)Math.Floor((0.35 * TRI + 0.35*PNN50 + 0.15 * SDNN + 0.15 * SDSD)*100);
+            StressIndex = (int)Math.Floor((0.35 * TRI + 0.35*(1-PNN50) + 0.15 * (1-SDNN) + 0.15 * (1-SDSD))*10);
         }
-        private void SetIsStressed()
+        private async void SetIsStressed()
         {
+            List<int> relaxedStressIndexes = await DBSender.GetPrevRelaxStressIndex(UserID);
+            int stressedStressIndex = await DBSender.GetPrevStressedStressIndex(UserID);
 
+            if (relaxedStressIndexes.Count == 0)
+            {
+                IsStressed = 0; //the first measurement for this user.
+                return;
+            }
+            else if (relaxedStressIndexes.Count == 1)
+            {
+                IsStressed = 1; //second measurement
+                return;
+            }
+            else
+            {
+                int maxRelaxed = relaxedStressIndexes.Max();
+                if (this.StressIndex <= maxRelaxed || this.StressIndex <= 1.1 * maxRelaxed)
+                    this.IsStressed = 0;
+            }
+            if (stressedStressIndex != -1) //the user already had a stress moment
+            {
+                if (0.80 * stressedStressIndex <= this.StressIndex) //stress index is at least 80% of the last stressed moment
+                    IsStressed = 1;
+            }
         }
 
         override
