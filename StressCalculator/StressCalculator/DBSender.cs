@@ -43,7 +43,8 @@ namespace StressCalculator
             }
         }
 
-        /*returns the ActivityID of "ActivityName" in the Activities Table,
+        /*
+         * returns the ActivityID of "ActivityName" in the Activities Table,
          *inserts to the table if "ActivityName" doesn't already exist.
          */
         public static async Task<int> GetActivityID(String ActivityName)
@@ -76,6 +77,59 @@ namespace StressCalculator
             }
         }
 
+        /*
+         * returns a list of last 10 StressIndex values, when the user was relaxed.
+         * i.e. when IsStressed = 0
+         */
+        public static async Task<List<int>> GetPrevRelaxStressIndex(String UserID)
+        {
+            var connString = Environment.GetEnvironmentVariable("dbConnection");
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                List<int> StressIndexes = new List<int>();
+                //dt.AddHours(-2); //get data from the past 2 hours
+                //DateTime date = new DateTime(dt.Year, dt.Month, dt.Day, dt., 0, 0); //at midnight
+                String query = "SELECT TOP 10 StressIndex from Measurements " +
+                               "WHERE UserID=@UserID and IsStressed=0";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                //cmd.Parameters.AddWithValue("@Date", dt);
+
+                conn.Open();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    StressIndexes.Add(int.Parse(reader["StressIndex"].ToString()));
+                }
+                conn.Close();
+                return StressIndexes;
+            }
+        }
+        /*
+        * returns the last StressIndex value of when the user was relaxed,
+        * i.e. when IsStressed = 1
+        */
+        public static async Task<int> GetPrevStressedStressIndex(String UserID)
+        {
+            var connString = Environment.GetEnvironmentVariable("dbConnection");
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                int StressIndex = -1;
+                String query = "SELECT StressIndex from Measurements " +
+                               "WHERE UserID=@UserID and IsStressed=1 ORDER BY ActivityID DESC";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+
+                conn.Open();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    StressIndex = int.Parse(reader["StressIndex"].ToString());
+                }
+                conn.Close();
+                return StressIndex;
+            }
+        }
         public static async Task SendTestToDBAsync()
         {
             var connString = Environment.GetEnvironmentVariable("dbConnection");

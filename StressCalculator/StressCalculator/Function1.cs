@@ -13,29 +13,39 @@ namespace StressCalculator
 {
     public static class Function1
     {
-        [FunctionName("Function1")]
+        [FunctionName("AddMeasurement")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
+            String dd = JsonConvert.SerializeObject(DateTime.Now);
             // parse query parameter
             dynamic body = await req.Content.ReadAsStringAsync();
             var dict = req.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
             if (!(dict.ContainsKey("UserID") || dict.ContainsKey("intervalsArr") || dict.ContainsKey("ActivityName")
-                || dict.ContainsKey("dateTime") || dict.ContainsKey("GPSLat") || dict.ContainsKey("GPSLng")))
-                return req.CreateResponse(HttpStatusCode.BadRequest, "missing arguments\n");
+                || dict.ContainsKey("DateTime") || dict.ContainsKey("GPSLat") || dict.ContainsKey("GPSLng")))
+                return req.CreateResponse(HttpStatusCode.OK, "ERROR: missing arguments");
 
             //start processing intervals:
-            double[] arr = JsonConvert.DeserializeObject<double[]>(dict["intervalsArr"]);
-            Measurement m = new Measurement(new List<double>(arr));
-            
-            m.UserID = dict["UserID"];
-            String ActivityName = dict["ActivityName"];
-            m.Date = DateTime.Parse(dict["dateTime"]);
-            m.GPSLat = double.Parse(dict["GPSLat"]);
-            m.GPSLng = double.Parse(dict["GPSLng"]);
-            
-            //insert measurement to DB
-            await DBSender.SendMeasurementToDBAsync(m, ActivityName);
-            return req.CreateResponse(HttpStatusCode.OK, "Successfully added measurement!\n");
+            try
+            {
+                double[] arr = JsonConvert.DeserializeObject<double[]>(dict["intervalsArr"]);
+                Measurement m = new Measurement(new List<double>(arr));
+
+                m.UserID = dict["UserID"];
+                String ActivityName = dict["ActivityName"];
+                var msDate = long.Parse(dict["msDateTime"]);
+                m.Date = new DateTime(msDate); //DateTime.Parse(dict["dateTime"]);
+                m.GPSLat = double.Parse(dict["GPSLat"]);
+                m.GPSLng = double.Parse(dict["GPSLng"]);
+
+                //insert measurement to DB
+                await DBSender.SendMeasurementToDBAsync(m, ActivityName);
+                String msg = "Successfully added measurement!\nStressIndex: "+ m.StressIndex;
+                return req.CreateResponse(HttpStatusCode.OK, msg);
+            }
+            catch(Exception e)
+            {
+                return req.CreateResponse(HttpStatusCode.BadRequest, "ERROR: "+e.ToString());
+            }
         }
     }//TODO: check encryption, add claclStressLevel function and return the stress level.
 }
