@@ -4,7 +4,7 @@
              x:Class="App1.Page1">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Hello -name-!"
+            <Label x:Name="LabelUserName" Text="Hello -name-!"
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand"
            FontSize="Large"/>
