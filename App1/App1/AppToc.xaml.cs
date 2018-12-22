@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App1.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,10 @@ namespace App1
 		public Page1 ()
 		{
 			InitializeComponent ();
+            if (Login.Default.CurrentUser != null)
+            {
+                LabelUserName.Text = "Hello " + Login.Default.CurrentUser.FirstName;
+            }
 		}
 
         public async void openStatsPage(object sender, EventArgs args) {
