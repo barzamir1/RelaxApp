@@ -12,6 +12,14 @@
             BackgroundColor="Transparent"
             Clicked="mapClicked"/>
 
+            <Button Text="All Users Activities" 
+            BackgroundColor="Transparent"
+            Clicked="activitiesClicked"/>
+
+            <Button Text="Last Measurements" 
+            BackgroundColor="Transparent"
+            Clicked="lastMeasurementsClicked"/>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
