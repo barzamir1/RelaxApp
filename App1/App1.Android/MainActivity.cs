@@ -55,9 +55,9 @@ namespace App1.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
             context = this.ApplicationContext;
             instance = this;
+            LoadApplication(new App());
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs

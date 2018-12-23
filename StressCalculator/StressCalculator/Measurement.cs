@@ -29,10 +29,10 @@ namespace StressCalculator
         //public double SD1;
         //public double SD2;
 
-        public Measurement(List<double> RRIntervals)
+        public Measurement(List<double> RRIntervals, String UserID)
         {
             this.RRIntervals = RRIntervals;
-
+            this.UserID = UserID;
             this.IntervalsDiff = new List<double>();
             for (int i = 0; i < RRIntervals.Count - 1; i++)
             {
@@ -43,7 +43,7 @@ namespace StressCalculator
             SetSDNN();
             SetSDSD();
             SetStressIndex();
-            SetIsStressed();
+            //SetIsStressed();
         }
 
         private void SetTRI()
@@ -123,7 +123,7 @@ namespace StressCalculator
         {
             StressIndex = (int)Math.Floor((0.35 * TRI + 0.35*(1-PNN50) + 0.15 * (1-SDNN) + 0.15 * (1-SDSD))*10);
         }
-        private async void SetIsStressed()
+        public async Task SetIsStressed()
         {
             List<int> relaxedStressIndexes = await DBSender.GetPrevRelaxStressIndex(UserID);
             int stressedStressIndex = await DBSender.GetPrevStressedStressIndex(UserID);
@@ -133,7 +133,7 @@ namespace StressCalculator
                 IsStressed = 0; //the first measurement for this user.
                 return;
             }
-            else if (relaxedStressIndexes.Count == 1)
+            else if (relaxedStressIndexes.Count == 1 && stressedStressIndex==-1)
             {
                 IsStressed = 1; //second measurement
                 return;

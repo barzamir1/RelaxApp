@@ -17,7 +17,7 @@ namespace App1
         {
             InitializeComponent();
             MainPage = new NavigationPage(new Login());
-            //MainPage = new NavigationPage(new Page1());
+            //TestMe = new NavigationPage(new Page1());
         }
         public static void Init(IAuthenticate authenticator)
         {

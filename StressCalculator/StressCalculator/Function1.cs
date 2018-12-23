@@ -28,9 +28,10 @@ namespace StressCalculator
             try
             {
                 double[] arr = JsonConvert.DeserializeObject<double[]>(dict["intervalsArr"]);
-                Measurement m = new Measurement(new List<double>(arr));
 
-                m.UserID = dict["UserID"];
+                String UserID = dict["UserID"];
+                Measurement m = new Measurement(new List<double>(arr), UserID);
+                await m.SetIsStressed();
                 String ActivityName = dict["ActivityName"];
                 var msDate = long.Parse(dict["msDateTime"]);
                 m.Date = new DateTime(msDate); //DateTime.Parse(dict["dateTime"]);
@@ -39,7 +40,8 @@ namespace StressCalculator
 
                 //insert measurement to DB
                 await DBSender.SendMeasurementToDBAsync(m, ActivityName);
-                String msg = "Successfully added measurement!\nStressIndex: "+ m.StressIndex;
+                String msg = "your Stress Level: " + m.StressIndex + " you are "+
+                (m.IsStressed == 0 ? "not stressed" : "stressed");
                 return req.CreateResponse(HttpStatusCode.OK, msg);
             }
             catch(Exception e)
