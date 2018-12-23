@@ -37,30 +37,43 @@ namespace App1
 
         public async Task<bool> ConnectToBand(BaseViewModel b)
         {
-            if (_client == null)
+            try
             {
-                //get all paired devices (we only care about the 1st)
-                IBandInfo[] devices = BandClientManager.Instance.GetPairedBands();
-                if (devices.Length == 0)
+                if (_client == null)
                 {
-                    if (b != null) { b.IsConnected = false; }
-                    Toast.MakeText(Droid.MainActivity.context,
-                        "make sure your band is paired with this device and try again",
-                        ToastLength.Short).Show();
-                    return false;
+                    //get all paired devices (we only care about the 1st)
+                    IBandInfo[] devices = BandClientManager.Instance.GetPairedBands();
+                    if (devices.Length == 0)
+                    {
+                        if (b != null) { b.IsConnected = false; }
+                        Activity activity = Droid.MainActivity.instance;
+                        activity.RunOnUiThread(() =>
+                        {
+                            Toast.MakeText(Droid.MainActivity.context,
+                            "make sure your band is paired with this device and try again",
+                            ToastLength.Short).Show();
+                        });
+                        return false;
+                    }
+                    _client = BandClientManager.Instance.Create(Droid.MainActivity.context, devices[0]);
                 }
-                _client = BandClientManager.Instance.Create(Droid.MainActivity.context, devices[0]);
+                else if (_client.ConnectionState == ConnectionState.Connected)
+                {
+                    if (b != null) { b.IsConnected = true; }
+                    return true;
+                }
+                //connecting to device
+                ConnectionState connectionState = await _client.ConnectTaskAsync();
+                if (b != null) { b.IsConnected = _client.IsConnected; } //update BaseViewModel
+                InitSensors(b); //register sensors listeners
+                return _client.IsConnected;
+
             }
-            else if (_client.ConnectionState == ConnectionState.Connected)
+            catch (Exception ex)
             {
-                if (b != null) { b.IsConnected = true; }
-                return true;
+                Console.WriteLine(ex.Message);
+                return false;
             }
-            //connecting to device
-            ConnectionState connectionState = await _client.ConnectTaskAsync();
-            if (b != null) { b.IsConnected = _client.IsConnected; } //update BaseViewModel
-            InitSensors(b); //register sensors listeners
-            return _client.IsConnected;
         }
 
         //assumes the band is connected

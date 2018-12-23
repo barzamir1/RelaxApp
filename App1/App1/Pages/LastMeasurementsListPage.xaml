@@ -23,7 +23,7 @@
                            VerticalOptions="FillAndExpand"
                            Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Date, StringFormat='Date: {0}'}"></Label>
+                                    <Label Text="{Binding Date, StringFormat='\{0:dd/MM/yy hh:mm}'}"></Label>
                                     <Label Text="{Binding StressIndex, StringFormat='Stress Index: {0}'}"></Label>
                                     <Label Text="{Binding IsStressed, StringFormat='Is Stress Moment? {0}'}"></Label>
                                 </StackLayout>
