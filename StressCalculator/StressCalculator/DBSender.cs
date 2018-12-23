@@ -16,7 +16,7 @@ namespace StressCalculator
             var connString = Environment.GetEnvironmentVariable("dbConnection");
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                int ActivityID = await GetActivityID(ActivityName);
+                String ActivityID = await GetActivityID(ActivityName);
                 conn.Open();
                 String query = "INSERT INTO Measurements" +
                                 "(UserID, Date, ActivityID, GPSLat, GPSLng, TRI, PNN50, SDNN, SDSD, StressIndex, IsStressed) " +
@@ -37,7 +37,7 @@ namespace StressCalculator
                 // insert to Measurements
                 var rows = await cmd.ExecuteNonQueryAsync();
                 //update Activity counter
-                cmd.CommandText = "UPDATE Activities set Counter=Counter+1 where ActivityID=@ActivityID";
+                cmd.CommandText = "UPDATE Activities set Counter=Counter+1 where id=@ActivityID";
                 await cmd.ExecuteNonQueryAsync();
                 conn.Close();
             }
@@ -47,30 +47,32 @@ namespace StressCalculator
          * returns the ActivityID of "ActivityName" in the Activities Table,
          *inserts to the table if "ActivityName" doesn't already exist.
          */
-        public static async Task<int> GetActivityID(String ActivityName)
+        public static async Task<String> GetActivityID(String ActivityName)
         {
             var connString = Environment.GetEnvironmentVariable("dbConnection");
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                int ActivityID = 0;
+                String ActivityID = null;
                 conn.Open();
-                String query = "SELECT ActivityID from Activities WHERE Name=@Name";
+                String query = "SELECT id from Activities WHERE Name=@Name";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Name", ActivityName);
                 SqlDataReader reader = await cmd.ExecuteReaderAsync();
                 if (reader.Read())
                 {
-                    ActivityID = int.Parse(reader["ActivityID"].ToString());
+                    ActivityID = reader["id"].ToString();
                     conn.Close();
                     return ActivityID;
                 }
                 else //ActivityName doesn't exist in table
                 {
                     reader.Close();
-                    cmd.CommandText = "INSERT INTO Activities(Name,Counter) OUTPUT Inserted.ActivityID " +
-                                      "VALUES(@Name,0)";
+                    //cmd.CommandText = "INSERT INTO Activities(Name,Counter) OUTPUT Inserted.id " +
+                    //                  "VALUES(@Name,0)";
+                    cmd.CommandText = "INSERT INTO Activities(Name,Counter) " +
+                  "VALUES(@Name,0); select TOP 1 id from Activities order by updatedAt DESC";
                     var rows = await cmd.ExecuteScalarAsync(); //returns the ID of the newly added Activity
-                    ActivityID = int.Parse(rows.ToString());
+                    ActivityID = rows.ToString();
                 }
                 conn.Close();
                 return ActivityID;
