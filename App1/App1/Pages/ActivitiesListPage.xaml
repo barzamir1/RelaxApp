@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:App1.ViewModels;assembly=App1"
+             x:Class="App1.Pages.ActivitiesListPage"
+             Title="Activities Page">
+    <ContentPage.BindingContext>
+        <viewModels:ActivitiesPageViewModel></viewModels:ActivitiesPageViewModel>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand">
+
+            <ListView ItemsSource="{Binding ActivitiesObj}"
+                Margin="10"
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"
+                           Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Name, StringFormat='Activity Name: {0}'}"></Label>
+                                    <Label Text="{Binding Counter, StringFormat='Activity Counter: {0}'}"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand">
+                <Entry Placeholder="Please enter you activity.." Text="{Binding Name}"></Entry>
+                <Button Text="Add To Table" Command="{Binding AddActivity}"></Button>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
