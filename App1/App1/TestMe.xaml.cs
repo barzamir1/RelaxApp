@@ -109,7 +109,7 @@ namespace App1
             thread.Start();
         }
 
-        private async void ButtonAzureFunctionInvoke(object sender, EventArgs e)
+        private async void ButtonRRrelax_Clicked(object sender, EventArgs e)
         {
             stressResult = "";
             StartMeasure(0);
@@ -123,6 +123,15 @@ namespace App1
         {
             stressResult = "";
             StartMeasure(1);
+            progressBar.Progress = 0;
+            labelStressResults.Text = "Reading...";
+            await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
+            labelStressResults.Text = stressResult;
+        }
+        private async void ButtonReal_Clicked(object sender, EventArgs e)
+        {
+            stressResult = "";
+            StartMeasure(-1); //real measurement
             progressBar.Progress = 0;
             labelStressResults.Text = "Reading...";
             await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
