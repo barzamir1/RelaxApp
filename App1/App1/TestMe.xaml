@@ -14,10 +14,7 @@
                 
                 <Label Text="Test me now!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
                 <Label x:Name="isConnectedLabel" Text="{Binding IsConnected, StringFormat='connected: {0}'}"
-                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
-                <Label x:Name="HRLabel" Text="{Binding HR, StringFormat='your HR is: {0}'}"
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand"/>
+                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Medium"/>
                 <!--<Label x:Name="GSRLabel" Text="{Binding GSR, StringFormat='your GSR is: {0}'}"
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand"/>
@@ -27,17 +24,16 @@
                 <Label x:Name="RRLabel" Text="{Binding PNN50,StringFormat='your PNN50 is: {0:0.##}%'}"
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand"/>-->
-                <ProgressBar x:Name="progressBar" Grid.Row="2" Grid.ColumnSpan="5"
-                    IsVisible="true"
-                    Progress="0.0"
-                    WidthRequest="300"
-                    HeightRequest="20"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center">
+                <ProgressBar x:Name="progressBar" 
+                         HorizontalOptions="Center"
+                         VerticalOptions="End"
+                         WidthRequest="60"
+                         Margin="20,0,20,0"
+                         Scale="5"
+                    Progress="{Binding Progress}">
                 </ProgressBar>
 
-                <Label x:Name="labelTimer" FontSize="Medium"/>
-                <Label x:Name="labelStressResults" Text="" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
+                <Label x:Name="labelStressResults" Text="{Binding StressResult}" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
                <!-- <Button x:Name="buttonConnect" Text="connect" Clicked="ButtonConnect_Clicked"/>
                 <Button x:Name="buttonHR" Text="get HR" Clicked="ButtonHR_Clicked"/>
                 <Button x:Name="buttonGSR" Text="get GSR" Clicked="ButtonGSR_Clicked"/>

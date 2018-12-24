@@ -16,8 +16,9 @@ namespace App1
         private int _gsr = 0;
         private String _gsrListStr = "";
         private double _PNN50 = 0;
-        private bool _isConnected = false;        
-        
+        private bool _isConnected = false;
+        private double _progress;
+        private String  _stressResult;
         public int HR
         {
             get { return _hr; }
@@ -51,6 +52,30 @@ namespace App1
                 {
                     _PNN50 = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PNN50"));
+                }
+            }
+        }
+        public double Progress
+        {
+            get { return _progress; }
+            set
+            {
+                if (Progress != value)
+                {
+                    _progress = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Progress"));
+                }
+            }
+        }
+        public String StressResult
+        {
+            get { return _stressResult; }
+            set
+            {
+                if (StressResult != value)
+                {
+                    _stressResult = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StressResult"));
                 }
             }
         }
