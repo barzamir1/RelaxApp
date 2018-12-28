@@ -14,21 +14,22 @@ namespace App1
         private static int _testTime = 90; //90 seconds measurements
         public static double _stressIndex = 0;
 
-        public static async Task<String> GetStressResult(int pseudo)
+        public static async Task<String> GetStressResult(int pseudo, BaseViewModel b)
         {
             List<double> rrIntervals = null;
             if (pseudo < 0)
             {
-                bool isBandConnected = DependencyService.Get<BandInterface>().ConnectToBand(null).Result;
+                bool isBandConnected = DependencyService.Get<BandInterface>().ConnectToBand(b).Result;
                 if (!isBandConnected)
                     return null; //can't connect to band
-                await DependencyService.Get<BandInterface>().getRRIntervals(_testTime);
+                if (b != null) { b.StressResult = "Reading..."; }
+                await DependencyService.Get<BandInterface>().readRRSensor(b,_testTime);
                 rrIntervals = DependencyService.Get<BandInterface>().RRIntervalReadings();
             }
-            String result = await AzureFunctionAddMeasurement(rrIntervals, pseudo);
+            String result = await AzureFunctionAddMeasurement(rrIntervals, pseudo, b);
             return result;
         }
-        static async Task<String> AzureFunctionAddMeasurement(List<double> intervals, int isPseudo)
+        static async Task<String> AzureFunctionAddMeasurement(List<double> intervals, int isPseudo, BaseViewModel b)
         {
             String AZURE_FUNCTION_URL = "https://stresscalculator.azurewebsites.net/api/AddMeasurement?code=yz6PuH0ISJTFL4BWtnUX32fkAnw3bqFHGfzRfnRbBgd5B/AEdljX6w==&";
 
@@ -52,7 +53,14 @@ namespace App1
             Uri uri = new Uri(AZURE_FUNCTION_URL + stringBuilder.ToString());
             try
             {
+                if (b != null) { b.StressResult = "Calculating..."; }
                 String content = await httpClient.GetStringAsync(uri);
+                content = content.Substring(1, content.Length - 2); //remove the " at the beginning and end
+                if (b != null)
+                {
+                    b.StressResult = content;
+                    b.Progress = 1;
+                }
                 return content;
             }
             catch (Exception ex)

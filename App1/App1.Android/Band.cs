@@ -112,7 +112,7 @@ namespace App1
             return 0;
         }
 
-        public async Task<bool> getRRIntervals(int sec)
+        public async Task<bool> readRRSensor(BaseViewModel b, int sec)
         {
             Activity activity = Droid.MainActivity.instance;
             _contactSensor.StartReadings();
@@ -120,7 +120,7 @@ namespace App1
             if (_bandState != BandContactState.Worn)
             {
                 _bandState = null;
-                //should notify the user by sending a notification
+                //TODO: notify the user by sending a notification
                 return false;
             }
             _rrIntervalsReadings.Clear();
