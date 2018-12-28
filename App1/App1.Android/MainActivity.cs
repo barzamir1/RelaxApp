@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using Microsoft.Band;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Android.Webkit;
 
 namespace App1.Droid
 {
@@ -31,6 +32,7 @@ namespace App1.Droid
                     MobileServiceAuthenticationProvider.Google, "androidrelaxapp");
                 if (user != null)
                     success = true;
+             
                 
             }
             catch (Exception ex)
