@@ -12,6 +12,8 @@ using Microsoft.Band;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Android.Webkit;
+using App1.Droid.Service;
+using Firebase.JobDispatcher;
 
 namespace App1.Droid
 {
@@ -20,6 +22,7 @@ namespace App1.Droid
     {
         public static Android.Content.Context context;
         public static Activity instance;
+        FirebaseJobDispatcher dispatcher;
 
         public async Task<bool> Authenticate()
         {
@@ -63,6 +66,36 @@ namespace App1.Droid
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
+
+            ScheduleMeasurement();
+        }
+
+        public void ScheduleMeasurement()
+        {
+            dispatcher = this.CreateJobDispatcher();
+            // This job should run between 1 - 5 seconds after being scheduled.
+            JobTrigger.ExecutionWindowTrigger trigger = Firebase.JobDispatcher.Trigger.ExecutionWindow(6 * 60, 6 * 60 + 10);
+
+            var job = dispatcher.NewJobBuilder()
+                                .SetService<MeasurementJob>("measurement-service")
+                                .SetRecurring(true)
+                                .SetTrigger(trigger)
+                                .SetLifetime(Lifetime.Forever)
+                                .Build();
+
+            int result = dispatcher.Schedule(job);
+            if (result == FirebaseJobDispatcher.ScheduleResultSuccess)
+            {
+                Console.WriteLine("########################");
+                Console.WriteLine("Job succeeded");
+                Console.WriteLine("########################");
+            }
+            else
+            {
+                Console.WriteLine("########################");
+                Console.WriteLine("Job failed");
+                Console.WriteLine("########################");
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace App1
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class TestMeViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private int _hr = 0;

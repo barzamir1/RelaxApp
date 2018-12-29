@@ -73,6 +73,7 @@ namespace App1
                 if (authenticated)
                 {
                     String userId = ServiceClient.CurrentUser.UserId.Substring(4);
+                    await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
                     currentUser = await UsersTable.LookupAsync(userId); //check if user exist in Users table
                     if (currentUser != null)
                     {
