@@ -31,7 +31,7 @@ namespace App1
             _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net");
             const string path = "syncstore.db";
 
-            //setup our local sqlite store and intialize our table
+            //setup our local sqlite store and initialize our table
             var store = new MobileServiceSQLiteStore(path);
             store.DefineTable<Users>();
             ServiceClient.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
