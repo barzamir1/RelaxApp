@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:App1"
              x:Class="App1.TestMe">
     <ContentPage.BindingContext>
-        <local:BaseViewModel />
+        <local:TestMeViewModel />
     </ContentPage.BindingContext>
 
     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
@@ -41,6 +41,7 @@
                 <Button x:Name="buttonRRTest" Text="Test Me Now" Clicked="ButtonReal_Clicked"/>
                 <Button x:Name="buttonRRAzure" Text="Test Me Relaxed" Clicked="ButtonRRrelax_Clicked"/>
                 <Button x:Name="buttonRRstress" Text="Test Me Stressed" Clicked="ButtonRRstress_Clicked"/>
+                <Button x:Name="buttonService" Text="service test" Clicked="ButtonService_Clicked"/>
             </StackLayout>
         </ScrollView>
     </StackLayout>
