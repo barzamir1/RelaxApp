@@ -34,7 +34,7 @@ namespace StressCalculator
                 await m.SetIsStressed();
                 String ActivityName = dict["ActivityName"];
                 var msDate = long.Parse(dict["msDateTime"]);
-                m.Date = new DateTime(msDate); //DateTime.Parse(dict["dateTime"]);
+                m.Date = new DateTimeOffset(msDate); //DateTime.Parse(dict["dateTime"]);
                 m.GPSLat = double.Parse(dict["GPSLat"]);
                 m.GPSLng = double.Parse(dict["GPSLng"]);
 

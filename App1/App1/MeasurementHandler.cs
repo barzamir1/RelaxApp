@@ -38,7 +38,7 @@ namespace App1
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("UserID=" + Login.Default.CurrentUser.id + "&");
             stringBuilder.Append("ActivityName=unspecified&");
-            stringBuilder.Append("msDateTime=" + DateTime.Now.Ticks + "&");
+            stringBuilder.Append("msDateTime=" + DateTime.UtcNow.Ticks + "&");
             stringBuilder.Append("GPSLng=1.1&");
             stringBuilder.Append("GPSLat=1.2&");
 
