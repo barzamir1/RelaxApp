@@ -7,9 +7,9 @@ using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Reflection;
 
-namespace StressCalculator
+namespace StressCalculator2
 {
-    class DBSender
+    class DBHandler
     {
         public static async Task SendMeasurementToDBAsync(Measurement m, String ActivityName)
         {
@@ -54,7 +54,11 @@ namespace StressCalculator
             {
                 String ActivityID = null;
                 conn.Open();
-                String query = "SELECT id from Activities WHERE Name=@Name";
+                String query = "IF NOT EXISTS (SELECT id from Activities WHERE Name = @Name) " +
+                                "BEGIN " +
+                                    "INSERT INTO Activities(Name, Counter) values(@Name, 0) " +
+                                "END " +
+                                "SELECT id from Activities WHERE Name = @Name";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Name", ActivityName);
                 SqlDataReader reader = await cmd.ExecuteReaderAsync();
@@ -64,20 +68,41 @@ namespace StressCalculator
                     conn.Close();
                     return ActivityID;
                 }
-                else //ActivityName doesn't exist in table
-                {
-                    reader.Close();
-                    //cmd.CommandText = "INSERT INTO Activities(Name,Counter) OUTPUT Inserted.id " +
-                    //                  "VALUES(@Name,0)";
-                    cmd.CommandText = "INSERT INTO Activities(Name,Counter) " +
-                  "VALUES(@Name,0); select TOP 1 id from Activities order by updatedAt DESC";
-                    var rows = await cmd.ExecuteScalarAsync(); //returns the ID of the newly added Activity
-                    ActivityID = rows.ToString();
-                }
                 conn.Close();
                 return ActivityID;
             }
         }
+        //public static async Task<String> GetActivityID(String ActivityName)
+        //{
+        //    var connString = Environment.GetEnvironmentVariable("dbConnection");
+        //    using (SqlConnection conn = new SqlConnection(connString))
+        //    {
+        //        String ActivityID = null;
+        //        conn.Open();
+        //        String query = "SELECT id from Activities WHERE Name=@Name";
+        //        SqlCommand cmd = new SqlCommand(query, conn);
+        //        cmd.Parameters.AddWithValue("@Name", ActivityName);
+        //        SqlDataReader reader = await cmd.ExecuteReaderAsync();
+        //        if (reader.Read())
+        //        {
+        //            ActivityID = reader["id"].ToString();
+        //            conn.Close();
+        //            return ActivityID;
+        //        }
+        //        else //ActivityName doesn't exist in table
+        //        {
+        //            reader.Close();
+        //            //cmd.CommandText = "INSERT INTO Activities(Name,Counter) OUTPUT Inserted.id " +
+        //            //                  "VALUES(@Name,0)";
+        //            cmd.CommandText = "INSERT INTO Activities(Name,Counter) " +
+        //          "VALUES(@Name,0); select TOP 1 id from Activities order by updatedAt DESC";
+        //            var rows = await cmd.ExecuteScalarAsync(); //returns the ID of the newly added Activity
+        //            ActivityID = rows.ToString();
+        //        }
+        //        conn.Close();
+        //        return ActivityID;
+        //    }
+        //}
 
         /*
          * returns a list of last 10 StressIndex values, when the user was relaxed.

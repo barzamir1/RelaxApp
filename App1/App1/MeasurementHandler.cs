@@ -33,7 +33,7 @@ namespace App1
         }
         static Uri BuildMeasurementUri(List<double> intervals, int isPseudo)
         {
-            String AZURE_FUNCTION_URL = "https://stresscalculator.azurewebsites.net/api/AddMeasurement?code=yz6PuH0ISJTFL4BWtnUX32fkAnw3bqFHGfzRfnRbBgd5B/AEdljX6w==&";
+            String AZURE_FUNCTION_URL = "https://stresscalculator220190103093959.azurewebsites.net/api/AddMeasurement?code=NZJYYtXNnRzv7Tp4SMnQPyp4aaShfu6A1CaGO17Cxs3VBGGeJmsORw==&";
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("UserID=" + Login.Default.CurrentUser.id + "&");

@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 
-namespace StressCalculator
+namespace StressCalculator2
 {
     public static class Function1
     {
@@ -34,19 +34,19 @@ namespace StressCalculator
                 await m.SetIsStressed();
                 String ActivityName = dict["ActivityName"];
                 var msDate = long.Parse(dict["msDateTime"]);
-                m.Date = new DateTimeOffset(msDate); //DateTime.Parse(dict["dateTime"]);
+                m.Date = new DateTime(msDate); //DateTime.Parse(dict["dateTime"]);
                 m.GPSLat = double.Parse(dict["GPSLat"]);
                 m.GPSLng = double.Parse(dict["GPSLng"]);
 
                 //insert measurement to DB
-                await DBSender.SendMeasurementToDBAsync(m, ActivityName);
-                String msg = "your Stress Level: " + m.StressIndex + " you are "+
+                await DBHandler.SendMeasurementToDBAsync(m, ActivityName);
+                String msg = "your Stress Level: " + m.StressIndex + " you are " +
                 (m.IsStressed == 0 ? "not stressed" : "stressed");
                 return req.CreateResponse(HttpStatusCode.OK, msg);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return req.CreateResponse(HttpStatusCode.BadRequest, "ERROR: "+e.ToString());
+                return req.CreateResponse(HttpStatusCode.BadRequest, "ERROR: " + e.ToString());
             }
         }
     }//TODO: check encryption, add claclStressLevel function and return the stress level.
