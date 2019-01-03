@@ -24,6 +24,21 @@ namespace App1.Droid
         public static Activity instance;
         FirebaseJobDispatcher dispatcher;
 
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            TabLayoutResource = Resource.Layout.Tabbar;
+            ToolbarResource = Resource.Layout.Toolbar;
+            base.OnCreate(savedInstanceState);
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            context = this.ApplicationContext;
+            instance = this;
+            LoadApplication(new App());
+
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
+
+            //ScheduleMeasurement();
+        }
         public async Task<bool> Authenticate()
         {
             var success = false;
@@ -35,8 +50,6 @@ namespace App1.Droid
                     MobileServiceAuthenticationProvider.Google, "androidrelaxapp");
                 if (user != null)
                     success = true;
-             
-                
             }
             catch (Exception ex)
             {
@@ -53,23 +66,6 @@ namespace App1.Droid
             }
             return success;
         }
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
-            base.OnCreate(savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            context = this.ApplicationContext;
-            instance = this;
-            LoadApplication(new App());
-
-            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
-            App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
-
-            ScheduleMeasurement();
-        }
-
         public void ScheduleMeasurement()
         {
             dispatcher = this.CreateJobDispatcher();
