@@ -95,7 +95,7 @@ namespace App1
             };
             //don't make the UI thread wait
             var thread = new Thread(
-              async () =>
+              () =>
               {
                   try
                   {

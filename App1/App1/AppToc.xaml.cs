@@ -34,5 +34,10 @@ namespace App1
         {
             await Navigation.PushAsync(new CalmMeDownToc());
         }
+
+        private async void gamePage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new GamePage());
+        }
     }
 }
