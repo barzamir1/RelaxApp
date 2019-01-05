@@ -23,7 +23,7 @@
                 <Entry x:Name="emergencyContactName" Placeholder="Emergency Contact Name"></Entry>
                 <Entry x:Name="emergencyContactPhone" Placeholder="Emergency Contact Phone" Keyboard="Telephone"></Entry>
                 <Label x:Name="errorLabel" Text="" IsVisible="False" TextColor="Red"/>
-                <Button Text="Sign Up" Clicked="Signup_Clicked"></Button>
+                <Button Text="Sign Up" Clicked="Signup_Clicked" Style="{StaticResource buttonStyle}"></Button>
             </StackLayout>
         </ScrollView>
     </StackLayout>
