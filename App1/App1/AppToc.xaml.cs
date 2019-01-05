@@ -39,5 +39,10 @@ namespace App1
         {
             await Navigation.PushAsync(new GamePage());
         }
+
+        private async void signup(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Signup());
+        }
     }
 }

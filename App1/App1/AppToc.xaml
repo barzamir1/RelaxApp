@@ -16,6 +16,8 @@
                 Clicked="openCalmMeDownPage" />
             <Button Text="Start Game"
                 Clicked="gamePage" />
+            <Button Text="Signup"
+                Clicked="signup" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
