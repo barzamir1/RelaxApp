@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StressCalculator
+namespace StressCalculator2
 {
     class Measurement
     {
@@ -53,7 +53,8 @@ namespace StressCalculator
             int lowBound = 0;
             int highBound = 5;
             List<int> counters = histCount(RRIntervals, binSize, lowBound, highBound);
-            this.TRI = counters.Max(); //(double)counters.Sum() / (double)counters.Max();
+            //this.TRI = counters.Max(); //(double)counters.Sum() / (double)counters.Max();
+            this.TRI = (double)counters.Max() / (double)counters.Sum();
         }
         private void SetPNN50()
         {
@@ -121,12 +122,13 @@ namespace StressCalculator
         
         private void SetStressIndex()
         {
-            StressIndex = (int)Math.Floor((0.35 * TRI + 0.35*(1-PNN50) + 0.15 * (1-SDNN) + 0.15 * (1-SDSD))*10);
+            double s = ((0.35 * TRI + 0.35*(1-PNN50) + 0.15 * (1-SDNN) + 0.15 * (1-SDSD))/0.85)*100;
+            this.StressIndex = (int)Math.Floor(s); ////TODO: TEST results!!!
         }
         public async Task SetIsStressed()
         {
-            List<int> relaxedStressIndexes = await DBSender.GetPrevRelaxStressIndex(UserID);
-            int stressedStressIndex = await DBSender.GetPrevStressedStressIndex(UserID);
+            List<int> relaxedStressIndexes = await DBHandler.GetPrevRelaxStressIndex(UserID);
+            int stressedStressIndex = await DBHandler.GetPrevStressedStressIndex(UserID);
 
             if (relaxedStressIndexes.Count == 0)
             {

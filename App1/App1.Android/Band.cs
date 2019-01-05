@@ -35,7 +35,7 @@ namespace App1
         private RRIntervalSensor _rrSensor;
         private ContactSensor _contactSensor;
 
-        public async Task<bool> ConnectToBand(BaseViewModel b)
+        public async Task<bool> ConnectToBand(TestMeViewModel b)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace App1
                 }
                 //connecting to device
                 ConnectionState connectionState = await _client.ConnectTaskAsync();
-                if (b != null) { b.IsConnected = _client.IsConnected; } //update BaseViewModel
+                if (b != null) { b.IsConnected = _client.IsConnected; } //update TestMeViewModel
                 InitSensors(b); //register sensors listeners
                 return _client.IsConnected;
 
@@ -77,7 +77,7 @@ namespace App1
         }
 
         //assumes the band is connected
-        public async Task<int> getHR(BaseViewModel b)
+        public async Task<int> getHR(TestMeViewModel b)
         {
             Activity activity = Droid.MainActivity.instance;
             _contactSensor.StartReadings();
@@ -91,7 +91,7 @@ namespace App1
             return 0;
         }
         //assumes the band is connected
-        public async Task<int> getGSR(BaseViewModel b, int sec)
+        public async Task<int> getGSR(TestMeViewModel b, int sec)
         {
             Activity activity = Droid.MainActivity.instance;
             _contactSensor.StartReadings();
@@ -112,7 +112,7 @@ namespace App1
             return 0;
         }
 
-        public async Task<bool> getRRIntervals(int sec)
+        public async Task<bool> readRRSensor(TestMeViewModel b, int sec)
         {
             Activity activity = Droid.MainActivity.instance;
             _contactSensor.StartReadings();
@@ -120,7 +120,7 @@ namespace App1
             if (_bandState != BandContactState.Worn)
             {
                 _bandState = null;
-                //should notify the user by sending a notification
+                //TODO: notify the user by sending a notification
                 return false;
             }
             _rrIntervalsReadings.Clear();
@@ -145,7 +145,7 @@ namespace App1
             _rrIntervalsReadings.Clear();
             _hrReadings.Clear();
         }
-        public async void InitSensors(BaseViewModel b)
+        public async void InitSensors(TestMeViewModel b)
         { 
             if (!_client.IsConnected)
                 return;

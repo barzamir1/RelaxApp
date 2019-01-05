@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 /*
  * this class is only used for Debugging.
  * it displays the HR and GSR measurements in the UI.
- * -BaseViewModel updates the controls in TestMe.xaml when one of its properties changes.
+ * -TestMeViewModel updates the controls in TestMe.xaml when one of its properties changes.
  * -DependencyService.Get<BandInterface>().func() is the way we use an android-only class in Xamarin
  * we created an Interface BandInterface and implemented the functions in Band.cs (android-class) 
  */
@@ -23,12 +23,12 @@ namespace App1
         public TestMe()
         {
             InitializeComponent();
-            BindingContext = new BaseViewModel();
+            BindingContext = new TestMeViewModel();
         }
 
         private void ButtonConnect_Clicked(object sender, EventArgs e)
         {
-            BaseViewModel b = (BaseViewModel)BindingContext;
+            TestMeViewModel b = (TestMeViewModel)BindingContext;
 
             Task<bool> isConnected = DependencyService.Get<BandInterface>().ConnectToBand(b);
             //this.buttonConnect.IsEnabled = !isConnected.Result;
@@ -36,21 +36,21 @@ namespace App1
 
         private void ButtonHR_Clicked(object sender, EventArgs e)
         {
-            BaseViewModel b = (BaseViewModel)BindingContext;
+            TestMeViewModel b = (TestMeViewModel)BindingContext;
             b.HR = 0;
             Task<int> o = DependencyService.Get<BandInterface>().getHR(b);
         }
 
         private void ButtonGSR_Clicked(object sender, EventArgs e)
         {
-            BaseViewModel b = (BaseViewModel)BindingContext;
+            TestMeViewModel b = (TestMeViewModel)BindingContext;
             b.GSR = 0;
             Task<int> o = DependencyService.Get<BandInterface>().getGSR(b, 3);
         }
 
         //private async void ButtonGSRWindow_Clicked(object sender, EventArgs e)
         //{
-        //    BaseViewModel b = (BaseViewModel)BindingContext;
+        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
         //    b.GSR = 0;
         //    this.buttonGSRWindow.IsEnabled = false;
         //    await DependencyService.Get<BandInterface>().getGSR(b,40);
@@ -61,7 +61,7 @@ namespace App1
         private void ButtonRRInterval_Clicked(object sender, EventArgs e)
         {
             ////this.buttonGSRWindow.IsEnabled = false;
-            //BaseViewModel b = (BaseViewModel)BindingContext;
+            //TestMeViewModel b = (TestMeViewModel)BindingContext;
             //b.PNN50 = 0;
             //double PNN50 = 0;
             //Action onCompleted = () =>
@@ -86,56 +86,75 @@ namespace App1
 
         private void StartMeasure(int pseudo)
         {
-            BaseViewModel b = (BaseViewModel)BindingContext;
+            TestMeViewModel b = (TestMeViewModel)BindingContext;
             b.PNN50 = 0;
             double PNN50 = 0;
-            //Action onCompleted = () =>
-            //{
-            //    b.PNN50 = PNN50;
-            //};
+            Action onCompleted = () =>
+            {
+                
+            };
             //don't make the UI thread wait
             var thread = new Thread(
-              async () =>
+              () =>
               {
                   try
                   {
-                      stressResult = await MeasurementHandler.GetStressResult(pseudo);
+                      MeasurementHandler.GetStressResult(pseudo,b);
                   }
                   finally
                   {
                       //onCompleted();
                   }
               });
+
+            b.Progress = 0;
             thread.Start();
+            double msPass = 0;
+            Device.StartTimer(TimeSpan.FromMilliseconds(50), () =>
+            {
+                if (b.Progress < 1)
+                {
+                    msPass += 50;
+                    b.Progress = msPass / (90 * 1000);
+                    //b.Progress += 50; //update progress every 50ms
+                    return true;
+                }
+                return false;
+            });
         }
 
-        private async void ButtonRRrelax_Clicked(object sender, EventArgs e)
+        private void ButtonRRrelax_Clicked(object sender, EventArgs e)
         {
             stressResult = "";
             StartMeasure(0);
-            progressBar.Progress = 0;
-            labelStressResults.Text = "Reading...";
-            await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
-            labelStressResults.Text = stressResult;
+           // progressBar.Progress = 0;
+            //labelStressResults.Text = "Reading...";
+           // await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
+           // labelStressResults.Text = stressResult;
         }
 
-        private async void ButtonRRstress_Clicked(object sender, EventArgs e)
+        private void ButtonRRstress_Clicked(object sender, EventArgs e)
         {
             stressResult = "";
             StartMeasure(1);
-            progressBar.Progress = 0;
-            labelStressResults.Text = "Reading...";
-            await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
-            labelStressResults.Text = stressResult;
+            //progressBar.Progress = 0;
+            //labelStressResults.Text = "Reading...";
+            //await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
+            //labelStressResults.Text = stressResult;
         }
-        private async void ButtonReal_Clicked(object sender, EventArgs e)
+        private void ButtonReal_Clicked(object sender, EventArgs e)
         {
             stressResult = "";
             StartMeasure(-1); //real measurement
-            progressBar.Progress = 0;
-            labelStressResults.Text = "Reading...";
-            await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
-            labelStressResults.Text = stressResult;
+           
+            //progressBar.Progress = 0;
+            //labelStressResults.Text = "Reading...";
+            //await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
+            //labelStressResults.Text = stressResult;
+        }
+
+        private void ButtonService_Clicked(object sender, EventArgs e)
+        {
         }
     }
 }

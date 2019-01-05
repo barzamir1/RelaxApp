@@ -8,7 +8,7 @@ namespace App1.DataObjects
     {
         public string Id { get; set; }
         public string UserID { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { set; get; }
         public int TRI {get; set; }
         public double PNN50 { get; set; }
         public double SDNN { get; set; }
