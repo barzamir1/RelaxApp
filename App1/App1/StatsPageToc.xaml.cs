@@ -19,7 +19,9 @@ namespace App1
 
         public void calanderClicked(object sender, EventArgs args) { }
 
-        public void mapClicked(object sender, EventArgs args) { }
+        public async void mapClicked(object sender, EventArgs args) {
+            await Navigation.PushAsync(new WorkingWithMaps.PinPage());
+        }
 
         public async void activitiesClicked(object sender, EventArgs args) {
             await Navigation.PushAsync(new ActivitiesListPage());

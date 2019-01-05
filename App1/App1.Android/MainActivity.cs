@@ -14,6 +14,8 @@ using Microsoft.WindowsAzure.MobileServices;
 using Android.Webkit;
 using App1.Droid.Service;
 using Firebase.JobDispatcher;
+using Android.Gms.Location;
+
 
 namespace App1.Droid
 {
@@ -23,9 +25,14 @@ namespace App1.Droid
         public static Android.Content.Context context;
         public static Activity instance;
         FirebaseJobDispatcher dispatcher;
+        public static FusedLocationProviderClient fusedLocationProviderClient;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            //To get the current location
+            fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(savedInstanceState);
@@ -38,7 +45,12 @@ namespace App1.Droid
             App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
 
             //ScheduleMeasurement();
+
+            //For Maps
+            global::Xamarin.FormsMaps.Init(this, savedInstanceState);
         }
+
+        
         public async Task<bool> Authenticate()
         {
             var success = false;
@@ -66,6 +78,8 @@ namespace App1.Droid
             }
             return success;
         }
+
+
         public void ScheduleMeasurement()
         {
             dispatcher = this.CreateJobDispatcher();
