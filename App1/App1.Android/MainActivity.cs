@@ -38,6 +38,9 @@ namespace App1.Droid
             App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
 
             //ScheduleMeasurement();
+
+            //For Maps
+            global::Xamarin.FormsMaps.Init(this, savedInstanceState);
         }
         public async Task<bool> Authenticate()
         {
