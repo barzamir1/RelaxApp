@@ -19,7 +19,10 @@
                 Clicked="openCalmMeDownPage"
                 Style="{StaticResource buttonStyle}"/>
             <Button Text="Start Game"
-                Clicked="gamePage"
+                Clicked="gamePage" 
+                Style="{StaticResource buttonStyle}"/>
+            <Button Text="Signup"
+                Clicked="signup"
                 Style="{StaticResource buttonStyle}"/>
         </StackLayout>
     </ContentPage.Content>

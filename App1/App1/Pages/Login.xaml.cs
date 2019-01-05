@@ -75,19 +75,20 @@ namespace App1
                     String userId = ServiceClient.CurrentUser.UserId.Substring(4);
                     await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
                     currentUser = await UsersTable.LookupAsync(userId); //check if user exist in Users table
-                    if (currentUser != null)
-                    {
-                        Application.Current.Properties["user_id "] = userId; //save user id to local storage
-                        Application.Current.Properties["user_token "] = _mobileServiceClient.CurrentUser.MobileServiceAuthenticationToken;
-                        await Application.Current.SavePropertiesAsync();
+                    
+                    //save user id to local storage
+                    Application.Current.Properties["user_id "] = userId; 
+                    Application.Current.Properties["user_token "] = _mobileServiceClient.CurrentUser.MobileServiceAuthenticationToken;
+                    await Application.Current.SavePropertiesAsync();
 
+                    if (currentUser != null)
                         await Navigation.PushAsync(new Page1()); //navigate to home page
-                    }
                     else
                     {
-                        //navigate to registration page
+                        currentUser = new Users();
+                        currentUser.id = userId;
+                        await Navigation.PushAsync(new Signup()); //navigate to registration page
                     }
-
                 }
             }
             catch (Exception ex)
