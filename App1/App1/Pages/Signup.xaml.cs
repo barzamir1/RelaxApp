@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using App1.Pages;
 
 namespace App1
 {
@@ -44,7 +45,8 @@ namespace App1
             await UsersTable.InsertAsync(user);
             await _mobileServiceClient.SyncContext.PushAsync();
             Login.Default.CurrentUser = user;
-            await Navigation.PushAsync(new Page1()); //navigate to home page
+            await Navigation.PushAsync(new SignupRelaxTest()); //navigate to test me relaxed
+            Navigation.RemovePage(this);
         }
         private bool ValidateInput()
         {

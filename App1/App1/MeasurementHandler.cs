@@ -46,8 +46,8 @@ namespace App1
             stringBuilder.Append("UserID=" + Login.Default.CurrentUser.id + "&");
             stringBuilder.Append("ActivityName=unspecified&");
             stringBuilder.Append("msDateTime=" + DateTime.UtcNow.Ticks + "&");
-            stringBuilder.Append("GPDLat=" + latutude.ToString());
-            stringBuilder.Append("GPSLong=" + longitude.ToString());
+            stringBuilder.Append("GPSLat=" + latutude.ToString()+"&");
+            stringBuilder.Append("GPSLng=" + longitude.ToString()+"&");
 
             if (isPseudo == -1)
                 stringBuilder.Append("intervalsArr=" + JsonConvert.SerializeObject(intervals.ToArray()));
