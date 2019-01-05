@@ -11,14 +11,21 @@ using Xamarin.Forms;
 using Microsoft.Band;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
+using Android;
+using Android.Support.Design.Widget;
+using Xamarin.Forms.Maps;
 
 namespace App1.Droid
 {
     [Activity(Label = "App1", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IAuthenticate
+
     {
         public static Android.Content.Context context;
         public static Activity instance;
+
 
         public async Task<bool> Authenticate()
         {
@@ -47,10 +54,15 @@ namespace App1.Droid
                 builder.Create().Show();
             }
             return success;
+
+
         }
+        
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(savedInstanceState);
@@ -59,8 +71,14 @@ namespace App1.Droid
             instance = this;
             LoadApplication(new App());
 
+            global::Xamarin.FormsMaps.Init(this, savedInstanceState);
+
+
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
+
+
         }
+
     }
 }

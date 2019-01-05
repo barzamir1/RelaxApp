@@ -37,5 +37,11 @@ namespace App1
         {
             // Handle when your app resumes
         }
+
+
+        ////
+
+
+        ////
     }
 }
