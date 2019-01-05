@@ -38,10 +38,10 @@
                 <Button x:Name="buttonHR" Text="get HR" Clicked="ButtonHR_Clicked"/>
                 <Button x:Name="buttonGSR" Text="get GSR" Clicked="ButtonGSR_Clicked"/>
                 <Button x:Name="buttonRRInterval" Text="get PNN50" Clicked="ButtonRRInterval_Clicked"/>-->
-                <Button x:Name="buttonRRTest" Text="Test Me Now" Clicked="ButtonReal_Clicked"/>
-                <Button x:Name="buttonRRAzure" Text="Test Me Relaxed" Clicked="ButtonRRrelax_Clicked"/>
-                <Button x:Name="buttonRRstress" Text="Test Me Stressed" Clicked="ButtonRRstress_Clicked"/>
-                <Button x:Name="buttonService" Text="service test" Clicked="ButtonService_Clicked"/>
+                <Button x:Name="buttonRRTest" Text="Test Me Now" Clicked="ButtonReal_Clicked" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="buttonRRAzure" Text="Test Me Relaxed" Clicked="ButtonRRrelax_Clicked" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="buttonRRstress" Text="Test Me Stressed" Clicked="ButtonRRstress_Clicked" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="buttonService" Text="service test" Clicked="ButtonService_Clicked" Style="{StaticResource buttonStyle}"/>
             </StackLayout>
         </ScrollView>
     </StackLayout>

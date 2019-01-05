@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Newtonsoft.Json;
 
+
 namespace App1
 {
     public class MeasurementHandler
@@ -31,16 +32,22 @@ namespace App1
             if (!success)
                 StoreIntervalsToLocalMemory(measurementUri);    
         }
+
+
+
         static Uri BuildMeasurementUri(List<double> intervals, int isPseudo)
         {
             String AZURE_FUNCTION_URL = "https://stresscalculator220190103093959.azurewebsites.net/api/AddMeasurement?code=NZJYYtXNnRzv7Tp4SMnQPyp4aaShfu6A1CaGO17Cxs3VBGGeJmsORw==&";
+            double latutude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Latitude;
+            double longitude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Longitude;
+
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("UserID=" + Login.Default.CurrentUser.id + "&");
             stringBuilder.Append("ActivityName=unspecified&");
             stringBuilder.Append("msDateTime=" + DateTime.UtcNow.Ticks + "&");
-            stringBuilder.Append("GPSLng=1.1&");
-            stringBuilder.Append("GPSLat=1.2&");
+            stringBuilder.Append("GPDLat=" + latutude.ToString());
+            stringBuilder.Append("GPSLong=" + longitude.ToString());
 
             if (isPseudo == -1)
                 stringBuilder.Append("intervalsArr=" + JsonConvert.SerializeObject(intervals.ToArray()));

@@ -33,7 +33,8 @@
             </ListView>
             <StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand">
                 <Entry Placeholder="Please enter you activity.." Text="{Binding Name}"></Entry>
-                <Button Text="Add To Table" Command="{Binding AddActivity}"></Button>
+                <Button Text="Add To Table" Command="{Binding AddActivity}"
+                        Style="{StaticResource buttonStyle}"></Button>
             </StackLayout>
 
         </StackLayout>

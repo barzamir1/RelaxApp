@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Android.App;
 using Android.Widget;
+using Android.Gms.Location;
+
 
 /*
  * this class implements the BandInterface interface.
@@ -35,6 +37,27 @@ namespace App1
         private RRIntervalSensor _rrSensor;
         private ContactSensor _contactSensor;
 
+        //Location provider
+        FusedLocationProviderClient fusedLocationProviderClient = Droid.MainActivity.fusedLocationProviderClient;
+
+
+        //Getting location for mesurement
+        public async Task<Android.Locations.Location> GetLastLocationFromDevice()
+        {
+            // This method assumes that the necessary run-time permission checks have succeeded.
+            Android.Locations.Location location = await fusedLocationProviderClient.GetLastLocationAsync();
+
+            if (location == null)
+            {
+                return new Android.Locations.Location("Location didn't work");
+            }
+            else
+            {
+                return location;
+            }
+        }
+
+        
         public async Task<bool> ConnectToBand(TestMeViewModel b)
         {
             try

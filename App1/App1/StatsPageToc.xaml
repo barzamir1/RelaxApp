@@ -4,21 +4,27 @@
              x:Class="App1.StatsPageToc">
     <ContentPage.Content>
         <StackLayout>
+            <Label x:Name="LabelUserName" Text="My Statistics"
+           HorizontalOptions="Center"
+           Margin="50"
+           VerticalOptions="CenterAndExpand"
+           FontSize="Large"/>
+
             <Button Text="My Stats in a Calendar"
-            BackgroundColor="Transparent"
-            Clicked="calanderClicked"/>
+            Clicked="calanderClicked"
+            Style="{StaticResource buttonStyle}"/>
             
             <Button Text="My stats in a Map" 
-            BackgroundColor="Transparent"
-            Clicked="mapClicked"/>
+            Clicked="mapClicked"
+            Style="{StaticResource buttonStyle}"/>
 
             <Button Text="All Users Activities" 
-            BackgroundColor="Transparent"
-            Clicked="activitiesClicked"/>
+            Clicked="activitiesClicked"
+            Style="{StaticResource buttonStyle}"/>
 
             <Button Text="Last Measurements" 
-            BackgroundColor="Transparent"
-            Clicked="lastMeasurementsClicked"/>
+            Clicked="lastMeasurementsClicked"
+            Style="{StaticResource buttonStyle}"/>
 
         </StackLayout>
     </ContentPage.Content>
