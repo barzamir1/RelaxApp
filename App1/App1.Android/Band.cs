@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Android.App;
 using Android.Widget;
-using Android.Gms.Location;
+
 
 
 /*
@@ -21,7 +21,7 @@ using Android.Gms.Location;
 namespace App1
 {
 
-    public class Band_Android : BandInterface
+    public class Band_Android : IBand
     {
         private static IBandClient _client = null; //our band
         private List<int> _hrReadings = new List<int>();
@@ -37,26 +37,7 @@ namespace App1
         private RRIntervalSensor _rrSensor;
         private ContactSensor _contactSensor;
 
-        //Location provider
-        FusedLocationProviderClient fusedLocationProviderClient = Droid.MainActivity.fusedLocationProviderClient;
-
-
-        //Getting location for measurement
-        public async Task<Android.Locations.Location> GetLastLocationFromDevice()
-        {
-            // This method assumes that the necessary run-time permission checks have succeeded.
-            Android.Locations.Location location = await fusedLocationProviderClient.GetLastLocationAsync();
-
-            if (location == null)
-            {
-                return new Android.Locations.Location("Location didn't work");
-            }
-            else
-            {
-                return location;
-            }
-        }
-
+       
         
         public async Task<bool> ConnectToBand(TestMeViewModel b)
         {
@@ -74,7 +55,7 @@ namespace App1
                         {
                             Toast.MakeText(Droid.MainActivity.context,
                             "make sure your band is paired with this device and try again",
-                            ToastLength.Short).Show();
+                            ToastLength.Long).Show();
                         });
                         return false;
                     }

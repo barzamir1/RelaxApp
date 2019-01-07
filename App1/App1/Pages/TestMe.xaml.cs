@@ -152,9 +152,5 @@ namespace App1
             //await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
             //labelStressResults.Text = stressResult;
         }
-
-        private void ButtonService_Clicked(object sender, EventArgs e)
-        {
-        }
     }
 }

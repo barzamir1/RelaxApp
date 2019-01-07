@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace App1
 {
-    public interface BandInterface
+    public interface IBand
     {
         Task<bool> ConnectToBand(TestMeViewModel b);
         Task<int> getHR(TestMeViewModel b);
@@ -18,6 +18,13 @@ namespace App1
         List<int> GsrReadings();
         List<double> RRIntervalReadings();
         void ClearAllReadings();
+    }
+    public interface ILocation
+    {
         Task<Android.Locations.Location> GetLastLocationFromDevice();
+    }
+    public interface ISchedule
+    {
+        void ScheduleMeasurement(int minutes); //Schedule measurement every x minutes
     }
 }

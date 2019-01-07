@@ -33,6 +33,7 @@ namespace App1
                     b.Progress = 0;
                     MeasurementHandler.GetStressResult(-1, b);
                     while (b.IsFinished == false) { }
+                    DependencyService.Get<ISchedule>().ScheduleMeasurement(6); //Schedule measurement every 6 minutes
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(onFinish);
 
                 });
