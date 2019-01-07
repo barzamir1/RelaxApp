@@ -24,7 +24,7 @@ namespace App1.Droid
     {
         public static Android.Content.Context context;
         public static Activity instance;
-        FirebaseJobDispatcher dispatcher;
+        //public static FirebaseJobDispatcher dispatcher;
         public static FusedLocationProviderClient fusedLocationProviderClient;
 
 
@@ -50,7 +50,7 @@ namespace App1.Droid
             global::Xamarin.FormsMaps.Init(this, savedInstanceState);
         }
 
-        
+
         public async Task<bool> Authenticate()
         {
             var success = false;
@@ -79,33 +79,23 @@ namespace App1.Droid
             return success;
         }
 
+        //public void ScheduleMeasurement(int minutes)
+        //{
+        //    dispatcher = this.CreateJobDispatcher();
+        //    JobTrigger.ExecutionWindowTrigger trigger = Firebase.JobDispatcher.Trigger.ExecutionWindow(minutes * 60, minutes * 60 + 10);
 
-        public void ScheduleMeasurement()
-        {
-            dispatcher = this.CreateJobDispatcher();
-            // This job should run between 1 - 5 seconds after being scheduled.
-            JobTrigger.ExecutionWindowTrigger trigger = Firebase.JobDispatcher.Trigger.ExecutionWindow(6 * 60, 6 * 60 + 10);
+        //    var job = dispatcher.NewJobBuilder()
+        //                        .SetService<MeasurementJob>("measurement-service")
+        //                        .SetRecurring(true)
+        //                        .SetTrigger(trigger)
+        //                        .SetLifetime(Lifetime.Forever)
+        //                        .Build();
 
-            var job = dispatcher.NewJobBuilder()
-                                .SetService<MeasurementJob>("measurement-service")
-                                .SetRecurring(true)
-                                .SetTrigger(trigger)
-                                .SetLifetime(Lifetime.Forever)
-                                .Build();
-
-            int result = dispatcher.Schedule(job);
-            if (result == FirebaseJobDispatcher.ScheduleResultSuccess)
-            {
-                Console.WriteLine("########################");
-                Console.WriteLine("Job succeeded");
-                Console.WriteLine("########################");
-            }
-            else
-            {
-                Console.WriteLine("########################");
-                Console.WriteLine("Job failed");
-                Console.WriteLine("########################");
-            }
-        }
+        //    int result = dispatcher.Schedule(job);
+        //    if (result == FirebaseJobDispatcher.ScheduleResultSuccess)
+        //        Console.WriteLine("Job succeeded");
+        //    else
+        //        Console.WriteLine("Job failed");
+        //}
     }
 }
