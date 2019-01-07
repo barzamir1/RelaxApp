@@ -28,13 +28,14 @@ namespace App1
         {
             InitializeComponent();
             Default = this;
-            _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net");
-            const string path = "syncstore.db";
+            //_mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net");
+            _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
+            //const string path = "syncstore.db";
 
-            //setup our local sqlite store and initialize our table
-            var store = new MobileServiceSQLiteStore(path);
-            store.DefineTable<Users>();
-            ServiceClient.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
+            ////setup our local sqlite store and initialize our table
+            //var store = new MobileServiceSQLiteStore(path);
+            //store.DefineTable<Users>();
+            //ServiceClient.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
 
             //Get our sync table that will call out to azure
             UsersTable = ServiceClient.GetSyncTable<Users>();

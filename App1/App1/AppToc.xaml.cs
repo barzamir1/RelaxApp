@@ -27,7 +27,7 @@ namespace App1
         }
 
         public async void openTestMePage(object sender, EventArgs args) {
-            await Navigation.PushAsync(new TestMe());
+            await Navigation.PushAsync(new TestMe(false));
         }
 
         public async void openCalmMeDownPage(object sender, EventArgs args)

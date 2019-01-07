@@ -17,9 +17,9 @@ namespace App1.Pages
 			InitializeComponent ();
 		}
 
-        private void Start_Clicked(object sender, EventArgs e)
+        private async void Start_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new TestMe(true));
         }
     }
 }

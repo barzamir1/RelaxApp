@@ -28,7 +28,8 @@ namespace App1.ViewModels
         private double _gPSLat;
         private double  _gPSLng; 
         private ICommand _addMeasurement;
-        private AzureDataService _azureDataService = new AzureDataService();
+        //private AzureDataService _azureDataService = new AzureDataService();
+        private AzureDataService _azureDataService = AzureDataService.Instance;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -14,42 +14,53 @@ namespace App1.Services
 {
     class AzureDataService
     {
-        private MobileServiceClient _mobileServiceClient = Login.Default.ServiceClient;
-        bool isSet = false;
+        static AzureDataService instance;
+        //public MobileServiceClient _mobileServiceClient = Login.Default.ServiceClient;
         String currentUserID;
-        //private MobileServiceClient _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net/");
+        public MobileServiceClient _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net/");
         IMobileServiceSyncTable<Activities> _activities;
         IMobileServiceSyncTable<Measurements> _measurements;
+        IMobileServiceSyncTable<Users> _usersTable;
 
+        public static AzureDataService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new AzureDataService();
+                    instance.Initialize();
+                }
+                return instance;
+            }
+        }
         public async Task Initialize()
         {
-            //if (_mobileServiceClient?.SyncContext?.IsInitialized ?? false)
-            //    return;
-            if (isSet) { return; } 
             const string path = "syncstore.db";
-            //setup our local sqlite store and intialize our table
+            //setup our local sqlite store and initialize our table
             var store = new MobileServiceSQLiteStore(path);
             store.DefineTable<Activities>();
             store.DefineTable<Measurements>();
+            store.DefineTable<Users>();
             await _mobileServiceClient.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
 
             //Get our sync table that will call out to azure
             _activities = _mobileServiceClient.GetSyncTable<Activities>();
             _measurements = _mobileServiceClient.GetSyncTable<Measurements>();
-            isSet = true;
+            _usersTable = _mobileServiceClient.GetSyncTable<Users>();
             currentUserID = _mobileServiceClient.CurrentUser.UserId;
         }
 
         public async Task<IEnumerable<Activities>> GetActivities()
         {
-            await Initialize();
+            //await Initialize();
             await SyncActivties();
             return await _activities.ToEnumerableAsync();
         }
 
         public async Task<IEnumerable<Measurements>> GetMeasurements()
         {
-            await Initialize();
+            //await Initialize();
             await SyncMeasurements();
             //return only current user measurements
             return await _measurements.Where(item => item.UserID == currentUserID).ToEnumerableAsync();
@@ -59,7 +70,7 @@ namespace App1.Services
 
         public async Task AddActivity(Activities activity)
         {
-            await Initialize();
+            //await Initialize();
 
             await _activities.InsertAsync(activity);
 
@@ -68,7 +79,7 @@ namespace App1.Services
 
         public async Task AddMeasurement(Measurements m)
         {
-            await Initialize();
+            //await Initialize();
 
             await _measurements.InsertAsync(m);
 

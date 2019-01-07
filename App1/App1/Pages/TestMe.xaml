@@ -10,8 +10,6 @@
     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
-
-                
                 <Label Text="Test me now!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
                 <Label x:Name="isConnectedLabel" Text="{Binding IsConnected, StringFormat='connected: {0}'}"
                        HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Medium"/>
@@ -38,10 +36,10 @@
                 <Button x:Name="buttonHR" Text="get HR" Clicked="ButtonHR_Clicked"/>
                 <Button x:Name="buttonGSR" Text="get GSR" Clicked="ButtonGSR_Clicked"/>
                 <Button x:Name="buttonRRInterval" Text="get PNN50" Clicked="ButtonRRInterval_Clicked"/>-->
-                <Button x:Name="buttonRRTest" Text="Test Me Now" Clicked="ButtonReal_Clicked" Style="{StaticResource buttonStyle}"/>
-                <Button x:Name="buttonRRAzure" Text="Test Me Relaxed" Clicked="ButtonRRrelax_Clicked" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="buttonRRTest" Text="Test Me Now" Clicked="ButtonReal_Clicked" IsEnabled="{Binding IsFinished}" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="buttonRRrelax" Text="Test Me Relaxed" Clicked="ButtonRRrelax_Clicked" Style="{StaticResource buttonStyle}"/>
                 <Button x:Name="buttonRRstress" Text="Test Me Stressed" Clicked="ButtonRRstress_Clicked" Style="{StaticResource buttonStyle}"/>
-                <Button x:Name="buttonService" Text="service test" Clicked="ButtonService_Clicked" Style="{StaticResource buttonStyle}"/>
+                <!--<Button x:Name="buttonService" Text="service test" Clicked="ButtonService_Clicked" Style="{StaticResource buttonStyle}"/>-->
             </StackLayout>
         </ScrollView>
     </StackLayout>

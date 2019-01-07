@@ -27,6 +27,14 @@ namespace App1
                 await DependencyService.Get<BandInterface>().readRRSensor(b,_testTime);
                 rrIntervals = DependencyService.Get<BandInterface>().RRIntervalReadings();
             }
+            if (rrIntervals.Count == 0)
+            {
+                if (b != null)
+                { b.StressResult = "Error: can't read heart rate. make sure your band is worn and connected.";
+                    b.Progress = 1;
+                }
+                return;
+            }
             Uri measurementUri = BuildMeasurementUri(rrIntervals, pseudo);
             bool success = await AzureFunctionAddMeasurement(measurementUri, b);
             if (!success)
@@ -40,7 +48,6 @@ namespace App1
             String AZURE_FUNCTION_URL = "https://stresscalculator220190103093959.azurewebsites.net/api/AddMeasurement?code=NZJYYtXNnRzv7Tp4SMnQPyp4aaShfu6A1CaGO17Cxs3VBGGeJmsORw==&";
             double latutude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Latitude;
             double longitude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Longitude;
-
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("UserID=" + Login.Default.CurrentUser.id + "&");
@@ -89,8 +96,9 @@ namespace App1
             return "[0.8793759999999999,0.8793759999999999,0.8793759999999999,0.8296,0.929152,0.8793759999999999,0.8793759999999999,0.8793759999999999,0.8296,0.647088,0.49776,0.796416,0.813008,0.779824,0.680272,0.464576,0.6968639999999999,0.7300479999999999,0.6636799999999999,0.613904,0.564128,0.680272,0.680272,0.6968639999999999,0.713456,0.713456,0.7300479999999999,0.74664,0.74664,0.74664,0.7300479999999999,0.74664,0.713456,0.6968639999999999,0.680272,0.680272,0.6636799999999999,0.6636799999999999,0.613904,0.6636799999999999,0.713456,0.713456,0.7300479999999999,0.7632319999999999,0.7632319999999999,0.7632319999999999,0.779824,0.779824,0.7632319999999999,0.7632319999999999,0.74664,0.7632319999999999,0.74664,0.7300479999999999,0.713456,0.7300479999999999,0.7300479999999999,0.7300479999999999,0.74664,0.7632319999999999,0.74664,0.796416,0.8296,0.8296,0.862784,0.8461919999999999,0.813008,0.7632319999999999,0.74664,0.7300479999999999,0.74664,0.7632319999999999,0.74664,0.7632319999999999,0.779824,0.7632319999999999,0.779824,0.779824,0.796416,0.813008,0.813008,0.796416,0.813008,0.813008,0.7632319999999999,0.7632319999999999,0.7300479999999999,0.74664,0.7300479999999999,0.74664,0.7300479999999999,0.74664,0.74664,0.7632319999999999,0.796416,0.779824,0.7632319999999999,0.779824,0.74664,0.74664,0.7632319999999999,0.74664,0.7632319999999999,0.796416,0.7632319999999999,0.796416,0.779824,0.779824,0.796416,0.813008,0.796416,0.7632319999999999,0.7632319999999999,0.779824,0.813008,0.779824,0.7300479999999999,0.6636799999999999,0.680272]";
         }
         
-        //this function should be called when no Internet connection is available. 
-        //the Azure function with the parameters in measurementUri will later be invoked by ResendIntervals() 
+        /**this function should be called when no Internet connection is available. 
+         **the Azure function with the parameters in measurementUri will later be invoked by ResendIntervals() 
+         **/
         public static async void StoreIntervalsToLocalMemory(Uri measurementUri)
         {
             //get the previous failed-to-send measurements uri
