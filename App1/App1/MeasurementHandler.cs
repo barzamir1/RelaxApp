@@ -20,12 +20,12 @@ namespace App1
             List<double> rrIntervals = null;
             if (pseudo < 0)
             {
-                bool isBandConnected = DependencyService.Get<BandInterface>().ConnectToBand(b).Result;
+                bool isBandConnected = DependencyService.Get<IBand>().ConnectToBand(b).Result;
                 if (!isBandConnected)
                     return; //can't connect to band
                 if (b != null) { b.StressResult = "Reading..."; }
-                await DependencyService.Get<BandInterface>().readRRSensor(b,_testTime);
-                rrIntervals = DependencyService.Get<BandInterface>().RRIntervalReadings();
+                await DependencyService.Get<IBand>().readRRSensor(b,_testTime);
+                rrIntervals = DependencyService.Get<IBand>().RRIntervalReadings();
             }
             if (rrIntervals.Count == 0)
             {
@@ -41,13 +41,11 @@ namespace App1
                 StoreIntervalsToLocalMemory(measurementUri);    
         }
 
-
-
         static Uri BuildMeasurementUri(List<double> intervals, int isPseudo)
         {
             String AZURE_FUNCTION_URL = "https://stresscalculator220190103093959.azurewebsites.net/api/AddMeasurement?code=NZJYYtXNnRzv7Tp4SMnQPyp4aaShfu6A1CaGO17Cxs3VBGGeJmsORw==&";
-            double latutude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Latitude;
-            double longitude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Longitude;
+            double latutude = DependencyService.Get<ILocation>().GetLastLocationFromDevice().Result.Latitude;
+            double longitude = DependencyService.Get<ILocation>().GetLastLocationFromDevice().Result.Longitude;
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("UserID=" + Login.Default.CurrentUser.id + "&");
@@ -66,6 +64,7 @@ namespace App1
             Uri uri = new Uri(AZURE_FUNCTION_URL + stringBuilder.ToString());
             return uri;
         }
+
         static async Task<bool> AzureFunctionAddMeasurement(Uri measurementUri, TestMeViewModel b)
         {
             var httpClient = new HttpClient();
@@ -117,6 +116,7 @@ namespace App1
             Application.Current.Properties["previousCalls"] = JsonConvert.SerializeObject(previousCalls);
             await Application.Current.SavePropertiesAsync();
         }
+
         public static async Task<bool> ResendIntervals()
         {
             //get the previous failed-to-send intervals uri
