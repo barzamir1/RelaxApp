@@ -27,6 +27,14 @@ namespace App1
                 await DependencyService.Get<BandInterface>().readRRSensor(b,_testTime);
                 rrIntervals = DependencyService.Get<BandInterface>().RRIntervalReadings();
             }
+            if (rrIntervals.Count == 0)
+            {
+                if (b != null)
+                { b.StressResult = "Error: can't read heart rate. make sure your band is worn and connected.";
+                    b.Progress = 1;
+                }
+                return;
+            }
             Uri measurementUri = BuildMeasurementUri(rrIntervals, pseudo);
             bool success = await AzureFunctionAddMeasurement(measurementUri, b);
             if (!success)
@@ -40,7 +48,6 @@ namespace App1
             String AZURE_FUNCTION_URL = "https://stresscalculator220190103093959.azurewebsites.net/api/AddMeasurement?code=NZJYYtXNnRzv7Tp4SMnQPyp4aaShfu6A1CaGO17Cxs3VBGGeJmsORw==&";
             double latutude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Latitude;
             double longitude = DependencyService.Get<BandInterface>().GetLastLocationFromDevice().Result.Longitude;
-
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("UserID=" + Login.Default.CurrentUser.id + "&");

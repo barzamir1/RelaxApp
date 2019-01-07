@@ -17,8 +17,10 @@ namespace App1
         private String _gsrListStr = "";
         private double _PNN50 = 0;
         private bool _isConnected = false;
-        private double _progress;
+        private double _progress = 1;
         private String  _stressResult;
+        private bool _isFinished = true;
+
         public int HR
         {
             get { return _hr; }
@@ -76,6 +78,7 @@ namespace App1
                 {
                     _stressResult = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StressResult"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsFinished"));
                 }
             }
         }
@@ -108,6 +111,11 @@ namespace App1
                 }
             }
         }
+        public bool IsFinished
+        {
+            get { return _progress == 1; }
+        }
+
         public void ClearGsr()
         {
             _gsrListStr = "";

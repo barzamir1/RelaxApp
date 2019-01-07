@@ -19,7 +19,8 @@ namespace App1.ViewModels
         private string _name;
         private int _counter;
         private ICommand _addActivity;
-        private AzureDataService _azureDataService = new AzureDataService();
+        // private AzureDataService _azureDataService = new AzureDataService();
+        private AzureDataService _azureDataService = AzureDataService.Instance;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

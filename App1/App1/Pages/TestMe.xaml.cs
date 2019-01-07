@@ -20,33 +20,37 @@ namespace App1
     public partial class TestMe : ContentPage
     {
         String stressResult = "";
-        public TestMe()
+        bool isSignup;
+        public TestMe(bool isSignup)
         {
             InitializeComponent();
             BindingContext = new TestMeViewModel();
+            this.isSignup = isSignup;
+            if (isSignup)
+                StartMeasure(-1); //auto start
         }
 
-        private void ButtonConnect_Clicked(object sender, EventArgs e)
-        {
-            TestMeViewModel b = (TestMeViewModel)BindingContext;
+        //private void ButtonConnect_Clicked(object sender, EventArgs e)
+        //{
+        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
 
-            Task<bool> isConnected = DependencyService.Get<BandInterface>().ConnectToBand(b);
-            //this.buttonConnect.IsEnabled = !isConnected.Result;
-        }
+        //    Task<bool> isConnected = DependencyService.Get<BandInterface>().ConnectToBand(b);
+        //    //this.buttonConnect.IsEnabled = !isConnected.Result;
+        //}
 
-        private void ButtonHR_Clicked(object sender, EventArgs e)
-        {
-            TestMeViewModel b = (TestMeViewModel)BindingContext;
-            b.HR = 0;
-            Task<int> o = DependencyService.Get<BandInterface>().getHR(b);
-        }
+        //private void ButtonHR_Clicked(object sender, EventArgs e)
+        //{
+        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
+        //    b.HR = 0;
+        //    Task<int> o = DependencyService.Get<BandInterface>().getHR(b);
+        //}
 
-        private void ButtonGSR_Clicked(object sender, EventArgs e)
-        {
-            TestMeViewModel b = (TestMeViewModel)BindingContext;
-            b.GSR = 0;
-            Task<int> o = DependencyService.Get<BandInterface>().getGSR(b, 3);
-        }
+        //private void ButtonGSR_Clicked(object sender, EventArgs e)
+        //{
+        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
+        //    b.GSR = 0;
+        //    Task<int> o = DependencyService.Get<BandInterface>().getGSR(b, 3);
+        //}
 
         //private async void ButtonGSRWindow_Clicked(object sender, EventArgs e)
         //{
@@ -58,53 +62,41 @@ namespace App1
         //    this.buttonGSRWindow.IsEnabled = true;
         //}
 
-        private void ButtonRRInterval_Clicked(object sender, EventArgs e)
-        {
-            ////this.buttonGSRWindow.IsEnabled = false;
-            //TestMeViewModel b = (TestMeViewModel)BindingContext;
-            //b.PNN50 = 0;
-            //double PNN50 = 0;
-            //Action onCompleted = () =>
-            //{
-            //    b.PNN50 = PNN50;
-            //};
-            ////don't make the UI thread wait
-            //var thread = new Thread(
-            //  () =>
-            //  {
-            //      try
-            //      {
-            //         PNN50 = StressCalculator.CalcStressIndex();
-            //      }
-            //      finally
-            //      {
-            //          onCompleted();
-            //      }
-            //  });
-            //thread.Start();
-        }
+        //private void ButtonRRInterval_Clicked(object sender, EventArgs e)
+        //{
+        //    ////this.buttonGSRWindow.IsEnabled = false;
+        //    //TestMeViewModel b = (TestMeViewModel)BindingContext;
+        //    //b.PNN50 = 0;
+        //    //double PNN50 = 0;
+        //    //Action onCompleted = () =>
+        //    //{
+        //    //    b.PNN50 = PNN50;
+        //    //};
+        //    ////don't make the UI thread wait
+        //    //var thread = new Thread(
+        //    //  () =>
+        //    //  {
+        //    //      try
+        //    //      {
+        //    //         PNN50 = StressCalculator.CalcStressIndex();
+        //    //      }
+        //    //      finally
+        //    //      {
+        //    //          onCompleted();
+        //    //      }
+        //    //  });
+        //    //thread.Start();
+        //}
 
         private void StartMeasure(int pseudo)
         {
             TestMeViewModel b = (TestMeViewModel)BindingContext;
             b.PNN50 = 0;
-            double PNN50 = 0;
-            Action onCompleted = () =>
-            {
-                
-            };
             //don't make the UI thread wait
             var thread = new Thread(
               () =>
               {
-                  try
-                  {
-                      MeasurementHandler.GetStressResult(pseudo,b);
-                  }
-                  finally
-                  {
-                      //onCompleted();
-                  }
+                  MeasurementHandler.GetStressResult(pseudo, b);
               });
 
             b.Progress = 0;
@@ -118,6 +110,14 @@ namespace App1
                     b.Progress = msPass / (90 * 1000);
                     //b.Progress += 50; //update progress every 50ms
                     return true;
+                }
+                if (isSignup)
+                {
+                    if (b.StressResult.StartsWith("you")) //succeeded
+                    { 
+                        Navigation.PushAsync(new Pages.SignupStressTest());
+                        Navigation.RemovePage(this); //user can't go back
+                    }
                 }
                 return false;
             });

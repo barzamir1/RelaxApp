@@ -16,5 +16,9 @@ namespace App1.Pages
 		{
 			InitializeComponent ();
 		}
-	}
+        private async void Start_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new GamePage());
+        }
+    }
 }
