@@ -41,7 +41,7 @@ namespace App1
         FusedLocationProviderClient fusedLocationProviderClient = Droid.MainActivity.fusedLocationProviderClient;
 
 
-        //Getting location for mesurement
+        //Getting location for measurement
         public async Task<Android.Locations.Location> GetLastLocationFromDevice()
         {
             // This method assumes that the necessary run-time permission checks have succeeded.
