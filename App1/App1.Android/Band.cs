@@ -7,8 +7,6 @@ using Xamarin.Forms;
 using Android.App;
 using Android.Widget;
 
-
-
 /*
  * this class implements the BandInterface interface.
  * it is used to get data from the band, using the Microsoft.Band SDK
@@ -37,8 +35,8 @@ namespace App1
         private RRIntervalSensor _rrSensor;
         private ContactSensor _contactSensor;
 
-       
-        
+
+
         public async Task<bool> ConnectToBand(TestMeViewModel b)
         {
             try
@@ -80,9 +78,10 @@ namespace App1
             }
         }
 
-        //assumes the band is connected
         public async Task<int> getHR(TestMeViewModel b)
         {
+            await ConnectToBand(b);
+            InitSensors(b);
             Activity activity = Droid.MainActivity.instance;
             _contactSensor.StartReadings();
             while (_bandState == null) { }
@@ -150,27 +149,17 @@ namespace App1
             _hrReadings.Clear();
         }
         public async void InitSensors(TestMeViewModel b)
-        { 
+        {
             if (!_client.IsConnected)
                 return;
-            _hrSensor = _client.SensorManager.CreateHeartRateSensor();
-            _gsrSensor = _client.SensorManager.CreateGsrSensor();
-            _rrSensor = _client.SensorManager.CreateRRIntervalSensor();
-            _contactSensor = _client.SensorManager.CreateContactSensor();
+            _hrSensor = _hrSensor ?? _client.SensorManager.CreateHeartRateSensor();
+            _gsrSensor = _gsrSensor ?? _client.SensorManager.CreateGsrSensor();
+            _rrSensor = _rrSensor ?? _client.SensorManager.CreateRRIntervalSensor();
+            _contactSensor = _contactSensor ?? _client.SensorManager.CreateContactSensor();
 
             if (_contactSensor == null || _hrSensor == null || _gsrSensor == null || _rrSensor == null)
                 return;
             Activity activity = Droid.MainActivity.instance;
-
-            //check user's consent to read HR. should only occur once
-            if (_client.SensorManager.CurrentHeartRateConsent != UserConsent.Granted)
-            {
-                if (!await _client.SensorManager.RequestHeartRateConsentTaskAsync(activity))
-                {
-                    Console.WriteLine("ERROR: Can't get user's consent to read HR");
-                    return;
-                }
-            }
 
             //register contact listener
             _contactSensor.ReadingChanged += (sender, e) =>
@@ -184,12 +173,12 @@ namespace App1
                 activity.RunOnUiThread(() =>
                 {
                     var heartRateEvent = e.SensorReading;
-                    _hrReadings.Add(heartRateEvent.HeartRate);
+                    //_hrReadings.Add(heartRateEvent.HeartRate);
                     if (heartRateEvent.Quality == HeartRateQuality.Locked)
                     {
                         _hrSensor.StopReadings();
                         _contactSensor.StopReadings();
-                        if (b != null) { b.HR = _hrReadings[_hrReadings.Count - 1]; } //update ViewModel
+                        // if (b != null) { b.HR = _hrReadings[_hrReadings.Count - 1]; } //update ViewModel
                     }
                     if (_bandState != BandContactState.Worn) //user took off the band while reading
                     {
@@ -221,18 +210,32 @@ namespace App1
             _rrSensor.ReadingChanged += (sender, e) =>
             {
                 //activity.RunOnUiThread(() =>
-               // {
-                    if (_bandState != BandContactState.Worn) //user took off the band while reading
-                    {
-                        _rrSensor.StopReadings();
-                        _contactSensor.StopReadings();
-                        _bandState = null;
-                        return;
-                    }
-                    var rrEvent = e.SensorReading;
-                    _rrIntervalsReadings.Add(rrEvent.Interval);
-              //  });
+                // {
+                if (_bandState != BandContactState.Worn) //user took off the band while reading
+                {
+                    _rrSensor.StopReadings();
+                    _contactSensor.StopReadings();
+                    _bandState = null;
+                    b.StressResult = "Error: band is not worn.";
+                    return;
+                }
+                var rrEvent = e.SensorReading;
+                _rrIntervalsReadings.Add(rrEvent.Interval);
+                //  });
             };
+        }
+        public async void RequestConsent()
+        {
+            //check user's consent to read HR. should only occur once
+            if (_client.SensorManager.CurrentHeartRateConsent != UserConsent.Granted)
+            {
+                Activity activity = Droid.MainActivity.instance;
+                if (!await _client.SensorManager.RequestHeartRateConsentTaskAsync(activity))
+                {
+                    Console.WriteLine("ERROR: Can't get user's consent to read HR");
+                    return;
+                }
+            }
         }
     }
 }

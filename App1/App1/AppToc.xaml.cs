@@ -1,16 +1,11 @@
-﻿using App1.DataObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace App1
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Page1 : ContentPage
 	{
 		public Page1 ()

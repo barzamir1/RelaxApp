@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using App1.DataObjects;
+using App1.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using App1.DataObjects;
-using App1.Services;
 using Xamarin.Forms;
 
 namespace App1.ViewModels
