@@ -6,7 +6,7 @@
         <StackLayout>
             <Label Text="Welcome!" FontSize="Large"/>
             <Button x:Name="loginButton" Text="Login" MinimumHeightRequest="30"
-                    Clicked="loginButton_Clicked" 
+                    Clicked="LoginButton_Clicked" 
                     Style="{StaticResource buttonStyle}"/>
         </StackLayout>
     </ContentPage.Content>

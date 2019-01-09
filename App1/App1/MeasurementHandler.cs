@@ -22,23 +22,25 @@ namespace App1
             {
                 bool isBandConnected = DependencyService.Get<IBand>().ConnectToBand(b).Result;
                 if (!isBandConnected)
+                {
+                    b.StressResult = "Error: band isn't connected";
                     return; //can't connect to band
-                if (b != null) { b.StressResult = "Reading..."; }
+                }
+                b.StressResult = "Reading...";
                 await DependencyService.Get<IBand>().readRRSensor(b,_testTime);
                 rrIntervals = DependencyService.Get<IBand>().RRIntervalReadings();
             }
             if (rrIntervals.Count == 0)
             {
-                if (b != null)
-                { b.StressResult = "Error: can't read heart rate. make sure your band is worn and connected.";
-                    b.Progress = 1;
-                }
+                b.StressResult = "Error: can't read heart rate. make sure your band is worn and connected.";
+                b.Progress = 1;
                 return;
             }
             Uri measurementUri = BuildMeasurementUri(rrIntervals, pseudo);
             bool success = await AzureFunctionAddMeasurement(measurementUri, b);
             if (!success)
-                StoreIntervalsToLocalMemory(measurementUri);    
+                StoreIntervalsToLocalMemory(measurementUri);
+            b.Progress = 1;
         }
 
         static Uri BuildMeasurementUri(List<double> intervals, int isPseudo)
@@ -70,20 +72,16 @@ namespace App1
             var httpClient = new HttpClient();
             try
             {
-                if (b != null) { b.StressResult = "Calculating..."; }
+                b.StressResult = "Calculating...";
                 String result = await httpClient.GetStringAsync(measurementUri);
                 result = result.Substring(1, result.Length - 2); //remove the " at the beginning and end
-                if (b != null)
-                {
-                    b.StressResult = result;
-                    b.Progress = 1;
-                }
+                b.StressResult = result;
                 return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                if (b != null) { b.StressResult = "could not connect to Azure. Make sure your phone is connected to the Internet"; }
+                b.StressResult = "Error: could not connect to Azure. Make sure your phone is connected to the Internet";
                 return false; //failed
             }
         }

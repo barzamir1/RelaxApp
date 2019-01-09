@@ -18,6 +18,7 @@ namespace App1
         List<int> GsrReadings();
         List<double> RRIntervalReadings();
         void ClearAllReadings();
+        void RequestConsent();
     }
     public interface ILocation
     {

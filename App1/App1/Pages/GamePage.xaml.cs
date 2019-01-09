@@ -26,13 +26,20 @@ namespace App1
         {
             try
             {
-                Action onFinish = new Action(() => { Navigation.PushAsync(new Page1()); Navigation.RemovePage(this); });
+                //Action onFinish = new Action(() => { Navigation.PushAsync(new Page1()); Navigation.RemovePage(this); });
+                Action onFinish = new Action(() => { buttonContinue.IsVisible = true; });
                 var thread = new Thread(async() => {
                     await Task.Delay(30 * 1000); //wait 30 seconds before start measuring
                     TestMeViewModel b = new TestMeViewModel();
                     b.Progress = 0;
                     MeasurementHandler.GetStressResult(-1, b);
-                    while (b.IsFinished == false) { }
+                    while (b.IsFinished == false) {
+                        if (b.StressResult.StartsWith("Error"))
+                        {
+                            //TODO: alert user and try again
+                            return;
+                        }
+                    }
                     DependencyService.Get<ISchedule>().ScheduleMeasurement(6); //Schedule measurement every 6 minutes
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(onFinish);
 
@@ -43,6 +50,13 @@ namespace App1
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        private async void ButtonContinue_Clicked(object sender, EventArgs e)
+        {
+            //measurement is over. continue to main page
+            await Navigation.PushAsync(new Page1());
+            Navigation.RemovePage(this); //no going back
         }
     }
 }
