@@ -1,21 +1,11 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.OS;
-
-using Xamarin.Forms;
-using Microsoft.Band;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices;
-using Android.Webkit;
-using App1.Droid.Service;
-using Firebase.JobDispatcher;
 using Android.Gms.Location;
-
+using Android.OS;
+using Microsoft.WindowsAzure.MobileServices;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace App1.Droid
 {
@@ -58,8 +48,9 @@ namespace App1.Droid
             try
             {
                 // Sign in with Google login using a server-managed flow.
-                var user = await Login.Default.ServiceClient.LoginAsync(this,
-                    MobileServiceAuthenticationProvider.Google, "androidrelaxapp");
+                var user = await Login.Default.ServiceClient.LoginAsync(this, MobileServiceAuthenticationProvider.Google,
+                    "androidrelaxapp", new Dictionary<string, string>() { { "access_type", "offline" } });
+
                 if (user != null)
                     success = true;
             }
@@ -77,6 +68,21 @@ namespace App1.Droid
                 builder.Create().Show();
             }
             return success;
+        }
+        public async Task<bool> Refresh()
+        {
+            try
+            {
+                var user = await Login.Default.ServiceClient.RefreshUserAsync();
+                if (user == null)
+                    return false;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         //public void ScheduleMeasurement(int minutes)

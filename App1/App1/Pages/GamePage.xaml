@@ -8,6 +8,8 @@
             </StackLayout>
             <!-- WebView needs to be given height and width request within layouts to render. -->
             <WebView x:Name="webView" WidthRequest="1000" HeightRequest="1000" />
+            <Button x:Name="buttonContinue" Text="Continue" IsVisible="False" 
+                    Clicked="ButtonContinue_Clicked" Style="{StaticResource buttonStyle}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

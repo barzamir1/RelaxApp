@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using Xamarin.Forms;
-using System.Windows.Input;
 
 namespace App1
 {
@@ -18,7 +12,7 @@ namespace App1
         private double _PNN50 = 0;
         private bool _isConnected = false;
         private double _progress = 1;
-        private String  _stressResult;
+        private String  _stressResult="";
         private bool _isFinished = true;
 
         public int HR

@@ -1,16 +1,11 @@
 ﻿using App1.DataObjects;
+using App1.Pages;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using App1.Pages;
 
 namespace App1
 {
@@ -25,7 +20,7 @@ namespace App1
             InitializeComponent();
             user = new Users();
             user.id = Login.Default.CurrentUser.id;
-            _mobileServiceClient = Login.Default.ServiceClient;
+            _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
             UsersTable = _mobileServiceClient.GetSyncTable<Users>();
             UsersTable.PullAsync("Users", UsersTable.CreateQuery());
         }

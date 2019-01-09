@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,7 +8,9 @@ namespace App1
     public interface IAuthenticate
     {
         Task<bool> Authenticate();
+        Task<bool> Refresh();
     }
+
     public partial class App : Application
     {
         public static IAuthenticate Authenticator { get; private set; }
@@ -17,7 +18,6 @@ namespace App1
         {
             InitializeComponent();
             MainPage = new NavigationPage(new Login());
-            //MainPage = new Login();
         }
         public static void Init(IAuthenticate authenticator)
         {

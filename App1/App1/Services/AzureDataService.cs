@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App1.DataObjects;
+﻿using App1.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace App1.Services
 {
@@ -60,11 +57,11 @@ namespace App1.Services
 
         public async Task<IEnumerable<Measurements>> GetMeasurements()
         {
-            //await Initialize();
+            if (currentUserID == null)
+                currentUserID = Login.Default.CurrentUser.id;
             await SyncMeasurements();
             //return only current user measurements
             return await _measurements.Where(item => item.UserID == currentUserID).ToEnumerableAsync();
-            //return await _measurements.ToEnumerableAsync();
         }
 
 

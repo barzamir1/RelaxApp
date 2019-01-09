@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using Newtonsoft.Json;
 
 /*
  * this class is only used for Debugging.
@@ -108,7 +102,7 @@ namespace App1
                 {
                     msPass += 50;
                     b.Progress = msPass / (90 * 1000);
-                    //b.Progress += 50; //update progress every 50ms
+                    if (b.StressResult.StartsWith("Error")) { return false; }
                     return true;
                 }
                 if (isSignup)
@@ -127,30 +121,17 @@ namespace App1
         {
             stressResult = "";
             StartMeasure(0);
-           // progressBar.Progress = 0;
-            //labelStressResults.Text = "Reading...";
-           // await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
-           // labelStressResults.Text = stressResult;
         }
 
         private void ButtonRRstress_Clicked(object sender, EventArgs e)
         {
             stressResult = "";
             StartMeasure(1);
-            //progressBar.Progress = 0;
-            //labelStressResults.Text = "Reading...";
-            //await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
-            //labelStressResults.Text = stressResult;
         }
         private void ButtonReal_Clicked(object sender, EventArgs e)
         {
             stressResult = "";
             StartMeasure(-1); //real measurement
-           
-            //progressBar.Progress = 0;
-            //labelStressResults.Text = "Reading...";
-            //await progressBar.ProgressTo(1.0, 1000 * 90, Easing.Linear); //90 seconds
-            //labelStressResults.Text = stressResult;
         }
     }
 }

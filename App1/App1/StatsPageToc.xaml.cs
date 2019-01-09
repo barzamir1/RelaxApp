@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App1.Pages;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using App1.Pages;
 
 namespace App1
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StatsPageToc : ContentPage
 	{
 		public StatsPageToc ()
@@ -31,7 +27,5 @@ namespace App1
         {
             await Navigation.PushAsync(new LastMeasurementsListPage());
         }
-        
-
     }
 }
