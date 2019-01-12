@@ -4,7 +4,7 @@ using System.Text;
 
 namespace App1.DataObjects
 {
-    class Measurements
+    public class Measurements
     {
         public string Id { get; set; }
         public string UserID { get; set; }
@@ -19,5 +19,8 @@ namespace App1.DataObjects
         public double GPSLat { get; set; }
         public double GPSLng { get; set; }
 
+        //not a part of Measurements table:
+        public string ActivityName { get; set; }
+        public string LabelColor { get; set; }
     }
 }

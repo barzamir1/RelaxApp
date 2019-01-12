@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:viewModels="clr-namespace:App1.ViewModels"
+             x:Class="App1.Pages.CalendarStats">
+
+    <ContentPage.BindingContext>
+        <viewModels:MeasurementsPageViewModel/>
+    </ContentPage.BindingContext>
+    <StackLayout>
+
+        <StackLayout>
+            <!--Calendar-->
+            <DatePicker x:Name="datePicker" Format="dd/MM/yy" DateSelected="DatePicker_DateSelected"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="show only stress moments"/>
+                <Switch x:Name="stressedOnlySwitch" Toggled="StressedOnlySwitch_Toggled" IsToggled="False" />
+            </StackLayout>
+            
+            <!--Chart-->
+            <forms:ChartView x:Name="dateChart" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="150"/>
+            
+            <!--List-->
+            <ListView ItemsSource="{Binding FilteredMeasurementsObj}" x:Name="daleList"
+                Margin="10"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Start"
+                           Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Date, StringFormat='\{0:HH:mm}'}" FontAttributes="Bold" x:Name="labelListDate"/>
+                                    <Label Text="{Binding StressIndex, StringFormat='Stress Index: {0}'}" TextColor="{Binding LabelColor}" x:Name="labelListStressIndex"/>
+                                    <Label Text="{Binding ActivityName, StringFormat='Activity: {0}'}" x:Name="labelListActivityName"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

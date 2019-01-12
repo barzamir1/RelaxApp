@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App1.Pages;
+using System;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,22 +7,24 @@ using Xamarin.Forms.Xaml;
 namespace App1
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Page1 : ContentPage
-	{
-		public Page1 ()
-		{
-			InitializeComponent ();
+    public partial class Page1 : ContentPage
+    {
+        public Page1()
+        {
+            InitializeComponent();
             if (Login.Default.CurrentUser != null)
             {
                 LabelUserName.Text = "Hello " + Login.Default.CurrentUser.FirstName;
             }
-		}
-
-        public async void openStatsPage(object sender, EventArgs args) {
-            await Navigation.PushAsync(new StatsPageToc());
         }
 
-        public async void openTestMePage(object sender, EventArgs args) {
+        public async void openStatsPage(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new StatsTabbedPage());
+        }
+
+        public async void openTestMePage(object sender, EventArgs args)
+        {
             await Navigation.PushAsync(new TestMe(false));
         }
 

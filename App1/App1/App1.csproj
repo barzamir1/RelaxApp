@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microcharts.Forms" Version="0.8.3-pre" />
     <PackageReference Include="Microsoft.Azure.Mobile.Client" Version="4.1.1" />
     <PackageReference Include="Microsoft.Azure.Mobile.Client.SQLiteStore" Version="4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
@@ -36,6 +37,9 @@
     <EmbeddedResource Update="CalmMeDownToc.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CalendarStats.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\GamePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -46,6 +50,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\SignupStressTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\StatsTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="StatsPageToc.xaml">

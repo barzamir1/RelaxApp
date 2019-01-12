@@ -19,6 +19,7 @@ namespace App1.Services
         IMobileServiceSyncTable<Measurements> _measurements;
         IMobileServiceSyncTable<Users> _usersTable;
 
+
         public static AzureDataService Instance
         {
             get
@@ -35,7 +36,7 @@ namespace App1.Services
         {
             const string path = "syncstore.db";
             //setup our local sqlite store and initialize our table
-            var store = new MobileServiceSQLiteStore(path);
+            MobileServiceSQLiteStore store = new MobileServiceSQLiteStore(path);
             store.DefineTable<Activities>();
             store.DefineTable<Measurements>();
             store.DefineTable<Users>();
@@ -54,32 +55,32 @@ namespace App1.Services
             await SyncActivties();
             return await _activities.ToEnumerableAsync();
         }
+        public async Task<List<Activities>> GetActivitiesList()
+        {
+            //await Initialize();
+            await SyncActivties();
+            return await _activities.ToListAsync();
+        }
 
         public async Task<IEnumerable<Measurements>> GetMeasurements()
         {
             if (currentUserID == null)
                 currentUserID = Login.Default.CurrentUser.id;
             await SyncMeasurements();
-            //return only current user measurements
-            return await _measurements.Where(item => item.UserID == currentUserID).ToEnumerableAsync();
+            return await _measurements.ToEnumerableAsync();
         }
-
 
         public async Task AddActivity(Activities activity)
         {
-            //await Initialize();
-
+            //await Initialize
             await _activities.InsertAsync(activity);
-
             await SyncActivties();
         }
 
         public async Task AddMeasurement(Measurements m)
         {
-            //await Initialize();
-
+            //await Initialize
             await _measurements.InsertAsync(m);
-
             await SyncMeasurements();
         }
 
@@ -89,7 +90,6 @@ namespace App1.Services
             {
                 await _activities.PullAsync("Activities", _activities.CreateQuery());
                 await _mobileServiceClient.SyncContext.PushAsync();
-
             }
             catch (Exception ex)
             {
@@ -101,9 +101,8 @@ namespace App1.Services
         {
             try
             {
-                await _measurements.PullAsync("Measurements", _measurements.CreateQuery());
+                await _measurements.PullAsync("Measurements", _measurements.Where(item => item.UserID == currentUserID));
                 await _mobileServiceClient.SyncContext.PushAsync();
-
             }
             catch (Exception ex)
             {
@@ -111,6 +110,5 @@ namespace App1.Services
             }
         }
     }
-
-
 }
+
