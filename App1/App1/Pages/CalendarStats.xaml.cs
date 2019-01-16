@@ -9,6 +9,10 @@ using Xamarin.Forms.Xaml;
 using App1.DataObjects;
 using SkiaSharp;
 using App1.ViewModels;
+using dotMorten.Xamarin.Forms;
+//using XLabs.Forms.Controls;
+using System.Collections.ObjectModel;
+using Rg.Plugins.Popup.Services;
 
 namespace App1.Pages
 {
@@ -19,18 +23,20 @@ namespace App1.Pages
         Services.AzureDataService azure = Services.AzureDataService.Instance;
         public List<Measurements> allMeasurements;
         public List<Measurements> filteredMeasurements;
+        public List<Activities> allActivities;
         public MeasurementsPageViewModel model;
 
         public CalendarStats()
         {
             InitializeComponent();
-            BindingContext = new MeasurementsPageViewModel();
+
             datePicker.Date = DateTime.Today;
             datePicker.MaximumDate = DateTime.Now;
-
             dateChart.Chart = chart;
+
             Initialize();
         }
+
         public void setChart()
         {
             List<Microcharts.Entry> entries = new List<Microcharts.Entry>();
@@ -55,6 +61,8 @@ namespace App1.Pages
             model.FilteredMeasurementsObj.Clear();
             model.ConcatFiltered(filteredMeasurements);
         }
+
+        //return only measurements taken on 'day'
         public List<Measurements> GetDailyMeasurements(DateTime day, bool stressedOnly)
         {
             try
@@ -70,6 +78,51 @@ namespace App1.Pages
             catch { return new List<Measurements>(); }
         }
 
+        private async Task Initialize()
+        {
+            BindingContext = new MeasurementsPageViewModel();
+            model = ((MeasurementsPageViewModel)BindingContext);
+            await model.InitializeMeasurement();
+
+            allMeasurements = model.MeasurementsObj.ToList();
+            allActivities = await azure.GetActivitiesList();
+            //for each measurement, set the ActivityName
+            foreach (var measure in allMeasurements)
+            {
+                var name = allActivities.Find(item => item.Id == measure.ActivityID);
+                if (name != null)
+                    measure.ActivityName = name.Name;
+                measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
+            }
+            //create a list of activity names
+            var data = new List<String>();
+            allActivities.ForEach(item => { if (item.Name != null) { data.Add(item.Name); } });
+            model.Activities = data;
+        }
+
+        //open popup and let the user change Activity 
+        private async void Activity_Clicked(object sender, EventArgs e)
+        {
+            Label labelActivityName = (Label)sender;
+            var measurementID = ((Label)labelActivityName.Parent.FindByName("MeasurementID")).Text;
+            Measurements m = filteredMeasurements.Find(item => item.Id == measurementID);
+            model = (MeasurementsPageViewModel)BindingContext;
+            MeasurePopup popupPage = new MeasurePopup(m, model.Activities);
+            popupPage.CallbackEvent += Popup_Closed;
+
+            await PopupNavigation.Instance.PushAsync(popupPage);
+        }
+
+        //update the ListView
+        private void Popup_Closed(object sender, Activities e)
+        {
+            model = (MeasurementsPageViewModel)BindingContext;
+            model.FilteredMeasurementsObj.Clear();
+            model.ConcatFiltered(filteredMeasurements);
+            if (e != null)
+                model.Activities.Add(e.Name);
+        }
+
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
         {
             setChart();
@@ -78,19 +131,6 @@ namespace App1.Pages
         {
             setChart();
         }
-
-        private async void Initialize()
-        {
-            var m = await azure.GetMeasurements();
-            allMeasurements = m.ToList();
-            var activities = await azure.GetActivitiesList();
-            foreach (var measure in allMeasurements)
-            {
-                var name = activities.Find(item => item.Id == measure.ActivityID);
-                if (name != null)
-                    measure.ActivityName = name.Name;
-                measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
-            }
-        }
     }
+
 }
