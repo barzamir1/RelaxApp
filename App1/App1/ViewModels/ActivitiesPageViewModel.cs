@@ -83,6 +83,7 @@ namespace App1.ViewModels
 
                     ActivitiesObj.Add(newActivity);
                     await _azureDataService.AddActivity(newActivity);
+                    await _azureDataService.SyncActivties();
                 });
             }
         }

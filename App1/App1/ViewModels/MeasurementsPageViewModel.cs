@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace App1.ViewModels
     {
         private ObservableCollection<Measurements> _measurements;
         private ObservableCollection<Measurements> _filteredMeasurements;
+        private List<String> _activities;
         //private string _userID;
         //private DateTime _date;
         //private int _tRI;
@@ -34,23 +36,18 @@ namespace App1.ViewModels
         {
             MeasurementsObj = new ObservableCollection<Measurements>();
             FilteredMeasurementsObj = new ObservableCollection<Measurements>();
-            InitializeMeasurement();
+            //InitializeMeasurement();
         }
 
-        private async void InitializeMeasurement()
+        public async Task<bool> InitializeMeasurement()
         {
             var measurement = await _azureDataService.GetMeasurements();
-            //var activities = await _azureDataService.GetActivitiesList();
+            
             foreach (var measure in measurement)
             {
-                //var name = activities.Find(item => item.Id == measure.ActivityID);
-                //if (name != null)
-                //    measure.ActivityName = name.Name;
-                //measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
-                //FilteredMeasurementsObj.Add(measure);
                 MeasurementsObj.Add(measure);
-                
             }
+            return true;
         }
 
         public ObservableCollection<Measurements> MeasurementsObj
@@ -71,9 +68,23 @@ namespace App1.ViewModels
                 OnPropertyChanged("FilteredMeasurements");
             }
         }
+        public List<String> Activities
+        {
+            get { return _activities; }
+            set
+            {
+                _activities = value;
+                OnPropertyChanged("Activities");
+            }
+        }
         public void ConcatFiltered(List<Measurements> lst)
         {
-            lst.ForEach(item => _filteredMeasurements.Add(item));
+            try
+            {
+                lst.ForEach(item =>
+                _filteredMeasurements.Add(item));
+            }
+            catch { }
         }
         //public string UserID
         //{

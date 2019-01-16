@@ -14,7 +14,9 @@ namespace App1.Pages
 	{
 		public LastMeasurementsListPage ()
 		{
-			InitializeComponent ();
+			InitializeComponent();
+            BindingContext = new ViewModels.MeasurementsPageViewModel();
+            ((ViewModels.MeasurementsPageViewModel)BindingContext).InitializeMeasurement();
 		}
 	}
 }
