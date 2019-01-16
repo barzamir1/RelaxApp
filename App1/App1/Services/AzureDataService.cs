@@ -15,7 +15,7 @@ namespace App1.Services
         //public MobileServiceClient _mobileServiceClient = Login.Default.ServiceClient;
         String currentUserID;
         public MobileServiceClient _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net/");
-        IMobileServiceSyncTable<Activities> _activities;
+        public IMobileServiceSyncTable<Activities> _activities;
         IMobileServiceSyncTable<Measurements> _measurements;
         IMobileServiceSyncTable<Users> _usersTable;
 
@@ -74,13 +74,19 @@ namespace App1.Services
         {
             //await Initialize
             await _activities.InsertAsync(activity);
-            await SyncActivties();
+            //await SyncActivties();
         }
 
         public async Task AddMeasurement(Measurements m)
         {
             //await Initialize
             await _measurements.InsertAsync(m);
+            await SyncMeasurements();
+        }
+
+        public async Task UpdateMeasurement(Measurements m)
+        {
+            await _measurements.UpdateAsync(m);
             await SyncMeasurements();
         }
 
