@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,22 +32,43 @@ namespace App1.ViewModels
         private AzureDataService _azureDataService = AzureDataService.Instance;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private static MeasurementsPageViewModel _instance;
 
         public MeasurementsPageViewModel()
         {
-            MeasurementsObj = new ObservableCollection<Measurements>();
-            FilteredMeasurementsObj = new ObservableCollection<Measurements>();
-            //InitializeMeasurement();
+            if (_instance == null)
+            {
+                MeasurementsObj = new ObservableCollection<Measurements>();
+                FilteredMeasurementsObj = new ObservableCollection<Measurements>();
+                _activities = new List<string>();
+                //InitializeMeasurement();
+                
+            }
         }
+        public static async Task<MeasurementsPageViewModel> GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new MeasurementsPageViewModel();
+                await _instance.InitializeMeasurement();
+            }
+            return _instance;
 
+        }
         public async Task<bool> InitializeMeasurement()
         {
             var measurement = await _azureDataService.GetMeasurements();
+            var allActivities = await _azureDataService._activities.ToListAsync();
             
             foreach (var measure in measurement)
             {
+                var acName = allActivities.Where(item => item.Id == measure.ActivityID).ToList();
+                if (acName != null && acName.Count>0)
+                    measure.ActivityName = acName[0].Name;
+                measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
                 MeasurementsObj.Add(measure);
             }
+            allActivities.ForEach(item => { if (item.Name != null) { _activities.Add(item.Name); } });
             return true;
         }
 
