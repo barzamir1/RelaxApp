@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -14,6 +16,7 @@ namespace App1.ViewModels
     {
         private ObservableCollection<Measurements> _measurements;
         private ObservableCollection<Measurements> _filteredMeasurements;
+        private List<String> _activities;
         //private string _userID;
         //private DateTime _date;
         //private int _tRI;
@@ -29,28 +32,44 @@ namespace App1.ViewModels
         private AzureDataService _azureDataService = AzureDataService.Instance;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private static MeasurementsPageViewModel _instance;
 
         public MeasurementsPageViewModel()
         {
-            MeasurementsObj = new ObservableCollection<Measurements>();
-            FilteredMeasurementsObj = new ObservableCollection<Measurements>();
-            InitializeMeasurement();
-        }
-
-        private async void InitializeMeasurement()
-        {
-            var measurement = await _azureDataService.GetMeasurements();
-            //var activities = await _azureDataService.GetActivitiesList();
-            foreach (var measure in measurement)
+            if (_instance == null)
             {
-                //var name = activities.Find(item => item.Id == measure.ActivityID);
-                //if (name != null)
-                //    measure.ActivityName = name.Name;
-                //measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
-                //FilteredMeasurementsObj.Add(measure);
-                MeasurementsObj.Add(measure);
+                MeasurementsObj = new ObservableCollection<Measurements>();
+                FilteredMeasurementsObj = new ObservableCollection<Measurements>();
+                _activities = new List<string>();
+                //InitializeMeasurement();
                 
             }
+        }
+        public static async Task<MeasurementsPageViewModel> GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new MeasurementsPageViewModel();
+                await _instance.InitializeMeasurement();
+            }
+            return _instance;
+
+        }
+        public async Task<bool> InitializeMeasurement()
+        {
+            var measurement = await _azureDataService.GetMeasurements();
+            var allActivities = await _azureDataService._activities.ToListAsync();
+            
+            foreach (var measure in measurement)
+            {
+                var acName = allActivities.Where(item => item.Id == measure.ActivityID).ToList();
+                if (acName != null && acName.Count>0)
+                    measure.ActivityName = acName[0].Name;
+                measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
+                MeasurementsObj.Add(measure);
+            }
+            allActivities.ForEach(item => { if (item.Name != null) { _activities.Add(item.Name); } });
+            return true;
         }
 
         public ObservableCollection<Measurements> MeasurementsObj
@@ -71,9 +90,23 @@ namespace App1.ViewModels
                 OnPropertyChanged("FilteredMeasurements");
             }
         }
+        public List<String> Activities
+        {
+            get { return _activities; }
+            set
+            {
+                _activities = value;
+                OnPropertyChanged("Activities");
+            }
+        }
         public void ConcatFiltered(List<Measurements> lst)
         {
-            lst.ForEach(item => _filteredMeasurements.Add(item));
+            try
+            {
+                lst.ForEach(item =>
+                _filteredMeasurements.Add(item));
+            }
+            catch { }
         }
         //public string UserID
         //{

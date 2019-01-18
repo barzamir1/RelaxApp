@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+
 namespace App1.Droid
 {
     [Activity(Label = "App1", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -14,9 +15,8 @@ namespace App1.Droid
     {
         public static Android.Content.Context context;
         public static Activity instance;
-        //public static FirebaseJobDispatcher dispatcher;
-        public static FusedLocationProviderClient fusedLocationProviderClient;
 
+        public static FusedLocationProviderClient fusedLocationProviderClient;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -29,17 +29,17 @@ namespace App1.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             context = this.ApplicationContext;
             instance = this;
-            LoadApplication(new App());
+
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
-
-            //ScheduleMeasurement();
-
+            
             //For Maps
             global::Xamarin.FormsMaps.Init(this, savedInstanceState);
-        }
 
+            LoadApplication(new App());
+        }
 
         public async Task<bool> Authenticate()
         {
@@ -69,19 +69,16 @@ namespace App1.Droid
             }
             return success;
         }
-        public async Task<bool> Refresh()
+
+        public override void OnBackPressed()
         {
-            try
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
             {
-                var user = await Login.Default.ServiceClient.RefreshUserAsync();
-                if (user == null)
-                    return false;
-                return true;
+                // Do something if there are some pages in the `PopupStack`
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
-                return false;
+                // Do something if there are not any pages in the `PopupStack`
             }
         }
 

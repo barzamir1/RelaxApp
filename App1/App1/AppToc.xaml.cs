@@ -1,6 +1,5 @@
 ﻿using App1.Pages;
 using System;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

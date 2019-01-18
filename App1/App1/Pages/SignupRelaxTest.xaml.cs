@@ -11,7 +11,11 @@ namespace App1.Pages
 		public SignupRelaxTest ()
 		{
 			InitializeComponent ();
-            initBand();
+            try
+            {
+                initBand();
+            }
+            catch { }
 		}
 
         private async void Start_Clicked(object sender, EventArgs e)

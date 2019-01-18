@@ -9,6 +9,10 @@ using Xamarin.Forms.Xaml;
 using App1.DataObjects;
 using SkiaSharp;
 using App1.ViewModels;
+using dotMorten.Xamarin.Forms;
+//using XLabs.Forms.Controls;
+using System.Collections.ObjectModel;
+using Rg.Plugins.Popup.Services;
 
 namespace App1.Pages
 {
@@ -19,18 +23,20 @@ namespace App1.Pages
         Services.AzureDataService azure = Services.AzureDataService.Instance;
         public List<Measurements> allMeasurements;
         public List<Measurements> filteredMeasurements;
+        public List<Activities> allActivities;
         public MeasurementsPageViewModel model;
 
         public CalendarStats()
         {
             InitializeComponent();
-            BindingContext = new MeasurementsPageViewModel();
+
             datePicker.Date = DateTime.Today;
             datePicker.MaximumDate = DateTime.Now;
-
             dateChart.Chart = chart;
+
             Initialize();
         }
+
         public void setChart()
         {
             List<Microcharts.Entry> entries = new List<Microcharts.Entry>();
@@ -55,19 +61,54 @@ namespace App1.Pages
             model.FilteredMeasurementsObj.Clear();
             model.ConcatFiltered(filteredMeasurements);
         }
+
+        //return only measurements taken on 'day'
         public List<Measurements> GetDailyMeasurements(DateTime day, bool stressedOnly)
         {
             try
             {
-                var currDayMeasure = allMeasurements.Where(item =>
+                MeasurementsPageViewModel model = (MeasurementsPageViewModel)BindingContext;
+                var currDayMeasure = model.MeasurementsObj.Where(item =>
                item.Date.CompareTo(day) > 0 && //measurement is later than day at midnight
-               item.Date.CompareTo(day.AddDays(1)) < 0);  //measurement is earlier than day+1 at midnight
-                if (stressedOnly)
+               item.Date.CompareTo(day.AddDays(1)) < 0)  //measurement is earlier than day+1 at midnight
+               .OrderBy(item => item.Date); 
+               if (stressedOnly)
                     return currDayMeasure.Where(item => item.IsStressed == 1).ToList();
                 else
                     return currDayMeasure.ToList();
             }
             catch { return new List<Measurements>(); }
+        }
+
+        private async Task Initialize()
+        {
+            BindingContext = await MeasurementsPageViewModel.GetInstance();
+            model = ((MeasurementsPageViewModel)BindingContext);
+            model.FilteredMeasurementsObj.Clear();
+            setChart();
+        }
+
+        //open popup and let the user change Activity 
+        private async void Activity_Clicked(object sender, EventArgs e)
+        {
+            Label labelActivityName = (Label)sender;
+            var measurementID = ((Label)labelActivityName.Parent.FindByName("MeasurementID")).Text;
+            Measurements m = filteredMeasurements.Find(item => item.Id == measurementID);
+            model = (MeasurementsPageViewModel)BindingContext;
+            MeasurePopup popupPage = new MeasurePopup(m, model.Activities);
+            popupPage.CallbackEvent += Popup_Closed;
+
+            await PopupNavigation.Instance.PushAsync(popupPage);
+        }
+
+        //update the ListView
+        private void Popup_Closed(object sender, Activities e)
+        {
+            model = (MeasurementsPageViewModel)BindingContext;
+            model.FilteredMeasurementsObj.Clear();
+            model.ConcatFiltered(filteredMeasurements);
+            if (e != null)
+                model.Activities.Add(e.Name);
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -78,19 +119,6 @@ namespace App1.Pages
         {
             setChart();
         }
-
-        private async void Initialize()
-        {
-            var m = await azure.GetMeasurements();
-            allMeasurements = m.ToList();
-            var activities = await azure.GetActivitiesList();
-            foreach (var measure in allMeasurements)
-            {
-                var name = activities.Find(item => item.Id == measure.ActivityID);
-                if (name != null)
-                    measure.ActivityName = name.Name;
-                measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
-            }
-        }
     }
+
 }

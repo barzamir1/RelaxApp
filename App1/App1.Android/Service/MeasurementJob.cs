@@ -24,7 +24,7 @@ namespace App1.Droid.Service
             Task.Run(async () =>
             {
                 await MeasurementHandler.ResendIntervals(); //resend previous measurements if exist
-                MeasurementHandler.GetStressResult(-1, null); //start new measurement. -1 => real measurement
+                MeasurementHandler.GetStressResult(-1, new TestMeViewModel()); //start new measurement. -1 => real measurement
             });
             return true;
         }
