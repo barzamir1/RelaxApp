@@ -67,10 +67,12 @@ namespace App1.Pages
         {
             try
             {
-                var currDayMeasure = allMeasurements.Where(item =>
+                MeasurementsPageViewModel model = (MeasurementsPageViewModel)BindingContext;
+                var currDayMeasure = model.MeasurementsObj.Where(item =>
                item.Date.CompareTo(day) > 0 && //measurement is later than day at midnight
-               item.Date.CompareTo(day.AddDays(1)) < 0);  //measurement is earlier than day+1 at midnight
-                if (stressedOnly)
+               item.Date.CompareTo(day.AddDays(1)) < 0)  //measurement is earlier than day+1 at midnight
+               .OrderBy(item => item.Date); 
+               if (stressedOnly)
                     return currDayMeasure.Where(item => item.IsStressed == 1).ToList();
                 else
                     return currDayMeasure.ToList();
@@ -80,24 +82,10 @@ namespace App1.Pages
 
         private async Task Initialize()
         {
-            BindingContext = new MeasurementsPageViewModel();
+            BindingContext = await MeasurementsPageViewModel.GetInstance();
             model = ((MeasurementsPageViewModel)BindingContext);
-            await model.InitializeMeasurement();
-
-            allMeasurements = model.MeasurementsObj.ToList();
-            allActivities = await azure.GetActivitiesList();
-            //for each measurement, set the ActivityName
-            foreach (var measure in allMeasurements)
-            {
-                var name = allActivities.Find(item => item.Id == measure.ActivityID);
-                if (name != null)
-                    measure.ActivityName = name.Name;
-                measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
-            }
-            //create a list of activity names
-            var data = new List<String>();
-            allActivities.ForEach(item => { if (item.Name != null) { data.Add(item.Name); } });
-            model.Activities = data;
+            model.FilteredMeasurementsObj.Clear();
+            setChart();
         }
 
         //open popup and let the user change Activity 

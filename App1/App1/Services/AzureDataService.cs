@@ -67,7 +67,7 @@ namespace App1.Services
             if (currentUserID == null)
                 currentUserID = Login.Default.CurrentUser.id;
             await SyncMeasurements();
-            return await _measurements.ToEnumerableAsync();
+            return await _measurements.Where(item=>item.UserID==currentUserID).ToEnumerableAsync();
         }
 
         public async Task AddActivity(Activities activity)

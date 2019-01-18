@@ -15,8 +15,12 @@ namespace App1.Pages
 		public LastMeasurementsListPage ()
 		{
 			InitializeComponent();
-            BindingContext = new ViewModels.MeasurementsPageViewModel();
-            ((ViewModels.MeasurementsPageViewModel)BindingContext).InitializeMeasurement();
+            initialize();
+            //((ViewModels.MeasurementsPageViewModel)BindingContext).InitializeMeasurement();
 		}
+        private async void initialize()
+        {
+            BindingContext = await ViewModels.MeasurementsPageViewModel.GetInstance();
+        }
 	}
 }

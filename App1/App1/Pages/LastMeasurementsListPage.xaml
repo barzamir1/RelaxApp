@@ -4,9 +4,9 @@
              xmlns:viewModels="clr-namespace:App1.ViewModels"
              x:Class="App1.Pages.LastMeasurementsListPage"
              Title="Last Measurements Page">
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModels:MeasurementsPageViewModel></viewModels:MeasurementsPageViewModel>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     <ContentPage.Content>
         <StackLayout Orientation="Vertical"
                  HorizontalOptions="FillAndExpand"
