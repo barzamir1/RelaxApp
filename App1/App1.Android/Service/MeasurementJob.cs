@@ -10,6 +10,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Firebase.JobDispatcher;
+using Plugin.LocalNotifications;
+using Xamarin.Android;
 
 namespace App1.Droid.Service
 {
@@ -23,8 +25,14 @@ namespace App1.Droid.Service
         {
             Task.Run(async () =>
             {
+                TestMeViewModel testMeViewModel = new TestMeViewModel();
                 await MeasurementHandler.ResendIntervals(); //resend previous measurements if exist
-                MeasurementHandler.GetStressResult(-1, null); //start new measurement. -1 => real measurement
+                await MeasurementHandler.GetStressResult(1, testMeViewModel); //start new measurement. -1 => real measurement
+                String[] stressRes = testMeViewModel.StressResult.Split(" ");
+                int tempLen = stressRes.Length;
+                if (stressRes[tempLen - 2] != "not") {
+                    CrossLocalNotifications.Current.Show("RelaxApp noticed stress", "Tap into the app for more information");
+                }
             });
             return true;
         }
@@ -33,5 +41,6 @@ namespace App1.Droid.Service
         {
             return false;
         }
+
     }
 }
