@@ -17,8 +17,8 @@ namespace App1.Services
         public MobileServiceClient _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net/");
         public IMobileServiceSyncTable<Activities> _activities;
         IMobileServiceSyncTable<Measurements> _measurements;
-        IMobileServiceSyncTable<Users> _usersTable;
-
+        IMobileServiceSyncTable<Users> _users;
+        IMobileServiceSyncTable<UserAuthorizations> _userAuthorizations;
 
         public static AzureDataService Instance
         {
@@ -40,12 +40,14 @@ namespace App1.Services
             store.DefineTable<Activities>();
             store.DefineTable<Measurements>();
             store.DefineTable<Users>();
+            store.DefineTable<UserAuthorizations>();
             await _mobileServiceClient.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
 
             //Get our sync table that will call out to azure
             _activities = _mobileServiceClient.GetSyncTable<Activities>();
             _measurements = _mobileServiceClient.GetSyncTable<Measurements>();
-            _usersTable = _mobileServiceClient.GetSyncTable<Users>();
+            _users = _mobileServiceClient.GetSyncTable<Users>();
+            _userAuthorizations = _mobileServiceClient.GetSyncTable<UserAuthorizations>();
             currentUserID = _mobileServiceClient.CurrentUser.UserId;
         }
 
@@ -60,6 +62,46 @@ namespace App1.Services
             //await Initialize();
             await SyncActivties();
             return await _activities.ToListAsync();
+        }
+
+        public async Task<List<Users>> GetAllUsers()
+        {
+            //await Initialize();
+            await SyncUsers();
+            return await _users.ToListAsync();
+        }
+
+        public async Task SyncUsers()
+        {
+            try
+            {
+                await _activities.PullAsync("Users", _users.CreateQuery());
+                await _mobileServiceClient.SyncContext.PushAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task<List<UserAuthorizations>> GetAllAuthUsers()
+        {
+            //await Initialize();
+            await SyncAuthUsers();
+            return await _userAuthorizations.ToListAsync();
+        }
+
+        public async Task SyncAuthUsers()
+        {
+            try
+            {
+                await _activities.PullAsync("UserAuthorizations", _userAuthorizations.CreateQuery());
+                await _mobileServiceClient.SyncContext.PushAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<Measurements>> GetMeasurements()
