@@ -127,6 +127,7 @@ namespace App1
                 return false;
             }
             _rrIntervalsReadings.Clear();
+            //RequestConsent();
             _rrSensor.StartReadings();
             await Task.Delay(sec * 1000);
             _rrSensor.StopReadings();

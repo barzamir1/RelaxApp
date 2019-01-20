@@ -3,28 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              xmlns:viewModels="clr-namespace:App1.ViewModels"
+             xmlns:forms1="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
              x:Class="App1.Pages.CalendarStats">
 
     <ContentPage.BindingContext>
         <viewModels:MeasurementsPageViewModel/>
     </ContentPage.BindingContext>
     <StackLayout>
-
         <StackLayout>
-            <!--Calendar-->
-            <DatePicker x:Name="datePicker" Format="dd/MM/yy" DateSelected="DatePicker_DateSelected"/>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="show only stress moments"/>
-                <Switch x:Name="stressedOnlySwitch" Toggled="StressedOnlySwitch_Toggled" IsToggled="False" />
-            </StackLayout>
-            
-            <!--Chart-->
-            <forms:ChartView x:Name="dateChart" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="150"/>
-            
+            <StackLayout>
+                    <!--Calendar-->
+                    <DatePicker x:Name="datePicker" Format="dd/MM/yy" DateSelected="DatePicker_DateSelected"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="show only stress moments"/>
+                        <Switch x:Name="stressedOnlySwitch" Toggled="StressedOnlySwitch_Toggled" IsToggled="False" />
+                    </StackLayout>
+
+                    <!--Chart-->
+                    <forms:ChartView x:Name="dateChart" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="140"/>
+                </StackLayout>
+        </StackLayout>
+        <StackLayout>
             <!--List-->
-            <ListView ItemsSource="{Binding FilteredMeasurementsObj}" x:Name="daleList"
+            <ListView ItemsSource="{Binding FilteredMeasurementsObj}" x:Name="dateList"
                 Margin="10"
-                HasUnevenRows="True">
+                HasUnevenRows="True" SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -32,9 +35,37 @@
                            VerticalOptions="Start"
                            Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Id}" x:Name="MeasurementID" IsVisible="False"/>
                                     <Label Text="{Binding Date, StringFormat='\{0:HH:mm}'}" FontAttributes="Bold" x:Name="labelListDate"/>
                                     <Label Text="{Binding StressIndex, StringFormat='Stress Index: {0}'}" TextColor="{Binding LabelColor}" x:Name="labelListStressIndex"/>
-                                    <Label Text="{Binding ActivityName, StringFormat='Activity: {0}'}" x:Name="labelListActivityName"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Activity: "/>
+                                        <Label Text="{Binding ActivityName}" TextDecorations="Underline">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="Activity_Clicked"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                        <!--<Button Text="{Binding ActivityName}" BackgroundColor="Transparent" TextColor="Default"
+                                                Clicked="Activity_Clicked"/>
+                                        <Label Text="{Binding ActivityName}" TextDecorations="Underline"  x:Name="labelListActivityName"/>
+                                        <Entry Text="{Binding ActivityName}" FontSize="Micro" 
+                                               Completed="TextEntryListActivityName_Completed"/>
+                                        <forms1:AutoSuggestBox WidthRequest="150"
+                                                               TextChanged="AutoSuggestBox_TextChanged" PlaceholderText="{Binding ActivityName}"
+                                                               SuggestionChosen="AutoSuggestBox_SuggestionChosen"
+                                                               QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>-->
+                                        
+                                        <!--<controls:AutoCompleteView x:Name="autoCompleteView"
+
+                                   BindingContextChanged="AutoCompleteView_BindingContextChanged"
+                                   Placeholder="{Binding ActivityName}"
+                                   HorizontalOptions="StartAndExpand"
+                                   TextColor="Black"
+                                   SearchTextColor="Black"
+                                                                   
+                                   ShowSearchButton="False"/>-->
+
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell>

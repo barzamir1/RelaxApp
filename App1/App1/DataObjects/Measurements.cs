@@ -20,7 +20,9 @@ namespace App1.DataObjects
         public double GPSLng { get; set; }
 
         //not a part of Measurements table:
+        [Newtonsoft.Json.JsonIgnore]
         public string ActivityName { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
         public string LabelColor { get; set; }
     }
 }

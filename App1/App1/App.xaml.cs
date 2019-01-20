@@ -8,7 +8,6 @@ namespace App1
     public interface IAuthenticate
     {
         Task<bool> Authenticate();
-        Task<bool> Refresh();
     }
 
     public partial class App : Application
@@ -37,11 +36,5 @@ namespace App1
         {
             // Handle when your app resumes
         }
-
-
-        ////
-
-
-        ////
     }
 }
