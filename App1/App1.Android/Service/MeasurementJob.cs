@@ -27,7 +27,7 @@ namespace App1.Droid.Service
             {
                 TestMeViewModel testMeViewModel = new TestMeViewModel();
                 await MeasurementHandler.ResendIntervals(); //resend previous measurements if exist
-                await MeasurementHandler.GetStressResult(1, testMeViewModel); //start new measurement. -1 => real measurement
+                await MeasurementHandler.GetStressResult(-1, testMeViewModel); //start new measurement. -1 => real measurement
                 String[] stressRes = testMeViewModel.StressResult.Split(" ");
                 int tempLen = stressRes.Length;
                 if (stressRes[tempLen - 2] != "not") {
