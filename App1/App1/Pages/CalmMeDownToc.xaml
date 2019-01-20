@@ -4,9 +4,7 @@
              x:Class="App1.CalmMeDownToc">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <WebView x:Name="webView" WidthRequest="1000" HeightRequest="1000" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

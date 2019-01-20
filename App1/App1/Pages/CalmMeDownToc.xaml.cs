@@ -8,8 +8,9 @@ namespace App1
 	public partial class CalmMeDownToc : ContentPage
 	{
 		public CalmMeDownToc ()
-		{
-			InitializeComponent ();
-		}
-	}
+        {
+            InitializeComponent();
+            webView.Source = "https://giphy.com/explore/cute-animals";
+        }
+    }
 }
