@@ -23,6 +23,7 @@ namespace App1
             _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
             UsersTable = _mobileServiceClient.GetSyncTable<Users>();
             UsersTable.PullAsync("Users", UsersTable.CreateQuery());
+            isTherapistPicker.SelectedIndex = 0;
         }
 
         private async void Signup_Clicked(object sender, EventArgs e)
@@ -33,14 +34,27 @@ namespace App1
             user.LastName = lastName.Text;
             user.DateOfBirth = dobPicker.Date;
             user.Gender = genderPicker.SelectedItem.ToString();
-            user.Occupation = occupation.Text;
-            user.EmergencyContactName = emergencyContactName.Text;
-            user.EmergencyContactPhone = emergencyContactPhone.Text;
+            if (isTherapistPicker.SelectedIndex == 0) //user
+            {
+                user.Occupation = occupation.Text;
+                user.EmergencyContactName = emergencyContactName.Text;
+                user.EmergencyContactPhone = emergencyContactPhone.Text;
+                user.isTherapist = false;
+            }
+            else //therapist
+            {
+                user.Occupation = "therapist";
+                user.isTherapist = true;
+            }
+            user.shortID = RandomShortUserID();
 
             await UsersTable.InsertAsync(user);
             await _mobileServiceClient.SyncContext.PushAsync();
             Login.Default.CurrentUser = user;
-            await Navigation.PushAsync(new SignupRelaxTest()); //navigate to test me relaxed
+            if (user.isTherapist)
+                await Navigation.PushAsync(new TherapistPage());
+            else 
+                await Navigation.PushAsync(new SignupRelaxTest()); //navigate to test me relaxed
             Navigation.RemovePage(this);
         }
         private bool ValidateInput()
@@ -53,6 +67,8 @@ namespace App1
                 return false;
             if (genderPicker.SelectedIndex < 0)
                 return false;
+            if (isTherapistPicker.SelectedIndex > 0)
+                return true;
             if (occupation.Text == null || !isAlphabetic(occupation.Text))
                 return false;
             if (emergencyContactName.Text != null)
@@ -78,6 +94,30 @@ namespace App1
             Regex pattern = new Regex("[0-9]");
             bool res = pattern.IsMatch(text);
             return res;
+        }
+
+        private void IsTherapistPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isTherapistPicker.SelectedIndex == 0) //user
+            {
+                UserExtraDetails.IsVisible = true;
+            }
+            else //therapist
+            {
+                UserExtraDetails.IsVisible = false;
+            }
+        }
+        private String RandomShortUserID()
+        {
+            int size = 8;
+            String chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            Random rand = new Random(DateTime.Now.Minute);
+            char[] selectedChars = new char[size];
+            for(int i=0; i<size; i++)
+            {
+                selectedChars[i] = chars[rand.Next(chars.Length)];
+            }
+            return new string(selectedChars);
         }
     }
 }

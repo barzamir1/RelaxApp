@@ -16,6 +16,11 @@ namespace App1.DataObjects
         public String Occupation { set; get; }
         public String EmergencyContactName { set; get; }
         public String EmergencyContactPhone { set; get; }
-
+        public bool isTherapist { set; get; }
+        public String shortID { set; get; } //unique ID
+        
+        //not a part of Measurements table:
+        [Newtonsoft.Json.JsonIgnore]
+        public String WatchingUserID{set;get;}
     }
 }

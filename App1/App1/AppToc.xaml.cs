@@ -41,5 +41,14 @@ namespace App1
         {
             await Navigation.PushAsync(new Signup());
         }
+        private async void shareData(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ShareMyData());
+        }
+        private async void therapist(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new TherapistPage());
+        }
+        
     }
 }

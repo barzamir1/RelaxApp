@@ -15,7 +15,7 @@ namespace App1
         private static int _testTime = 90; //90 seconds measurements
         public static double _stressIndex = 0;
 
-        public static async void GetStressResult(int pseudo, TestMeViewModel b)
+        public static async Task GetStressResult(int pseudo, TestMeViewModel b)
         {
             List<double> rrIntervals = null;
             if (pseudo < 0)
@@ -29,8 +29,9 @@ namespace App1
                 b.StressResult = "Reading...";
                 await DependencyService.Get<IBand>().readRRSensor(b,_testTime);
                 rrIntervals = DependencyService.Get<IBand>().RRIntervalReadings();
+                
             }
-            if (rrIntervals.Count == 0)
+            if ( rrIntervals != null && rrIntervals.Count == 0)
             {
                 b.StressResult = "Error: can't read heart rate. make sure your band is worn and connected.";
                 b.Progress = 1;
