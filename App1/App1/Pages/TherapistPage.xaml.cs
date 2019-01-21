@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -14,6 +15,7 @@ namespace App1.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TherapistPage : ContentPage
 	{
+        bool firstUserClicked = true;
 		public TherapistPage ()
 		{
 			InitializeComponent ();
@@ -26,9 +28,54 @@ namespace App1.Pages
 
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var selectedUserID = ((Users)allowedUsersListView.SelectedItem).id;
-            Login.Default.CurrentUser.WatchingUserID = selectedUserID;
-            await Navigation.PushAsync(new StatsTabbedPage());
+            var selectedUser = (Users)allowedUsersListView.SelectedItem;
+            if (selectedUser != null)
+            {
+                Login.Default.CurrentUser.WatchingUserID = selectedUser.id;
+
+                if (!firstUserClicked)
+                {
+                    //get the newly selected user's measurements
+                    var model = await MeasurementsPageViewModel.GetInstance();
+                    await model.InitializeMeasurement();
+                }
+                firstUserClicked = false;
+                await Navigation.PushAsync(new StatsTabbedPage());
+                allowedUsersListView.SelectedItem = null;
+            }
+        }
+
+        private void AddUser_Clicked(object sender, EventArgs e)
+        {
+            if (!ValidateUserCode()) { return; }
+            var userShortID = entryUserCode.Text;
+            buttonAddUser.IsEnabled = false;
+            bool success = ((UserAuthorizationModel)BindingContext).AddAuthUser(userShortID);
+            if (!success) { labelUserCodeError.Text = "wrong user code"; }
+            buttonAddUser.IsEnabled = true;
+        }
+        private bool ValidateUserCode()
+        {
+            var input = entryUserCode.Text;
+            if (input == null || input.Length < 1)
+            {
+                labelUserCodeError.Text = "enter user's code";
+                return false;
+            }
+            input = input.Replace("-", "").ToLower();
+            if (input.Length!=8) //TODO: add class with const values
+            {
+                labelUserCodeError.Text = "code should contain 8 letters and numbers";
+                return false;
+            }
+            if (Regex.IsMatch(input, "^[a-z0-9]*$"))
+            {
+                labelUserCodeError.Text = "";
+                entryUserCode.Text = input;
+                return true;
+            }
+            labelUserCodeError.Text = "code should contain 8 letters and numbers";
+            return false;
         }
     }
 }

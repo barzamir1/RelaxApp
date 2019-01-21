@@ -97,7 +97,7 @@ namespace App1.Services
             try
             {
                 await _userAuthorizations.PullAsync("UserAuthorizations", 
-                    _userAuthorizations.Where(item => item.id==currentUserID));
+                    _userAuthorizations.Where(item => item.TherapistID==currentUserID));
                 
                 await _mobileServiceClient.SyncContext.PushAsync();
             }
@@ -109,16 +109,14 @@ namespace App1.Services
 
         public async Task<IEnumerable<Measurements>> GetMeasurements()
         {
-            if (currentUserID == null)
-            {
-                var currUser = Login.Default.CurrentUser;
-                if (currUser.isTherapist)
-                    currentUserID = currUser.WatchingUserID;
-                else
-                    currentUserID = currUser.id;
-            }
+            var currUser = Login.Default.CurrentUser;
+            if (currUser.isTherapist)
+                currentUserID = currUser.WatchingUserID;
+            else
+                currentUserID = currUser.id;
+
             await SyncMeasurements();
-            return await _measurements.Where(item=>item.UserID==currentUserID).ToEnumerableAsync();
+            return await _measurements.Where(item => item.UserID == currentUserID).ToEnumerableAsync();
         }
 
         public async Task AddActivity(Activities activity)
@@ -134,7 +132,18 @@ namespace App1.Services
             await _measurements.InsertAsync(m);
             await SyncMeasurements();
         }
-
+        public async Task AddAuthUser(UserAuthorizations userAuthorizations)
+        {
+            try
+            {
+                await _userAuthorizations.InsertAsync(userAuthorizations);
+                await SyncAuthUsers();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
         public async Task UpdateMeasurement(Measurements m)
         {
             await _measurements.UpdateAsync(m);

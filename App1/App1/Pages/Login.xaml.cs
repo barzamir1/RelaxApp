@@ -92,8 +92,12 @@ namespace App1
                 await Navigation.PushAsync(new Signup()); //navigate to registration page
             }
             else
-                //await Navigation.PushAsync(new Pages.SignupRelaxTest());
-                await Navigation.PushAsync(new Page1()); //navigate to home page
+            {
+                if (currentUser.isTherapist)
+                    await Navigation.PushAsync(new Pages.TherapistPage());
+                else
+                    await Navigation.PushAsync(new Page1()); //navigate to home page
+            }
             Navigation.RemovePage(this); //no going back
         }
     }

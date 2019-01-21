@@ -57,6 +57,10 @@ namespace App1.ViewModels
         }
         public async Task<bool> InitializeMeasurement()
         {
+            MeasurementsObj.Clear();
+            FilteredMeasurementsObj.Clear();
+            Activities.Clear();
+
             var measurement = await _azureDataService.GetMeasurements();
             var allActivities = await _azureDataService._activities.ToListAsync();
             

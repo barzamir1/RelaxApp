@@ -19,7 +19,7 @@ namespace App1.DataObjects
         public bool isTherapist { set; get; }
         public String shortID { set; get; } //unique ID
         
-        //not a part of Measurements table:
+        //not a part of Users table:
         [Newtonsoft.Json.JsonIgnore]
         public String WatchingUserID{set;get;}
     }

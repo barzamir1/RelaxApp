@@ -25,13 +25,13 @@
                 Style="{StaticResource buttonStyle}"/>
                     <Button Text="Signup"
                 Clicked="signup"
-                Style="{StaticResource buttonStyle}"/>
+                Style="{StaticResource buttonStyle}" IsVisible="False"/>
                     <Button Text="Share my Data"
                 Clicked="shareData"
                 Style="{StaticResource buttonStyle}"/>
                     <Button Text="Therapist"
                 Clicked="therapist"
-                Style="{StaticResource buttonStyle}"/>
+                Style="{StaticResource buttonStyle}" IsVisible="False"/>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

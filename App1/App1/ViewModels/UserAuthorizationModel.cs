@@ -14,7 +14,7 @@ namespace App1.ViewModels
     class UserAuthorizationModel
     {
         private ObservableCollection<Users> _allowedUsers;
-
+        private List<Users> allUsers;
         private AzureDataService _azureDataService = AzureDataService.Instance;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,7 +39,7 @@ namespace App1.ViewModels
         }
         public async Task InitializeAuthorizedUsers()
         {
-            var allUsers = await _azureDataService.GetAllUsers();
+            allUsers = await _azureDataService.GetAllUsers();
             var authUsers = await _azureDataService.GetAllAuthUsers();
 
             foreach (var currUserID in authUsers)
@@ -59,7 +59,22 @@ namespace App1.ViewModels
                 OnPropertyChanged("AllowedUsers");
             }
         }
-
+        public bool AddAuthUser(String shortUserID)
+        {
+            var uList = allUsers.Where(item => item.shortID == shortUserID).ToList();
+            if (uList != null && uList.Count > 0)
+            {
+                var userToAdd = uList[0];
+                UserAuthorizations userAuthorizations = new UserAuthorizations();
+                userAuthorizations.TherapistID = Login.Default.CurrentUser.id;
+                userAuthorizations.AuthorizedToViewUserID = userToAdd.id;
+                _azureDataService.AddAuthUser(userAuthorizations); //doesn't wait
+                AllowedUsers.Add(userToAdd);
+                return true;
+            }
+            else
+                return false;
+        }
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

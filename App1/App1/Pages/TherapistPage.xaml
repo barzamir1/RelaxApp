@@ -9,7 +9,7 @@
     </ContentPage.BindingContext>
 
     <StackLayout>
-        <Label Text="My ***"
+        <Label Text="My Clients"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" FontSize="Large"/>
         <StackLayout Orientation="Vertical"
@@ -22,15 +22,22 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                                             Orientation="Horizontal">
-                                <Label Text="{Binding FirstName, StringFormat='Name: {0}'}"/>
-                                <Label Text="{Binding LastName}"/>
+                                             Orientation="Horizontal" Margin="5,5,5,5">
+                                <Label Text="{Binding FirstName}" FontSize="Medium"/>
+                                <Label Text="{Binding LastName}" FontSize="Medium"/>
                                 <Label Text="{Binding id}" IsVisible="False"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <StackLayout Margin="10,10,10,10">
+                <StackLayout Orientation="Horizontal">
+                    <Entry x:Name="entryUserCode" Placeholder="Add user code"/>
+                    <Button x:Name="buttonAddUser" Text="Add" Clicked="AddUser_Clicked" />
+                </StackLayout>
+                <Label x:Name="labelUserCodeError" TextColor="Red"/>
+            </StackLayout>
         </StackLayout>
     </StackLayout>
 </ContentPage>
