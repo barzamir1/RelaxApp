@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:App1.ViewModels"
+             x:Class="App1.Pages.TherapistPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:UserAuthorizationModel/>
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <Label Text="My Clients"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+        <StackLayout Orientation="Vertical"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand">
+
+            <ListView x:Name="allowedUsersListView" ItemsSource="{Binding AllowedUsers}" Margin="10" HasUnevenRows="True"
+                          IsPullToRefreshEnabled="False" ItemSelected="ListView_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                             Orientation="Horizontal" Margin="5,5,5,5">
+                                <Label Text="{Binding FirstName}" FontSize="Medium"/>
+                                <Label Text="{Binding LastName}" FontSize="Medium"/>
+                                <Label Text="{Binding id}" IsVisible="False"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout Margin="10,10,10,10">
+                <StackLayout Orientation="Horizontal">
+                    <Entry x:Name="entryUserCode" Placeholder="Add user code"/>
+                    <Button x:Name="buttonAddUser" Text="Add" Clicked="AddUser_Clicked" />
+                </StackLayout>
+                <Label x:Name="labelUserCodeError" TextColor="Red"/>
+            </StackLayout>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

@@ -4,26 +4,36 @@
              x:Class="App1.Page1">
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name="LabelUserName" Text="Hello -name-!"
+            <ScrollView>
+                <StackLayout>
+                    <Label x:Name="LabelUserName" Text="Hello -name-!"
            HorizontalOptions="Center"
            Margin="50"
            VerticalOptions="CenterAndExpand"
            FontSize="Large"/>
-            <Button Text="Statistics"
+                    <Button Text="Statistics"
                 Clicked="openStatsPage" 
                 Style="{StaticResource buttonStyle}"/>
-            <Button Text="Test Me Now"
+                    <Button Text="Test Me Now"
                 Clicked="openTestMePage" 
                 Style="{StaticResource buttonStyle}"/>
-            <Button Text="Calm Me Down"
+                    <Button Text="Calm Me Down"
                 Clicked="openCalmMeDownPage"
                 Style="{StaticResource buttonStyle}"/>
-            <Button Text="Start Game"
+                    <Button Text="Start Game"
                 Clicked="gamePage" 
                 Style="{StaticResource buttonStyle}"/>
-            <Button Text="Signup"
+                    <Button Text="Signup"
                 Clicked="signup"
+                Style="{StaticResource buttonStyle}" IsVisible="False"/>
+                    <Button Text="Share my Data"
+                Clicked="shareData"
                 Style="{StaticResource buttonStyle}"/>
+                    <Button Text="Therapist"
+                Clicked="therapist"
+                Style="{StaticResource buttonStyle}" IsVisible="False"/>
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

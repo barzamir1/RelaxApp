@@ -87,6 +87,7 @@ namespace App1.Services
         public async Task<List<UserAuthorizations>> GetAllAuthUsers()
         {
             //await Initialize();
+            currentUserID = Login.Default.CurrentUser.id;
             await SyncAuthUsers();
             return await _userAuthorizations.ToListAsync();
         }
@@ -95,7 +96,9 @@ namespace App1.Services
         {
             try
             {
-                await _activities.PullAsync("UserAuthorizations", _userAuthorizations.CreateQuery());
+                await _userAuthorizations.PullAsync("UserAuthorizations", 
+                    _userAuthorizations.Where(item => item.TherapistID==currentUserID));
+                
                 await _mobileServiceClient.SyncContext.PushAsync();
             }
             catch (Exception ex)
@@ -106,10 +109,14 @@ namespace App1.Services
 
         public async Task<IEnumerable<Measurements>> GetMeasurements()
         {
-            if (currentUserID == null)
-                currentUserID = Login.Default.CurrentUser.id;
+            var currUser = Login.Default.CurrentUser;
+            if (currUser.isTherapist)
+                currentUserID = currUser.WatchingUserID;
+            else
+                currentUserID = currUser.id;
+
             await SyncMeasurements();
-            return await _measurements.Where(item=>item.UserID==currentUserID).ToEnumerableAsync();
+            return await _measurements.Where(item => item.UserID == currentUserID).ToEnumerableAsync();
         }
 
         public async Task AddActivity(Activities activity)
@@ -125,7 +132,18 @@ namespace App1.Services
             await _measurements.InsertAsync(m);
             await SyncMeasurements();
         }
-
+        public async Task AddAuthUser(UserAuthorizations userAuthorizations)
+        {
+            try
+            {
+                await _userAuthorizations.InsertAsync(userAuthorizations);
+                await SyncAuthUsers();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
         public async Task UpdateMeasurement(Measurements m)
         {
             await _measurements.UpdateAsync(m);

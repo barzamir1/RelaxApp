@@ -6,7 +6,9 @@ namespace App1.DataObjects
 {
     class UserAuthorizations
     {
-        public String id { set; get; }
+        [Newtonsoft.Json.JsonProperty("Id")]
+        public String id { set; get; } //key
+        public String TherapistID { set; get; }
         public String AuthorizedToViewUserID { set; get; }
     }
 }
