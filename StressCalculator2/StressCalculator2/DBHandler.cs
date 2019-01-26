@@ -132,6 +132,40 @@ namespace StressCalculator2
                 return StressIndexes;
             }
         }
+
+        /*
+       * returns the last 'maxResults' StressIndex values of when the user was relaxed or stressed,
+       * i.e. when IsStressed = 0 or 1
+       */
+        public static async Task<List<int>> GetPrevStressIndex(String UserID, int isStressed, int maxResults)
+        {
+            var connString = Environment.GetEnvironmentVariable("dbConnection");
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                List<int> StressIndexes = new List<int>();
+                String query = "SELECT TOP (@maxResults) StressIndex from Measurements " +
+                               "WHERE UserID=@UserID and IsStressed=@isStressed "+
+                               "order by Date desc";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                cmd.Parameters.AddWithValue("@isStressed", isStressed);
+                cmd.Parameters.AddWithValue("@maxResults", maxResults);
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                    while (reader.Read())
+                    {
+                        StressIndexes.Add(int.Parse(reader["StressIndex"].ToString()));
+                    }
+                    conn.Close();
+                    return StressIndexes;
+                }
+                catch(Exception ex) {
+                    Console.WriteLine(ex.Message); return null; }
+            }
+        }
+
         /*
         * returns the last StressIndex value of when the user was relaxed,
         * i.e. when IsStressed = 1
@@ -157,25 +191,7 @@ namespace StressCalculator2
                 return StressIndex;
             }
         }
-        public static async Task SendTestToDBAsync()
-        {
-            var connString = Environment.GetEnvironmentVariable("dbConnection");
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                conn.Open();
-                String query = "INSERT INTO Testing" +
-                                "(id, SomeField, Date) " +
-                                "VALUES" +
-                                "(@id, @SomeField, @Date) ";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", "1234");
-                cmd.Parameters.AddWithValue("@SomeField", "bar");
-                cmd.Parameters.AddWithValue("@Date", DateTime.Now);
-                // Execute the command
-                var rows = await cmd.ExecuteNonQueryAsync();
-                conn.Close();
-            }
-        }
+       
         public static async Task SendUserToDBAsync()
         {
             var connString = Environment.GetEnvironmentVariable("dbConnection");

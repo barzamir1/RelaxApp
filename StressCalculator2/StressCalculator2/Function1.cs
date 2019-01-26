@@ -19,6 +19,7 @@ namespace StressCalculator2
             String dd = JsonConvert.SerializeObject(DateTime.Now);
             // parse query parameter
             dynamic body = await req.Content.ReadAsStringAsync();
+
             var dict = req.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
             if (!(dict.ContainsKey("UserID") || dict.ContainsKey("intervalsArr") || dict.ContainsKey("ActivityName")
                 || dict.ContainsKey("DateTime") || dict.ContainsKey("GPSLat") || dict.ContainsKey("GPSLng")))

@@ -127,28 +127,30 @@ namespace StressCalculator2
         }
         public async Task SetIsStressed()
         {
-            List<int> relaxedStressIndexes = await DBHandler.GetPrevRelaxStressIndex(UserID);
-            int stressedStressIndex = await DBHandler.GetPrevStressedStressIndex(UserID);
+            List<int> relaxedStressIndexes = await DBHandler.GetPrevStressIndex(UserID, 0, 10);//await DBHandler.GetPrevRelaxStressIndex(UserID);
+            List<int> StressedStressIndexes = await DBHandler.GetPrevStressIndex(UserID, 1, 10);
+            //int stressedStressIndex = await DBHandler.GetPrevStressedStressIndex(UserID);
 
             if (relaxedStressIndexes.Count == 0)
             {
                 IsStressed = 0; //the first measurement for this user.
                 return;
             }
-            else if (relaxedStressIndexes.Count == 1 && stressedStressIndex==-1)
+            else if (relaxedStressIndexes.Count == 1 && StressedStressIndexes.Count == 0)
             {
                 IsStressed = 1; //second measurement
                 return;
             }
             else
             {
-                int maxRelaxed = relaxedStressIndexes.Max();
-                if (this.StressIndex <= maxRelaxed || this.StressIndex <= 1.1 * maxRelaxed)
+                double relaxedAvg = relaxedStressIndexes.Average();
+                if (this.StressIndex <= relaxedAvg || this.StressIndex <= 1.1 * relaxedAvg)
                     this.IsStressed = 0;
             }
-            if (stressedStressIndex != -1) //the user already had a stress moment
+            if (StressedStressIndexes.Count >0 ) //the user already had a stress moment
             {
-                if (0.80 * stressedStressIndex <= this.StressIndex) //stress index is at least 80% of the last stressed moment
+                double stressedAvg = StressedStressIndexes.Average();
+                if (0.80 * stressedAvg <= this.StressIndex) //stress index is at least 80% of the last stressed moment
                     IsStressed = 1;
             }
         }
