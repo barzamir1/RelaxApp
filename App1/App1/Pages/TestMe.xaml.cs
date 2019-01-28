@@ -101,21 +101,25 @@ namespace App1
                 if (b.Progress < 1)
                 {
                     msPass += 50;
-                    b.Progress = msPass / (90 * 1000);
+                    b.Progress = msPass / (100 * 1000);
                     if (b.StressResult.StartsWith("Error")) { return false; }
                     return true;
                 }
                 if (isSignup)
                 {
                     if (b.StressResult.StartsWith("you")) //succeeded
-                    { 
-                        Navigation.PushAsync(new Pages.SignupStressTest());
-                        Navigation.RemovePage(this); //user can't go back
+                    {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await Navigation.PushAsync(new Pages.SignupStressTest());
+                            Navigation.RemovePage(this); //user can't go back});
+                    });
                     }
                 }
                 return false;
             });
         }
+    
 
         private void ButtonRRrelax_Clicked(object sender, EventArgs e)
         {
