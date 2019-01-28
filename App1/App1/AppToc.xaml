@@ -12,26 +12,26 @@
            VerticalOptions="CenterAndExpand"
            FontSize="Large"/>
                     <Button Text="Statistics"
-                Clicked="openStatsPage" 
-                Style="{StaticResource buttonStyle}"/>
+                            Clicked="openStatsPage" 
+                            Style="{StaticResource buttonStyle}"/>
                     <Button Text="Test Me Now"
-                Clicked="openTestMePage" 
-                Style="{StaticResource buttonStyle}"/>
+                            Clicked="openTestMePage" 
+                            Style="{StaticResource buttonStyle}"/>
                     <Button Text="Calm Me Down"
-                Clicked="openCalmMeDownPage"
-                Style="{StaticResource buttonStyle}"/>
+                            Clicked="openCalmMeDownPage"
+                            Style="{StaticResource buttonStyle}"/>
                     <Button Text="Start Game"
-                Clicked="gamePage" 
-                Style="{StaticResource buttonStyle}"/>
+                            Clicked="gamePage" 
+                            Style="{StaticResource buttonStyle}"/>
                     <Button Text="Signup"
-                Clicked="signup"
-                Style="{StaticResource buttonStyle}" IsVisible="False"/>
+                            Clicked="signup"
+                            Style="{StaticResource buttonStyle}" IsVisible="False"/>
                     <Button Text="Share my Data"
-                Clicked="shareData"
-                Style="{StaticResource buttonStyle}"/>
+                            Clicked="shareData"
+                            Style="{StaticResource buttonStyle}"/>
                     <Button Text="Therapist"
-                Clicked="therapist"
-                Style="{StaticResource buttonStyle}" IsVisible="False"/>
+                            Clicked="therapist"
+                            Style="{StaticResource buttonStyle}" IsVisible="False"/>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

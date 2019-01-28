@@ -111,7 +111,7 @@ namespace App1
         {
             int size = 8;
             String chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-            Random rand = new Random(DateTime.Now.Minute);
+            Random rand = new Random();
             char[] selectedChars = new char[size];
             for(int i=0; i<size; i++)
             {

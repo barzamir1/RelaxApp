@@ -25,8 +25,13 @@ namespace App1.Pages
             var loading = new LoadingAnimation();
             Children.Add(loading);
 
+            //if IsInitialized => reload all data
+            bool reloadData = MeasurementsPageViewModel.IsInitialized;
+                
             //make sure all tables are loaded when creating the following pages
             var model = await MeasurementsPageViewModel.GetInstance();
+            if (reloadData)
+                await model.InitializeMeasurement();
 
             Children.Add(new CalendarStats() { Title = "Calendar", Icon = "calendar.png" });
             Children.Add(new PinPage() { Title = "Map", Icon = "map.png" });

@@ -17,6 +17,7 @@ namespace App1.ViewModels
         private ObservableCollection<Measurements> _measurements;
         private ObservableCollection<Measurements> _filteredMeasurements;
         private List<String> _activities;
+        private List<Activities> allActivities;
         //private string _userID;
         //private DateTime _date;
         //private int _tRI;
@@ -50,6 +51,7 @@ namespace App1.ViewModels
             if (_instance == null)
             {
                 _instance = new MeasurementsPageViewModel();
+                await _instance.InitializeActivities();
                 await _instance.InitializeMeasurement();
             }
             return _instance;
@@ -59,11 +61,9 @@ namespace App1.ViewModels
         {
             MeasurementsObj.Clear();
             FilteredMeasurementsObj.Clear();
-            Activities.Clear();
 
             var measurement = await _azureDataService.GetMeasurements();
-            var allActivities = await _azureDataService._activities.ToListAsync();
-            
+
             foreach (var measure in measurement)
             {
                 var acName = allActivities.Where(item => item.Id == measure.ActivityID).ToList();
@@ -72,10 +72,18 @@ namespace App1.ViewModels
                 measure.LabelColor = measure.IsStressed > 0 ? "Red" : "Default";
                 MeasurementsObj.Add(measure);
             }
-            allActivities.ForEach(item => { if (item.Name != null) { _activities.Add(item.Name); } });
+            
             return true;
         }
 
+        public async Task InitializeActivities()
+        {
+            Activities.Clear();
+            allActivities = await _azureDataService._activities.ToListAsync();
+            allActivities.ForEach(item => { if (item.Name != null) { _activities.Add(item.Name); } });
+        }
+
+        public static bool IsInitialized { get { return _instance != null; } }
         public ObservableCollection<Measurements> MeasurementsObj
         {
             get { return _measurements; }
