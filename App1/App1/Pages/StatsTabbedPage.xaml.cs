@@ -31,7 +31,10 @@ namespace App1.Pages
             //make sure all tables are loaded when creating the following pages
             var model = await MeasurementsPageViewModel.GetInstance();
             if (reloadData)
+            {
                 await model.InitializeMeasurement();
+                await model.InitializeActivities();
+            }
 
             Children.Add(new CalendarStats() { Title = "Calendar", Icon = "calendar.png" });
             Children.Add(new PinPage() { Title = "Map", Icon = "map.png" });

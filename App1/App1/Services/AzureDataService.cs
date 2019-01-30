@@ -116,7 +116,8 @@ namespace App1.Services
                 currentUserID = currUser.id;
 
             await SyncMeasurements();
-            return await _measurements.Where(item => item.UserID == currentUserID).ToEnumerableAsync();
+            return await _measurements.Where(item => item.UserID == currentUserID)
+                .OrderByDescending(item=>item.Date).ToEnumerableAsync();
         }
 
         public async Task AddActivity(Activities activity)
