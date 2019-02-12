@@ -39,6 +39,7 @@ namespace App1
                 user.Occupation = occupation.Text;
                 user.EmergencyContactName = emergencyContactName.Text;
                 user.EmergencyContactPhone = emergencyContactPhone.Text;
+                user.EmergencyContactEmail = emergencyContactEmail.Text;
                 user.isTherapist = false;
             }
             else //therapist
@@ -57,6 +58,7 @@ namespace App1
                 await Navigation.PushAsync(new SignupRelaxTest()); //navigate to test me relaxed
             Navigation.RemovePage(this);
         }
+
         private bool ValidateInput()
         {
             if (firstName.Text == null || !isAlphabetic(firstName.Text))
@@ -80,6 +82,13 @@ namespace App1
                 if (!isNumeric(emergencyContactPhone.Text))
                     return false;
             }
+            // validate email address - allow empty field
+            if (emergencyContactEmail.Text != null && emergencyContactEmail.Text != "")
+            {
+                if (!isValidEmail(emergencyContactEmail.Text))
+                    return false;
+            }
+
             return true;
 
         }
@@ -94,6 +103,19 @@ namespace App1
             Regex pattern = new Regex("[0-9]");
             bool res = pattern.IsMatch(text);
             return res;
+        }
+
+                private bool isValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private void IsTherapistPicker_SelectedIndexChanged(object sender, EventArgs e)
