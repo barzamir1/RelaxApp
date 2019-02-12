@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
+
 namespace App1.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -22,7 +23,9 @@ namespace App1.Pages
         }
 
             static async Task Execute()
-            {
+        {
+           
+            // send mail to EmergencyContactEmail
             if (Login.Default.CurrentUser.EmergencyContactEmail != null && Login.Default.CurrentUser.EmergencyContactEmail != "")
             {
                 //var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
@@ -44,7 +47,5 @@ namespace App1.Pages
 
         }
         
-
-
     }
 }

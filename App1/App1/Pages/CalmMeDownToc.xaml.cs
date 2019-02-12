@@ -25,5 +25,13 @@ namespace App1
             if (phoneDialer.CanMakePhoneCall)
                 phoneDialer.MakePhoneCall(Login.Default.CurrentUser.EmergencyContactPhone);
         }
+
+
+        public async void youtubeClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new Pages.YoutubePage());
+        }
+
+
     }
 }
