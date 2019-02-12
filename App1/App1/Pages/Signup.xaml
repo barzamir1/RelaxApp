@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.Signup">
+    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+        <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Entry x:Name="firstName" Placeholder="First Name"></Entry>
+                    <Entry x:Name="lastName" Placeholder="Last Name"></Entry>
+                </StackLayout>
+                <Label Text="Date Of Birth" FontSize="Medium"></Label>
+                <DatePicker x:Name="dobPicker" Format="dd/MM/yyyy"></DatePicker>
+                <Picker x:Name="genderPicker" HorizontalOptions="FillAndExpand" Title="Gender">
+                    <Picker.Items>
+                        <x:String>male</x:String>
+                        <x:String>female</x:String>
+                        <x:String>other</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label Text="select type"/>
+                <Picker x:Name="isTherapistPicker" HorizontalOptions="FillAndExpand" 
+                        Title="User Type" SelectedIndexChanged="IsTherapistPicker_SelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>User</x:String>
+                        <x:String>Therapist</x:String>
+                    </Picker.Items>
+                </Picker>
+                <StackLayout x:Name="UserExtraDetails">
+                    <Entry x:Name="occupation" Placeholder="Occupation"></Entry>
+                    <Label Text="Pick an emergency contact to call when your are stressed (optional)"></Label>
+                    <Entry x:Name="emergencyContactName" Placeholder="Emergency Contact Name"></Entry>
+                    <Entry x:Name="emergencyContactPhone" Placeholder="Emergency Contact Phone" Keyboard="Telephone"></Entry>
+                    <Label x:Name="errorLabel" Text="" IsVisible="False" TextColor="Red"/>
+                </StackLayout>
+                
+                <Button Text="Sign Up" Clicked="Signup_Clicked" Style="{StaticResource buttonStyle}"></Button>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>

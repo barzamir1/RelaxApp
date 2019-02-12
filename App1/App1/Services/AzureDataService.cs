@@ -1,70 +1,152 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App1.DataObjects;
+﻿using App1.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace App1.Services
 {
     class AzureDataService
     {
-        private MobileServiceClient _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net/");
-        IMobileServiceSyncTable<Activities> _activities;
+        static AzureDataService instance;
+        //public MobileServiceClient _mobileServiceClient = Login.Default.ServiceClient;
+        String currentUserID;
+        public MobileServiceClient _mobileServiceClient = new MobileServiceClient("https://relaxapp.azurewebsites.net/");
+        public IMobileServiceSyncTable<Activities> _activities;
         IMobileServiceSyncTable<Measurements> _measurements;
+        IMobileServiceSyncTable<Users> _users;
+        IMobileServiceSyncTable<UserAuthorizations> _userAuthorizations;
 
+        public static AzureDataService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new AzureDataService();
+                    instance.Initialize();
+                }
+                return instance;
+            }
+        }
         public async Task Initialize()
         {
-            if (_mobileServiceClient?.SyncContext?.IsInitialized ?? false)
-                return;
-
             const string path = "syncstore.db";
-            //setup our local sqlite store and intialize our table
-            var store = new MobileServiceSQLiteStore(path);
+            //setup our local sqlite store and initialize our table
+            MobileServiceSQLiteStore store = new MobileServiceSQLiteStore(path);
             store.DefineTable<Activities>();
             store.DefineTable<Measurements>();
+            store.DefineTable<Users>();
+            store.DefineTable<UserAuthorizations>();
             await _mobileServiceClient.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
 
             //Get our sync table that will call out to azure
             _activities = _mobileServiceClient.GetSyncTable<Activities>();
             _measurements = _mobileServiceClient.GetSyncTable<Measurements>();
+            _users = _mobileServiceClient.GetSyncTable<Users>();
+            _userAuthorizations = _mobileServiceClient.GetSyncTable<UserAuthorizations>();
+            currentUserID = _mobileServiceClient.CurrentUser.UserId;
         }
 
         public async Task<IEnumerable<Activities>> GetActivities()
         {
-            await Initialize();
+            //await Initialize();
             await SyncActivties();
             return await _activities.ToEnumerableAsync();
+        }
+        public async Task<List<Activities>> GetActivitiesList()
+        {
+            //await Initialize();
+            await SyncActivties();
+            return await _activities.ToListAsync();
+        }
+
+        public async Task<List<Users>> GetAllUsers()
+        {
+            //await Initialize();
+            await SyncUsers();
+            return await _users.ToListAsync();
+        }
+
+        public async Task SyncUsers()
+        {
+            try
+            {
+                await _activities.PullAsync("Users", _users.CreateQuery());
+                await _mobileServiceClient.SyncContext.PushAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task<List<UserAuthorizations>> GetAllAuthUsers()
+        {
+            //await Initialize();
+            currentUserID = Login.Default.CurrentUser.id;
+            await SyncAuthUsers();
+            return await _userAuthorizations.ToListAsync();
+        }
+
+        public async Task SyncAuthUsers()
+        {
+            try
+            {
+                await _userAuthorizations.PullAsync("UserAuthorizations", 
+                    _userAuthorizations.Where(item => item.TherapistID==currentUserID));
+                
+                await _mobileServiceClient.SyncContext.PushAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<Measurements>> GetMeasurements()
         {
-            await Initialize();
-            await SyncMeasurements();
-            return await _measurements.ToEnumerableAsync();
-        }
+            var currUser = Login.Default.CurrentUser;
+            if (currUser.isTherapist)
+                currentUserID = currUser.WatchingUserID;
+            else
+                currentUserID = currUser.id;
 
+            await SyncMeasurements();
+            return await _measurements.Where(item => item.UserID == currentUserID).ToEnumerableAsync();
+        }
 
         public async Task AddActivity(Activities activity)
         {
-            await Initialize();
-
+            //await Initialize
             await _activities.InsertAsync(activity);
-
-            await SyncActivties();
+            //await SyncActivties();
         }
 
         public async Task AddMeasurement(Measurements m)
         {
-            await Initialize();
-
+            //await Initialize
             await _measurements.InsertAsync(m);
-
+            await SyncMeasurements();
+        }
+        public async Task AddAuthUser(UserAuthorizations userAuthorizations)
+        {
+            try
+            {
+                await _userAuthorizations.InsertAsync(userAuthorizations);
+                await SyncAuthUsers();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        public async Task UpdateMeasurement(Measurements m)
+        {
+            await _measurements.UpdateAsync(m);
             await SyncMeasurements();
         }
 
@@ -74,7 +156,6 @@ namespace App1.Services
             {
                 await _activities.PullAsync("Activities", _activities.CreateQuery());
                 await _mobileServiceClient.SyncContext.PushAsync();
-
             }
             catch (Exception ex)
             {
@@ -86,9 +167,8 @@ namespace App1.Services
         {
             try
             {
-                await _measurements.PullAsync("Measurements", _measurements.CreateQuery());
+                await _measurements.PullAsync("Measurements", _measurements.Where(item => item.UserID == currentUserID));
                 await _mobileServiceClient.SyncContext.PushAsync();
-
             }
             catch (Exception ex)
             {
@@ -96,6 +176,5 @@ namespace App1.Services
             }
         }
     }
-
-
 }
+

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace App1.DataObjects
 {
-    class Measurements
+    public class Measurements
     {
         public string Id { get; set; }
         public string UserID { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { set; get; }
         public int TRI {get; set; }
         public double PNN50 { get; set; }
         public double SDNN { get; set; }
@@ -19,5 +19,10 @@ namespace App1.DataObjects
         public double GPSLat { get; set; }
         public double GPSLng { get; set; }
 
+        //not a part of Measurements table:
+        [Newtonsoft.Json.JsonIgnore]
+        public string ActivityName { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
+        public string LabelColor { get; set; }
     }
 }

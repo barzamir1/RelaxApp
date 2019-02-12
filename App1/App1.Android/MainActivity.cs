@@ -1,16 +1,12 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using Android.Gms.Location;
 using Android.OS;
-
-using Xamarin.Forms;
-using Microsoft.Band;
-using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 
 namespace App1.Droid
 {
@@ -20,6 +16,31 @@ namespace App1.Droid
         public static Android.Content.Context context;
         public static Activity instance;
 
+        public static FusedLocationProviderClient fusedLocationProviderClient;
+
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            //To get the current location
+            fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
+
+            TabLayoutResource = Resource.Layout.Tabbar;
+            ToolbarResource = Resource.Layout.Toolbar;
+            base.OnCreate(savedInstanceState);
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            context = this.ApplicationContext;
+            instance = this;
+
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
+            
+            //For Maps
+            global::Xamarin.FormsMaps.Init(this, savedInstanceState);
+
+            LoadApplication(new App());
+        }
+
         public async Task<bool> Authenticate()
         {
             var success = false;
@@ -27,11 +48,11 @@ namespace App1.Droid
             try
             {
                 // Sign in with Google login using a server-managed flow.
-                var user = await Login.Default.ServiceClient.LoginAsync(this,
-                    MobileServiceAuthenticationProvider.Google, "androidrelaxapp");
+                var user = await Login.Default.ServiceClient.LoginAsync(this, MobileServiceAuthenticationProvider.Google,
+                    "androidrelaxapp", new Dictionary<string, string>() { { "access_type", "offline" } });
+
                 if (user != null)
                     success = true;
-                
             }
             catch (Exception ex)
             {
@@ -49,18 +70,35 @@ namespace App1.Droid
             return success;
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        public override void OnBackPressed()
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
-            base.OnCreate(savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            context = this.ApplicationContext;
-            instance = this;
-            LoadApplication(new App());
-
-            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
-            App.Init((IAuthenticate)this); //create IAuthenticate object in App.cs
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+                // Do something if there are some pages in the `PopupStack`
+            }
+            else
+            {
+                // Do something if there are not any pages in the `PopupStack`
+            }
         }
+
+        //public void ScheduleMeasurement(int minutes)
+        //{
+        //    dispatcher = this.CreateJobDispatcher();
+        //    JobTrigger.ExecutionWindowTrigger trigger = Firebase.JobDispatcher.Trigger.ExecutionWindow(minutes * 60, minutes * 60 + 10);
+
+        //    var job = dispatcher.NewJobBuilder()
+        //                        .SetService<MeasurementJob>("measurement-service")
+        //                        .SetRecurring(true)
+        //                        .SetTrigger(trigger)
+        //                        .SetLifetime(Lifetime.Forever)
+        //                        .Build();
+
+        //    int result = dispatcher.Schedule(job);
+        //    if (result == FirebaseJobDispatcher.ScheduleResultSuccess)
+        //        Console.WriteLine("Job succeeded");
+        //    else
+        //        Console.WriteLine("Job failed");
+        //}
     }
 }

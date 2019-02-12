@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:App1"
+             x:Class="App1.TestMe">
+    <ContentPage.BindingContext>
+        <local:TestMeViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+        <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <Label Text="Test me now!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+                <Label x:Name="isConnectedLabel" Text="{Binding IsConnected, StringFormat='connected: {0}'}"
+                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Medium"/>
+                <!--<Label x:Name="GSRLabel" Text="{Binding GSR, StringFormat='your GSR is: {0}'}"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>
+                <Label x:Name="GSRWindowLabel" Text="{Binding GsrList}"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>
+                <Label x:Name="RRLabel" Text="{Binding PNN50,StringFormat='your PNN50 is: {0:0.##}%'}"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>-->
+                <ProgressBar x:Name="progressBar" 
+                         HorizontalOptions="Center"
+                         VerticalOptions="End"
+                         WidthRequest="60"
+                         Margin="20,0,20,0"
+                         Scale="5"
+                    Progress="{Binding Progress}">
+                </ProgressBar>
+
+                <Label x:Name="labelStressResults" Text="{Binding StressResult}" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
+               <!-- <Button x:Name="buttonConnect" Text="connect" Clicked="ButtonConnect_Clicked"/>
+                <Button x:Name="buttonHR" Text="get HR" Clicked="ButtonHR_Clicked"/>
+                <Button x:Name="buttonGSR" Text="get GSR" Clicked="ButtonGSR_Clicked"/>
+                <Button x:Name="buttonRRInterval" Text="get PNN50" Clicked="ButtonRRInterval_Clicked"/>-->
+                <Button x:Name="buttonRRTest" Text="Test Me Now" Clicked="ButtonReal_Clicked" IsEnabled="{Binding IsFinished}" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="buttonRRrelax" IsVisible="False" Text="Test Me Relaxed" Clicked="ButtonRRrelax_Clicked" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="buttonRRstress" IsVisible="False" Text="Test Me Stressed" Clicked="ButtonRRstress_Clicked" Style="{StaticResource buttonStyle}"/>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+
+</ContentPage>

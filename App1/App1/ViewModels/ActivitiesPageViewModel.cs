@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using App1.DataObjects;
+using App1.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using App1.DataObjects;
-using App1.Services;
 using Xamarin.Forms;
 
 namespace App1.ViewModels
@@ -19,7 +14,8 @@ namespace App1.ViewModels
         private string _name;
         private int _counter;
         private ICommand _addActivity;
-        private AzureDataService _azureDataService = new AzureDataService();
+        // private AzureDataService _azureDataService = new AzureDataService();
+        private AzureDataService _azureDataService = AzureDataService.Instance;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -87,6 +83,7 @@ namespace App1.ViewModels
 
                     ActivitiesObj.Add(newActivity);
                     await _azureDataService.AddActivity(newActivity);
+                    await _azureDataService.SyncActivties();
                 });
             }
         }

@@ -4,9 +4,9 @@
              xmlns:viewModels="clr-namespace:App1.ViewModels"
              x:Class="App1.Pages.LastMeasurementsListPage"
              Title="Last Measurements Page">
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModels:MeasurementsPageViewModel></viewModels:MeasurementsPageViewModel>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     <ContentPage.Content>
         <StackLayout Orientation="Vertical"
                  HorizontalOptions="FillAndExpand"
@@ -23,7 +23,7 @@
                            VerticalOptions="FillAndExpand"
                            Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Date, StringFormat='Date: {0}'}"></Label>
+                                    <Label Text="{Binding Date, StringFormat='\{0:dd/MM/yy HH:mm}'}"></Label>
                                     <Label Text="{Binding StressIndex, StringFormat='Stress Index: {0}'}"></Label>
                                     <Label Text="{Binding IsStressed, StringFormat='Is Stress Moment? {0}'}"></Label>
                                 </StackLayout>

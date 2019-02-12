@@ -1,16 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.App1" android:installLocation="internalOnly">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.App1" android:installLocation="preferExternal">
+	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="22" />
 	<uses-permission android:name="android.permission.BLUETOOTH" />
-  <uses-permission android:name="com.microsoft.band.service.access.BIND_BAND_SERVICE" />
-	<application android:label="App1.Android">
-    <activity android:name="com.microsoft.windowsazure.mobileservices.authentication.RedirectUrlActivity" android:launchMode="singleTop" android:noHistory="true">
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="androidrelaxapp" android:host="easyauth.callback" />
-      </intent-filter>
-    </activity>
-  </application>
+	<uses-permission android:name="com.microsoft.band.service.access.BIND_BAND_SERVICE" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <application android:label="App1.Android" android:icon="@drawable/Calendar">
+    <!--For the maps-->
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCMLzB9F6q79qxkt7BKVn3bhgW90FXHTfk" />
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+		<uses-permission android:name="android.permission.INTERNET" />
+		<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+		<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+		<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+		<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+		<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+		<activity android:name="com.microsoft.windowsazure.mobileservices.authentication.RedirectUrlActivity" android:launchMode="singleTop" android:noHistory="true">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="androidrelaxapp" android:host="easyauth.callback" />
+			</intent-filter>
+		</activity>
+	</application>
 </manifest>
