@@ -54,7 +54,7 @@
                                                                TextChanged="AutoSuggestBox_TextChanged" PlaceholderText="{Binding ActivityName}"
                                                                SuggestionChosen="AutoSuggestBox_SuggestionChosen"
                                                                QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>-->
-                                        
+
                                         <!--<controls:AutoCompleteView x:Name="autoCompleteView"
 
                                    BindingContextChanged="AutoCompleteView_BindingContextChanged"

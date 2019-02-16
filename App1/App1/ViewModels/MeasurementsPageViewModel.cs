@@ -80,7 +80,11 @@ namespace App1.ViewModels
         {
             Activities.Clear();
             allActivities = await _azureDataService._activities.ToListAsync();
-            allActivities.ForEach(item => { if (item.Name != null) { _activities.Add(item.Name); } });
+            foreach(Activities item in allActivities)
+            {
+                if (item.Name != null)
+                    _activities.Add(item.Name);
+            }
         }
 
         public static bool IsInitialized { get { return _instance != null; } }

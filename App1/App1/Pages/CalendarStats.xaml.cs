@@ -71,8 +71,8 @@ namespace App1.Pages
                 var currDayMeasure = model.MeasurementsObj.Where(item =>
                item.Date.CompareTo(day) > 0 && //measurement is later than day at midnight
                item.Date.CompareTo(day.AddDays(1)) < 0)  //measurement is earlier than day+1 at midnight
-               .OrderBy(item => item.Date); 
-               if (stressedOnly)
+               .OrderBy(item => item.Date);
+                if (stressedOnly)
                     return currDayMeasure.Where(item => item.IsStressed == 1).ToList();
                 else
                     return currDayMeasure.ToList();
@@ -119,6 +119,7 @@ namespace App1.Pages
         {
             setChart();
         }
+
     }
 
 }

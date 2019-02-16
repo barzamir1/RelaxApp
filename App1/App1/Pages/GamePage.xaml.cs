@@ -40,7 +40,8 @@ namespace App1
                             return;
                         }
                     }
-                    DependencyService.Get<ISchedule>().ScheduleMeasurement(6); //Schedule measurement every 6 minutes
+                    //int repetitionTime = MeasurementHandler.measureRepetitionTime;
+                    //DependencyService.Get<ISchedule>().ScheduleMeasurement(repetitionTime); //Schedule measurement every 6 minutes
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(onFinish);
 
                 });

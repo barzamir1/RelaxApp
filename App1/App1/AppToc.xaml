@@ -22,7 +22,7 @@
                             Style="{StaticResource buttonStyle}"/>
                     <Button Text="Start Game"
                             Clicked="gamePage" 
-                            Style="{StaticResource buttonStyle}"/>
+                            Style="{StaticResource buttonStyle}" IsVisible="False"/> 
                     <Button Text="Signup"
                             Clicked="signup"
                             Style="{StaticResource buttonStyle}" IsVisible="False"/>

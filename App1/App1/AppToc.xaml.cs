@@ -14,6 +14,8 @@ namespace App1
             if (Login.Default.CurrentUser != null)
             {
                 LabelUserName.Text = "Hello " + Login.Default.CurrentUser.FirstName;
+                int repetitionTime = MeasurementHandler.measureRepetitionTime;
+                DependencyService.Get<ISchedule>().ScheduleMeasurement(repetitionTime); //Schedule measurement every 6 minutes
             }
         }
 
