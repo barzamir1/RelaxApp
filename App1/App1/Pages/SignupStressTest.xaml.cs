@@ -15,6 +15,7 @@ namespace App1.Pages
         private async void Start_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new GamePage());
+            Navigation.RemovePage(this);
         }
     }
 }

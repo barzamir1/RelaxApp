@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.Pages.SignupStressTest">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="test me stressed"
+        <StackLayout Margin="10,10,10,10">
+            <Label Text="Last Step!"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+            <Label Text="You are going to play a simple game of Pong, while we'll be running some tests. Make sure to turn up the volume"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" FontSize="Medium"/>
             <Button Text="continue" Clicked="Start_Clicked"  Style="{StaticResource buttonStyle}"/>
         </StackLayout>
     </ContentPage.Content>

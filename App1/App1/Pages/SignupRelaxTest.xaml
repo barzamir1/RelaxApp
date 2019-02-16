@@ -3,11 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.Pages.SignupRelaxTest">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="test me relaxed"
+        <StackLayout Margin="10,10,10,10">
+            <Label Text="Lets Get Started!"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button Text="continue" Clicked="Start_Clicked"  Style="{StaticResource buttonStyle}"/>
+                HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+            <Label Text="The entire process should take about 3 minutes. Make sure you stay still and quiet."
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" FontSize="Medium"/>
+            <Button Text="I'm ready" Clicked="Start_Clicked"  Style="{StaticResource buttonStyle}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
