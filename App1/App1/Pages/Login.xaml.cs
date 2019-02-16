@@ -66,6 +66,8 @@ namespace App1
         }
         async void LoginButton_Clicked(object sender, EventArgs e)
         {
+            activityIndicator.IsRunning = true;
+            loginButton.IsEnabled = false;
             if (App.Authenticator != null)
                 authenticated = await App.Authenticator.Authenticate();
             try
@@ -77,10 +79,14 @@ namespace App1
                     currentUser = await UsersTable.LookupAsync(userId); //check if user exist in Users table
                     NavigateNextPage();
                 }
+                loginButton.IsEnabled = true;
+                activityIndicator.IsRunning = false;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                activityIndicator.IsRunning = false;
+                loginButton.IsEnabled = true;
             }
         }
         async void NavigateNextPage()
@@ -99,6 +105,8 @@ namespace App1
                     await Navigation.PushAsync(new Page1()); //navigate to home page
             }
             Navigation.RemovePage(this); //no going back
+            activityIndicator.IsRunning = false;
+            loginButton.IsEnabled = true;
         }
     }
 }

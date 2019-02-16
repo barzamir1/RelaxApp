@@ -12,7 +12,8 @@ namespace App1
 {
     public class MeasurementHandler
     {
-        private static int _testTime = 90; //90 seconds measurements
+        public static int testTimeInSec = 60; //60 seconds measurements
+        public static int measureRepetitionTime = 6; //repeat every 6 minutes
         public static double _stressIndex = 0;
 
         public static async Task GetStressResult(int pseudo, TestMeViewModel b)
@@ -27,7 +28,8 @@ namespace App1
                     return; //can't connect to band
                 }
                 b.StressResult = "Reading...";
-                await DependencyService.Get<IBand>().readRRSensor(b,_testTime);
+                await DependencyService.Get<IBand>().RequestConsent();
+                await DependencyService.Get<IBand>().readRRSensor(b,testTimeInSec);
                 rrIntervals = DependencyService.Get<IBand>().RRIntervalReadings();
                 
             }
@@ -83,7 +85,7 @@ namespace App1
             {
                 Console.WriteLine(ex.Message);
                 b.StressResult = "Error: could not connect to Azure. Make sure your phone is connected to the Internet";
-                return false; //failed
+                return false;
             }
         }
        

@@ -15,7 +15,8 @@
             <ListView ItemsSource="{Binding MeasurementsObj}"
                 Margin="10"
                 HasUnevenRows="True"
-                IsPullToRefreshEnabled="True">
+                IsPullToRefreshEnabled="False"
+                SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -23,9 +24,9 @@
                            VerticalOptions="FillAndExpand"
                            Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Date, StringFormat='\{0:dd/MM/yy HH:mm}'}"></Label>
-                                    <Label Text="{Binding StressIndex, StringFormat='Stress Index: {0}'}"></Label>
-                                    <Label Text="{Binding IsStressed, StringFormat='Is Stress Moment? {0}'}"></Label>
+                                    <Label Text="{Binding Date, StringFormat='\{0:dd/MM/yy HH:mm}'}" FontAttributes="Bold"/>
+                                    <Label Text="{Binding StressIndex, StringFormat='Stress Index: {0}'}" TextColor="{Binding LabelColor}"/>
+                                    <Label Text="{Binding ActivityName, StringFormat='Activity: {0}'}"/>
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell>

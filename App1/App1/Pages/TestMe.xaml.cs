@@ -96,12 +96,13 @@ namespace App1
             b.Progress = 0;
             thread.Start();
             double msPass = 0;
+            int testTime = MeasurementHandler.testTimeInSec;
             Device.StartTimer(TimeSpan.FromMilliseconds(50), () =>
             {
                 if (b.Progress < 1)
                 {
                     msPass += 50;
-                    b.Progress = msPass / (100 * 1000);
+                    b.Progress = msPass <= testTime * 1000 ? msPass / (testTime * 1000) : (msPass - 1) / msPass;
                     if (b.StressResult.StartsWith("Error")) { return false; }
                     return true;
                 }
@@ -113,10 +114,14 @@ namespace App1
                         {
                             await Navigation.PushAsync(new Pages.SignupStressTest());
                             Navigation.RemovePage(this); //user can't go back});
-                    });
+                        });
+                        return false;
                     }
+                    return true;
                 }
-                return false;
+                else
+                    return false;
+                
             });
         }
     
