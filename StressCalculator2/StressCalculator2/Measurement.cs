@@ -139,6 +139,8 @@ namespace StressCalculator2
             else if (relaxedStressIndexes.Count == 1 && StressedStressIndexes.Count == 0)
             {
                 IsStressed = 1; //second measurement
+                if (this.StressIndex - relaxedStressIndexes[0] < 10)
+                    this.StressIndex = relaxedStressIndexes[0] + 10;
                 return;
             }
             else

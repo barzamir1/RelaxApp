@@ -25,10 +25,12 @@ namespace App1.Droid.Service
             JobTrigger.ExecutionWindowTrigger trigger = Firebase.JobDispatcher.Trigger.ExecutionWindow(minutes * 60, minutes * 60 + 10);
 
             var job = dispatcher.NewJobBuilder()
+                                .SetTag("MeasurementService") //unique tag
                                 .SetService<MeasurementJob>("measurement-service")
                                 .SetRecurring(true)
                                 .SetTrigger(trigger)
                                 .SetLifetime(Lifetime.Forever)
+                                .SetReplaceCurrent(true) //replace previous defined job
                                 .Build();
 
             int result = dispatcher.Schedule(job);

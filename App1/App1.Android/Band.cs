@@ -225,7 +225,7 @@ namespace App1
                 //  });
             };
         }
-        public async void RequestConsent()
+        public async Task RequestConsent()
         {
             //check user's consent to read HR. should only occur once
             if (_client.SensorManager.CurrentHeartRateConsent != UserConsent.Granted)
