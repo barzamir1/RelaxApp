@@ -19,6 +19,11 @@ namespace App1
             }
         }
 
+        protected override void OnAppearing()
+        {
+            LabelUserName.Text = "Hello " + Login.Default.CurrentUser.FirstName;
+        }
+
         public async void openStatsPage(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new StatsTabbedPage());

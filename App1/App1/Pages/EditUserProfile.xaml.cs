@@ -90,7 +90,7 @@ namespace App1.Pages
             // popup - changes are saved
             await DisplayAlert("Details Updated!", "", "OK");
             // go back to AppToc page
-            App.Current.MainPage = new App1.Page1();
+            await Navigation.PopToRootAsync();
         }
 
         private int ValidateInput()
