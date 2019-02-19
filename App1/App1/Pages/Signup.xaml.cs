@@ -56,6 +56,7 @@ namespace App1
                 await Navigation.PushAsync(new TherapistPage());
             else 
                 await Navigation.PushAsync(new SignupRelaxTest()); //navigate to test me relaxed
+
             Navigation.RemovePage(this);
         }
 

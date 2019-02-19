@@ -29,54 +29,95 @@ namespace App1.Pages
             emergencyContactEmail.Text = Login.Default.CurrentUser.EmergencyContactEmail;
         }
 
+        // constructor overloading
+        public EditUserProfile(String first, String last, String occ, String emergencyName, String emergencyPhone) //, String emergencyEmail
+        {
+            InitializeComponent();
+            user = Login.Default.CurrentUser;
+            firstName.Text = first;
+            lastName.Text = last;
+            occupation.Text = occ;
+            emergencyContactName.Text = emergencyName;
+            emergencyContactPhone.Text = emergencyPhone;
+            //emergencyContactEmail.Text = emergencyEmail;
+        }
+
+        
+
         private async void save_changes_clicked(object sender, EventArgs e)
         {
             // update user details
             var azure = AzureDataService.Instance;
-            if (!ValidateInput())
+            int validInputRes = ValidateInput();
+            if (validInputRes > 0)
             {
-                await DisplayAlert("Invalid Data", "Make sure all of your details are correct", "OK");
-                return;
+                switch (validInputRes)
+                {
+                    case 1:
+                        await DisplayAlert("Invalid First Name", "Make sure it contains only english letters", "OK");
+                        return ;
+                    case 2:
+                        await DisplayAlert("Invalid Last Name", "Make sure it contains only english letters", "OK");
+                        return;
+                    case 3:
+                        await DisplayAlert("Invalid Occupation", "Make sure it contains only english letters", "OK");
+                        return;
+                    case 4:
+                        await DisplayAlert("Invalid Emergency Conatct Name", "Make sure it contains only english letters", "OK");
+                        return;
+                    case 5:
+                        await DisplayAlert("Invalid Emergency Conatct Phone", "Make sure it contains only digits", "OK");
+                        return;
+                    case 6:
+                        await DisplayAlert("Invalid Emergency Conatct Email", "Make sure it's a valid email address", "OK");
+                        return;
+
+                }
+
             }
+
+            // if the changes are legal - save them
             user.FirstName = firstName.Text;
             user.LastName = lastName.Text;
             user.Occupation = occupation.Text;
             user.EmergencyContactName = emergencyContactName.Text;
             user.EmergencyContactPhone = emergencyContactPhone.Text;
             user.EmergencyContactEmail = emergencyContactEmail.Text;
+            
             // sync changes from local db to azure
             azure.UpdateUser(user);
+            
             // popup - changes are saved
-            await DisplayAlert("Deatils Updated!", "", "OK");
+            await DisplayAlert("Details Updated!", "", "OK");
             // go back to AppToc page
-            await Navigation.PushAsync(new App1.Page1());
+            App.Current.MainPage = new App1.Page1();
         }
 
-        private bool ValidateInput()
+        private int ValidateInput()
         {
             if (firstName.Text == null || !isAlphabetic(firstName.Text))
-                return false;
+                return 1;
             if (lastName.Text == null || !isAlphabetic(lastName.Text))
-                return false;
+                return 2;
             if (occupation.Text == null || !isAlphabetic(occupation.Text))
-                return false;
+                return 3;
             if (emergencyContactName.Text != null)
             {
                 if (!isAlphabetic(emergencyContactName.Text))
-                    return false;
+                    return 4;
                 if (emergencyContactPhone.Text == null)
-                    return false;
+                    return 5;
                 if (!isNumeric(emergencyContactPhone.Text))
-                    return false;
+                    return 5;
             }
             // validate email address & allow empty field
             if (emergencyContactEmail.Text != null  && emergencyContactEmail.Text != "")
             {
                 if (!isValidEmail(emergencyContactEmail.Text))
-                    return false;
+                    return 6;
             }
 
-            return true;
+            return 0;
 
         }
         private bool isAlphabetic(String text)
@@ -104,6 +145,14 @@ namespace App1.Pages
                 return false;
             }
         }
+
+        // pass to pick_contact_clicked the values that the user already changed in order to save those changes
+        private async void pick_contact_clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new EmergencyContactPage(firstName.Text, lastName.Text, occupation.Text));
+        }
+
+
     }
 
 

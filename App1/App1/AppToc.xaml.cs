@@ -59,5 +59,6 @@ namespace App1
             await Navigation.PushAsync(new EditUserProfile());
         }
 
+
     }
 }

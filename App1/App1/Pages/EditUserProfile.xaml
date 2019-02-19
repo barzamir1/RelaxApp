@@ -24,8 +24,10 @@
                         <Entry x:Name="emergencyContactPhone" Placeholder="Emergency Contact Phone" Keyboard="Telephone"></Entry>
                         <Label Text="Email"></Label>
                         <Entry x:Name="emergencyContactEmail" Placeholder="Emergency Contact Email"></Entry>
+                        <Button Text="Choose a new emergency contact" Clicked="pick_contact_clicked" Style="{StaticResource buttonStyle}"></Button>
+                        <Button Text="Save Changes" Clicked="save_changes_clicked" Style="{StaticResource buttonStyle}"></Button>
                     </StackLayout>
-                    <Button Text="Save Changes" Clicked="save_changes_clicked" Style="{StaticResource buttonStyle}"></Button>
+                    
                 </StackLayout>
             </ScrollView>
         </StackLayout>

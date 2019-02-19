@@ -28,4 +28,9 @@ namespace App1
     {
         void ScheduleMeasurement(int minutes); //Schedule measurement every x minutes
     }
+
+    public interface IContacts
+    {
+        Task<List<ContactLists>> GetDeviceContactsAsync();
+    }
 }
