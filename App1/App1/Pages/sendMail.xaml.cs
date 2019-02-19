@@ -19,7 +19,7 @@ namespace App1.Pages
         public sendMail()
         {
             InitializeComponent();
-            Execute().Wait();
+            Execute();
         }
 
             static async Task Execute()
