@@ -16,6 +16,7 @@ namespace App1.DataObjects
         public String Occupation { set; get; }
         public String EmergencyContactName { set; get; }
         public String EmergencyContactPhone { set; get; }
+        public String EmergencyContactEmail { set; get; }
         public bool isTherapist { set; get; }
         public String shortID { set; get; } //unique ID
         

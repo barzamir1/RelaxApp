@@ -55,6 +55,9 @@
     <PackageReference Include="Microcharts.Forms">
       <Version>0.8.3-pre</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugins.Messaging">
+      <Version>5.2.0</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugins.Notifier">
       <Version>3.0.1</Version>
     </PackageReference>
@@ -73,6 +76,9 @@
     <PackageReference Include="Xamarin.Android.Support.v4" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
+    <PackageReference Include="Xamarin.Forms.Contacts">
+      <Version>1.0.5</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Location">
       <Version>60.1142.1</Version>
     </PackageReference>
@@ -82,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Band.cs" />
+    <Compile Include="ContactHelper.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainPage.xaml.cs">

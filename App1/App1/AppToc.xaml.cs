@@ -19,6 +19,11 @@ namespace App1
             }
         }
 
+        protected override void OnAppearing()
+        {
+            LabelUserName.Text = "Hello " + Login.Default.CurrentUser.FirstName;
+        }
+
         public async void openStatsPage(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new StatsTabbedPage());
@@ -51,6 +56,16 @@ namespace App1
         {
             await Navigation.PushAsync(new TherapistPage());
         }
-        
+        // DELETE
+        private async void sendMail(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new sendMail());
+        }
+        private async void editProfile(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new EditUserProfile());
+        }
+
+
     }
 }
