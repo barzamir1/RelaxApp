@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
+
 namespace App1.Services
 {
     class AzureDataService
@@ -174,6 +175,20 @@ namespace App1.Services
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task<bool> UpdateUser(Users user)
+        {
+            try
+            {
+                await _users.UpdateAsync(user);
+                await SyncUsers();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

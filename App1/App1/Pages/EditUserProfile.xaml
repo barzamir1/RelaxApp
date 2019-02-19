@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.Pages.EditUserProfile">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="First Name"> </Label>
+                        <Entry x:Name="firstName" Placeholder="First Name"></Entry>
+                        <Label Text="Last Name"></Label>
+                        <Entry x:Name="lastName" Placeholder="Last Name?"></Entry>
+                        <Label Text="Occupation"></Label>
+                        <Entry x:Name="occupation" Placeholder="Occupation"></Entry>
+                        
+                        <Label Text=""></Label>
+                        <Label Text=""></Label>
+                        <Label Text="Emergency Contact Details:"></Label>
+                        <Label Text=""></Label>
+                        <Label Text="Name"></Label>
+                        <Entry x:Name="emergencyContactName" Placeholder="Emergency Contact Name"></Entry>
+                        <Label Text="Phone"></Label>
+                        <Entry x:Name="emergencyContactPhone" Placeholder="Emergency Contact Phone" Keyboard="Telephone"></Entry>
+                        <Label Text="Email"></Label>
+                        <Entry x:Name="emergencyContactEmail" Placeholder="Emergency Contact Email"></Entry>
+                        <Button Text="Choose a new emergency contact" Clicked="pick_contact_clicked" Style="{StaticResource buttonStyle}"></Button>
+                        <Button Text="Save Changes" Clicked="save_changes_clicked" Style="{StaticResource buttonStyle}"></Button>
+                    </StackLayout>
+                    
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

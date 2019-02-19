@@ -76,6 +76,9 @@
     <PackageReference Include="Xamarin.Android.Support.v4" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
+    <PackageReference Include="Xamarin.Forms.Contacts">
+      <Version>1.0.5</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Location">
       <Version>60.1142.1</Version>
     </PackageReference>
@@ -85,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Band.cs" />
+    <Compile Include="ContactHelper.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainPage.xaml.cs">
