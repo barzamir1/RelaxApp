@@ -11,7 +11,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
+                            <StackLayout Margin="10,10,10,10">
                                 <Label Text="{Binding DisplayName}"></Label>
                                 <Label Text="{Binding ContactNumber}"></Label>
                             </StackLayout>
