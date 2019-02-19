@@ -56,12 +56,16 @@ namespace App1
         {
             if (_mobileServiceClient.CurrentUser != null)
             {
-                String userId = ServiceClient.CurrentUser.UserId.Substring(4);
-                await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
-                currentUser = await UsersTable.LookupAsync(userId);
-                try { await ServiceClient.RefreshUserAsync(); }
-                catch { return; /*refresh doesn't have to work*/}
-                NavigateNextPage();
+                try
+                {
+                    String userId = ServiceClient.CurrentUser.UserId.Substring(4);
+                    await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
+                    currentUser = await UsersTable.LookupAsync(userId);
+                    try { await ServiceClient.RefreshUserAsync(); }
+                    catch { return; /*refresh doesn't have to work*/}
+                    NavigateNextPage();
+                }
+                catch { return; }
             }
         }
         async void LoginButton_Clicked(object sender, EventArgs e)

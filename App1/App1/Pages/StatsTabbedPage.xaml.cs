@@ -26,14 +26,14 @@ namespace App1.Pages
             Children.Add(loading);
 
             //if IsInitialized => reload all data
-            bool reloadData = MeasurementsPageViewModel.IsInitialized;
+            //bool reloadData = MeasurementsPageViewModel.IsInitialized;
                 
             //make sure all tables are loaded when creating the following pages
             var model = await MeasurementsPageViewModel.GetInstance();
-            if (reloadData)
+            if (true)
             {
-                await model.InitializeMeasurement();
                 await model.InitializeActivities();
+                await model.InitializeMeasurement();
             }
 
             Children.Add(new CalendarStats() { Title = "Calendar", Icon = "calendar.png" });
