@@ -38,7 +38,7 @@ namespace App1.Pages
                     // msg content is that the current user (first+last name) is having a stress moment
                     Subject = "Stress Moment Alert!",
                     PlainTextContent = "Hello from relaxApp! \n",
-                    HtmlContent = string.Format("<strong>Hello {0}!</strong><br /><br />{1} {2} is having a stress moment<br />Why don &#39;t you give&nbsp;a call?<br /><br /> RelaxApp Team ", Login.Default.CurrentUser.EmergencyContactName, Login.Default.CurrentUser.FirstName, Login.Default.CurrentUser.LastName)
+                    HtmlContent = string.Format("<p dir=ltr><strong>Hello {0}!</strong><br /><br />{1} {2} is having a stress moment<br />Why don &#39;t you give&nbsp;a call?<br /><br /> RelaxApp Team </p>", Login.Default.CurrentUser.EmergencyContactName, Login.Default.CurrentUser.FirstName, Login.Default.CurrentUser.LastName)
                 };
                 msg.AddTo(new EmailAddress(Login.Default.CurrentUser.EmergencyContactEmail, Login.Default.CurrentUser.EmergencyContactName));
                 // send message without waiting
