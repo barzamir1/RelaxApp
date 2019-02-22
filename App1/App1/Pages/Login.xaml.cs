@@ -20,9 +20,10 @@ namespace App1
         public Login()
         {
             InitializeComponent();
-            Default = this;
+            if(defaultInstance==null)
+                defaultInstance = this;
             _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
-
+            StartLoadingAnimation();
             //Get our sync table that will call out to azure
             UsersTable = ServiceClient.GetSyncTable<Users>();
             UsersTable.PullAsync("Users", UsersTable.CreateQuery());
@@ -59,19 +60,23 @@ namespace App1
                 try
                 {
                     String userId = ServiceClient.CurrentUser.UserId.Substring(4);
-                    await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
-                    currentUser = await UsersTable.LookupAsync(userId);
-                    try { await ServiceClient.RefreshUserAsync(); }
+                    try
+                    {
+                        await ServiceClient.RefreshUserAsync();
+                        await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
+                        currentUser = await UsersTable.LookupAsync(userId);
+                    }
                     catch { return; /*refresh doesn't have to work*/}
                     NavigateNextPage();
                 }
-                catch { return; }
+                catch { StopLoadingAnimation(); return; }
             }
+            else
+                StopLoadingAnimation();
         }
         async void LoginButton_Clicked(object sender, EventArgs e)
         {
-            activityIndicator.IsRunning = true;
-            loginButton.IsEnabled = false;
+            StartLoadingAnimation();
             if (App.Authenticator != null)
                 authenticated = await App.Authenticator.Authenticate();
             try
@@ -83,14 +88,12 @@ namespace App1
                     currentUser = await UsersTable.LookupAsync(userId); //check if user exist in Users table
                     NavigateNextPage();
                 }
-                loginButton.IsEnabled = true;
-                activityIndicator.IsRunning = false;
+                StopLoadingAnimation();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                activityIndicator.IsRunning = false;
-                loginButton.IsEnabled = true;
+                StopLoadingAnimation();
             }
         }
         async void NavigateNextPage()
@@ -109,6 +112,16 @@ namespace App1
                     await Navigation.PushAsync(new Page1()); //navigate to home page
             }
             Navigation.RemovePage(this); //no going back
+            StopLoadingAnimation();
+        }
+
+        private void StartLoadingAnimation()
+        {
+            activityIndicator.IsRunning = true;
+            loginButton.IsEnabled = false;
+        }
+        private void StopLoadingAnimation()
+        {
             activityIndicator.IsRunning = false;
             loginButton.IsEnabled = true;
         }
