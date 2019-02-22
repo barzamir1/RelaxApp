@@ -1,4 +1,5 @@
 ﻿using App1.Pages;
+using App1.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,6 +15,7 @@ namespace App1
             if (Login.Default.CurrentUser != null)
             {
                 LabelUserName.Text = "Hello " + Login.Default.CurrentUser.FirstName;
+                //MeasurementsPageViewModel.GetInstance(); //start loading in background
                 int repetitionTime = MeasurementHandler.measureRepetitionTime;
                 DependencyService.Get<ISchedule>().ScheduleMeasurement(repetitionTime); //Schedule measurement every 6 minutes
             }
@@ -55,11 +57,6 @@ namespace App1
         private async void therapist(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new TherapistPage());
-        }
-        // DELETE
-        private async void sendMail(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new sendMail());
         }
         private async void editProfile(object sender, EventArgs e)
         {

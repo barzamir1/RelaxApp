@@ -15,7 +15,9 @@ namespace App1.Pages
 		public YoutubePage ()
 		{
 			InitializeComponent ();
-            webView.Source = "https://www.youtube.com/watch?v=1ZYbU82GVz4";   
+            //webView.Source = "https://www.youtube.com/watch?v=1ZYbU82GVz4";
+            webView.Source = "https://www.youtube.com/embed/1ZYbU82GVz4"; 
         }
-	}
+
+    }
 }

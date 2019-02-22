@@ -26,21 +26,21 @@ namespace App1.Pages
             Children.Add(loading);
 
             //if IsInitialized => reload all data
-            bool reloadData = MeasurementsPageViewModel.IsInitialized;
+            //bool reloadData = MeasurementsPageViewModel.IsInitialized;
                 
             //make sure all tables are loaded when creating the following pages
             var model = await MeasurementsPageViewModel.GetInstance();
-            if (reloadData)
+            if (true)
             {
-                await model.InitializeMeasurement();
                 await model.InitializeActivities();
+                await model.InitializeMeasurement();
             }
 
             Children.Add(new CalendarStats() { Title = "Calendar", Icon = "calendar.png" });
             Children.Add(new PinPage() { Title = "Map", Icon = "map.png" });
             //TODO: consider removing these pages:
             Children.Add(new LastMeasurementsListPage() { Title = "All", Icon = "list.png" });
-            Children.Add(new ActivitiesListPage() { Title = "Activities", Icon = "activity.png" });
+            //Children.Add(new ActivitiesListPage() { Title = "Activities", Icon = "activity.png" });
 
             loading.Complete();
             Children.Remove(loading);

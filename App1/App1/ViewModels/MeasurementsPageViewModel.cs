@@ -80,6 +80,8 @@ namespace App1.ViewModels
         {
             Activities.Clear();
             allActivities = await _azureDataService._activities.ToListAsync();
+            if (allActivities.Count == 0)
+                allActivities = await _azureDataService.GetActivitiesList();
             foreach(Activities item in allActivities)
             {
                 if (item.Name != null)

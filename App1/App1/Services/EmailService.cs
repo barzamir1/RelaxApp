@@ -1,30 +1,18 @@
-﻿using System;
+﻿using SendGrid;
+using SendGrid.Helpers.Mail;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using SendGrid;
-using SendGrid.Helpers.Mail;
-
-
-namespace App1.Pages
+namespace App1
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class sendMail : ContentPage
+    public class EmailService
     {
-        public sendMail()
+        public static async Task Execute()
         {
-            InitializeComponent();
-            Execute();
-        }
-
-            static async Task Execute()
-        {
-           
+            if (Login.Default.CurrentUser == null)
+                return;
             // send mail to EmergencyContactEmail
             if (Login.Default.CurrentUser.EmergencyContactEmail != null && Login.Default.CurrentUser.EmergencyContactEmail != "")
             {
@@ -38,14 +26,12 @@ namespace App1.Pages
                     // msg content is that the current user (first+last name) is having a stress moment
                     Subject = "Stress Moment Alert!",
                     PlainTextContent = "Hello from relaxApp! \n",
-                    HtmlContent = string.Format("<strong>Hello {0}!</strong><br /><br />{1} {2} is having a stress moment<br />Why don &#39;t you give&nbsp;a call?<br /><br /> RelaxApp Team ", Login.Default.CurrentUser.EmergencyContactName, Login.Default.CurrentUser.FirstName, Login.Default.CurrentUser.LastName)
+                    HtmlContent = string.Format("<p dir=ltr><strong>Hello {0}!</strong><br /><br />{1} {2} is having a stress moment<br />Why don &#39;t you give&nbsp;a call?<br /><br /> RelaxApp Team </p>", Login.Default.CurrentUser.EmergencyContactName, Login.Default.CurrentUser.FirstName, Login.Default.CurrentUser.LastName)
                 };
                 msg.AddTo(new EmailAddress(Login.Default.CurrentUser.EmergencyContactEmail, Login.Default.CurrentUser.EmergencyContactName));
                 // send message without waiting
                 var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
             }
-
         }
-        
     }
 }

@@ -132,10 +132,11 @@ namespace App1
 
             //resend intervals
             Uri currentMeasurement;
+            TestMeViewModel b = new TestMeViewModel();
             while (previousCalls.Count > 0)
             {
                 currentMeasurement = previousCalls.First(); //get the first without Dequeue
-                bool success = await AzureFunctionAddMeasurement(currentMeasurement, null);
+                bool success = await AzureFunctionAddMeasurement(currentMeasurement, b);
                 if (success)
                     previousCalls.Dequeue(); //remove first and continue
                 else

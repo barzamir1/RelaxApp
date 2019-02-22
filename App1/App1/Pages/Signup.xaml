@@ -4,7 +4,7 @@
              x:Class="App1.Signup">
     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-            <StackLayout>
+            <StackLayout Margin="10,10,10,10">
                 <StackLayout Orientation="Horizontal">
                     <Entry x:Name="firstName" Placeholder="First Name"></Entry>
                     <Entry x:Name="lastName" Placeholder="Last Name"></Entry>
