@@ -1,30 +1,18 @@
-﻿using System;
+﻿using SendGrid;
+using SendGrid.Helpers.Mail;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using SendGrid;
-using SendGrid.Helpers.Mail;
-
-
-namespace App1.Pages
+namespace App1
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class sendMail : ContentPage
+    public class EmailService
     {
-        public sendMail()
+        public static async Task Execute()
         {
-            InitializeComponent();
-            Execute();
-        }
-
-            static async Task Execute()
-        {
-           
+            if (Login.Default.CurrentUser == null)
+                return;
             // send mail to EmergencyContactEmail
             if (Login.Default.CurrentUser.EmergencyContactEmail != null && Login.Default.CurrentUser.EmergencyContactEmail != "")
             {
@@ -44,8 +32,6 @@ namespace App1.Pages
                 // send message without waiting
                 var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
             }
-
         }
-        
     }
 }

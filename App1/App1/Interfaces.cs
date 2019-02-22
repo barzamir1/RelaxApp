@@ -19,6 +19,7 @@ namespace App1
         List<double> RRIntervalReadings();
         void ClearAllReadings();
         Task RequestConsent();
+        void SendVibration();
     }
     public interface ILocation
     {

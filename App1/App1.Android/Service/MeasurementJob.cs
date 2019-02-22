@@ -12,6 +12,7 @@ using Android.Widget;
 using Firebase.JobDispatcher;
 using Plugin.LocalNotifications;
 using Xamarin.Android;
+using Xamarin.Forms;
 
 namespace App1.Droid.Service
 {
@@ -26,12 +27,14 @@ namespace App1.Droid.Service
             Task.Run(async () =>
             {
                 TestMeViewModel testMeViewModel = new TestMeViewModel();
+                //DependencyService.Get<IBand>().SendVibration();
                 await MeasurementHandler.ResendIntervals(); //resend previous measurements if exist
                 await MeasurementHandler.GetStressResult(-1, testMeViewModel); //start new measurement. -1 => real measurement
                 String[] stressRes = testMeViewModel.StressResult.Split(" ");
                 int tempLen = stressRes.Length;
-                if (stressRes[tempLen - 2] != "not") {
+                if (stressRes[0]!="Error:" && stressRes[tempLen - 2] != "not") { //this is a stress moment
                     CrossLocalNotifications.Current.Show("RelaxApp noticed stress", "Tap into the app for more information");
+                    EmailService.Execute(); //send mail to Emergency Contact
                 }
             });
             return true;
