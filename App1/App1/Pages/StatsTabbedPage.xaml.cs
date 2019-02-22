@@ -40,7 +40,7 @@ namespace App1.Pages
             Children.Add(new PinPage() { Title = "Map", Icon = "map.png" });
             //TODO: consider removing these pages:
             Children.Add(new LastMeasurementsListPage() { Title = "All", Icon = "list.png" });
-            Children.Add(new ActivitiesListPage() { Title = "Activities", Icon = "activity.png" });
+            //Children.Add(new ActivitiesListPage() { Title = "Activities", Icon = "activity.png" });
 
             loading.Complete();
             Children.Remove(loading);
