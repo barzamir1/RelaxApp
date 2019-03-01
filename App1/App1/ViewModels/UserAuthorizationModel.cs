@@ -65,6 +65,8 @@ namespace App1.ViewModels
             if (uList != null && uList.Count > 0)
             {
                 var userToAdd = uList[0];
+                if (AllowedUsers.Contains(userToAdd))
+                    return true; //already allowed to view
                 UserAuthorizations userAuthorizations = new UserAuthorizations();
                 userAuthorizations.TherapistID = Login.Default.CurrentUser.id;
                 userAuthorizations.AuthorizedToViewUserID = userToAdd.id;
