@@ -9,7 +9,7 @@
                 HorizontalOptions="CenterAndExpand" FontSize="Large"/>
             <Label Text="The following code should be sent to a therapist or a guardian."
                    FontSize="Medium"/>
-            <Label Text="this will allow him/her to view all your stressed moments statistics and location"
+            <Label Text="This will allow him/her to view all your stressed moments statistics and locations"
                    FontSize="Medium"/>
             <Label x:Name="labelUserShortId" FontSize="Large" TextColor="Red" 
                    HorizontalOptions="Center"/>
