@@ -20,16 +20,22 @@ namespace App1
         public Login()
         {
             InitializeComponent();
-            if(defaultInstance==null)
-                defaultInstance = this;
             _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
             StartLoadingAnimation();
             //Get our sync table that will call out to azure
             UsersTable = ServiceClient.GetSyncTable<Users>();
             UsersTable.PullAsync("Users", UsersTable.CreateQuery());
 
-            //try to load current user from mobileServiceClient
-            RetrieveUser();
+            if (defaultInstance == null)
+            {
+                defaultInstance = this;
+                StopLoadingAnimation();
+            }
+            else
+            {
+                //try to load current user from mobileServiceClient
+                RetrieveUser();
+            }
         }
 
         //class data members
@@ -62,14 +68,17 @@ namespace App1
                     String userId = ServiceClient.CurrentUser.UserId.Substring(4);
                     try
                     {
-                        await ServiceClient.RefreshUserAsync();
+                        //await ServiceClient.RefreshUserAsync();
                         await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
                         currentUser = await UsersTable.LookupAsync(userId);
                     }
-                    catch { return; /*refresh doesn't have to work*/}
+                    catch {
+                        StopLoadingAnimation();
+                        return; /*refresh doesn't have to work*/
+                    }
                     NavigateNextPage();
                 }
-                catch { StopLoadingAnimation(); return; }
+                catch {StopLoadingAnimation(); return; }
             }
             else
                 StopLoadingAnimation();
