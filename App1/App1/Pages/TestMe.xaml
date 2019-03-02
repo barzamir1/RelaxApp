@@ -7,7 +7,16 @@
         <local:TestMeViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+    <RelativeLayout Padding="0">
+        <Image
+            Aspect="AspectFill"
+            Source="stones.jpg"
+            RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+            RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}"></Image>
+        <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
+                       RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+
+          <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
                 <Label Text="Measure your stress level" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Medium"/>
@@ -29,5 +38,6 @@
             </StackLayout>
         </ScrollView>
     </StackLayout>
-
+   </Grid>
+   </RelativeLayout>
 </ContentPage>

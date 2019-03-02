@@ -3,10 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.Pages.ShareMyData">
     <ContentPage.Content>
-        <StackLayout Margin="10,10,10,10">
-            <Label Text="Share my Data"
-                VerticalOptions="Start" 
-                HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+        <RelativeLayout Padding="0">
+            <Image
+            Aspect="AspectFill"
+            Source="stones.jpg"
+            RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+            RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}"></Image>
+            <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
+                       RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+
+                <StackLayout Margin="10,10,10,10">
+                <Label Text="Share my Data&#x0a;"
+                VerticalOptions="Start" FontAttributes="Bold"
+                HorizontalOptions="CenterAndExpand" FontSize="Large" TextColor="Black"/>
             <Label Text="The following code should be sent to a therapist or a guardian."
                    FontSize="Medium"/>
             <Label Text="This will allow him/her to view all your stressed moments statistics and locations"
@@ -14,5 +23,7 @@
             <Label x:Name="labelUserShortId" FontSize="Large" TextColor="Red" 
                    HorizontalOptions="Center"/>
         </StackLayout>
+        </Grid>
+        </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>
