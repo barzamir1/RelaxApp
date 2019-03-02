@@ -6,8 +6,8 @@
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
             <StackLayout Margin="10,10,10,10">
                 <StackLayout Orientation="Horizontal">
-                    <Entry x:Name="firstName" Placeholder="First Name"></Entry>
-                    <Entry x:Name="lastName" Placeholder="Last Name"></Entry>
+                    <Entry x:Name="firstName" Placeholder="First Name" Completed="Name_Completed"></Entry>
+                    <Entry x:Name="lastName" Placeholder="Last Name" Completed="Name_Completed"></Entry>
                 </StackLayout>
                 <Label Text="Date Of Birth" FontSize="Medium"></Label>
                 <DatePicker x:Name="dobPicker" Format="dd/MM/yyyy"></DatePicker>
