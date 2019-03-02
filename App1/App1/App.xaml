@@ -10,8 +10,10 @@
                 <Setter Property="BorderRadius" Value="25" />
                 <Setter Property="WidthRequest" Value="250" />
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="BackgroundColor" Value="#4DB6AC"/>
+                <!--<Setter Property="BackgroundColor" Value="#008B8B"/>-->
+                <Setter Property="BackgroundColor" Value="MediumAquamarine"/>
             </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
