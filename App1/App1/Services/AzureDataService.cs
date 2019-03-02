@@ -1,4 +1,5 @@
-﻿using App1.DataObjects;
+﻿using Android.Util;
+using App1.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
@@ -6,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
+using Xamarin.Forms;
 
 namespace App1.Services
 {
@@ -35,7 +36,8 @@ namespace App1.Services
         }
         public async Task Initialize()
         {
-            const string path = "syncstore.db";
+            //string path = "syncstore" + DateTime.Now.Second + ".db";
+            string path = "syncstore.db";
             //setup our local sqlite store and initialize our table
             MobileServiceSQLiteStore store = new MobileServiceSQLiteStore(path);
             store.DefineTable<Activities>();
@@ -49,7 +51,8 @@ namespace App1.Services
             _measurements = _mobileServiceClient.GetSyncTable<Measurements>();
             _users = _mobileServiceClient.GetSyncTable<Users>();
             _userAuthorizations = _mobileServiceClient.GetSyncTable<UserAuthorizations>();
-            currentUserID = _mobileServiceClient.CurrentUser.UserId;
+            if (_mobileServiceClient.CurrentUser != null)
+                currentUserID = _mobileServiceClient.CurrentUser.UserId;
         }
 
         public async Task<IEnumerable<Activities>> GetActivities()
@@ -76,7 +79,7 @@ namespace App1.Services
         {
             try
             {
-                await _activities.PullAsync("Users", _users.CreateQuery());
+                await _users.PullAsync("Users", _users.CreateQuery());
                 await _mobileServiceClient.SyncContext.PushAsync();
             }
             catch (Exception ex)
@@ -115,10 +118,16 @@ namespace App1.Services
                 currentUserID = currUser.WatchingUserID;
             else
                 currentUserID = currUser.id;
-
             await SyncMeasurements();
             return await _measurements.Where(item => item.UserID == currentUserID)
                 .OrderByDescending(item=>item.Date).ToEnumerableAsync();
+        }
+        public async Task<List<Measurements>> GetMeasurementsList()
+        {
+            _measurements = _mobileServiceClient.GetSyncTable<Measurements>();
+            currentUserID = Login.Default.CurrentUser.id;
+            await SyncMeasurements();
+            return await _measurements.ToListAsync();
         }
 
         public async Task AddActivity(Activities activity)
@@ -169,7 +178,7 @@ namespace App1.Services
         {
             try
             {
-                await _measurements.PullAsync("Measurements", _measurements.Where(item => item.UserID == currentUserID));
+                await _measurements.PullAsync("Measurements", _measurements.CreateQuery());
                 await _mobileServiceClient.SyncContext.PushAsync();
             }
             catch (Exception ex)

@@ -72,16 +72,19 @@ namespace App1
                         await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
                         currentUser = await UsersTable.LookupAsync(userId);
                     }
-                    catch {
+                    catch
+                    {
                         StopLoadingAnimation();
                         return; /*refresh doesn't have to work*/
                     }
                     NavigateNextPage();
                 }
-                catch {StopLoadingAnimation(); return; }
+                catch { StopLoadingAnimation(); return; }
             }
             else
+            {
                 StopLoadingAnimation();
+            }
         }
         async void LoginButton_Clicked(object sender, EventArgs e)
         {
@@ -95,6 +98,7 @@ namespace App1
                     String userId = ServiceClient.CurrentUser.UserId.Substring(4);
                     await UsersTable.PullAsync("Users", UsersTable.CreateQuery());
                     currentUser = await UsersTable.LookupAsync(userId); //check if user exist in Users table
+                    await Services.AzureDataService.Instance.Initialize();
                     NavigateNextPage();
                 }
                 StopLoadingAnimation();
