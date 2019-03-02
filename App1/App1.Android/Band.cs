@@ -238,5 +238,11 @@ namespace App1
                 }
             }
         }
+
+        public void SendVibration()
+        {
+            if(_client!=null)
+                _client.NotificationManager.VibrateAsync(Microsoft.Band.Notifications.VibrationType.NotificationOneTone);
+        }
     }
 }

@@ -140,7 +140,7 @@ namespace StressCalculator2
             {
                 IsStressed = 1; //second measurement
                 if (this.StressIndex - relaxedStressIndexes[0] < 10)
-                    this.StressIndex = relaxedStressIndexes[0] + 10;
+                    this.StressIndex = relaxedStressIndexes[0] + 11;
                 return;
             }
             else
