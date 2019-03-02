@@ -2,21 +2,40 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.CalmMeDownToc">
+     <!--Icons made by
+    <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from
+    <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by
+    <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+    -->
+
     <ContentPage.Content>
-        <StackLayout>
-            <Button Text="Cute Animal GIFS"
-                Clicked="openAnimalGifs" 
-                Style="{StaticResource buttonStyle}"/>
-            <Button Text="Listen to music "
-                    x:Name="musicButton"
-                Clicked="youtubeClicked"
-                Style="{StaticResource buttonStyle}"
-                BackgroundColor="Blue"/>
-            <Button Text="Call Friend"
-                    x:Name="callButton"
-                Clicked="callFreind"
-                Style="{StaticResource buttonStyle}"
-                BackgroundColor="Red"/>
-        </StackLayout>
+        <RelativeLayout Padding="0">
+            <Image
+            Aspect="AspectFill"
+            Source="stones.jpg"
+            RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+            RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}"></Image>
+            <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
+                       RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+
+                <StackLayout>
+                    <Button ContentLayout="Top,0"  Image="dog.png"  HorizontalOptions="CenterAndExpand" 
+                        Text="Cute Animal GIFS"
+                        Clicked="openAnimalGifs" 
+                        Style="{StaticResource buttonStyle}"/>
+                     <Button ContentLayout="Top,0"  Image="youtube.png"  HorizontalOptions="CenterAndExpand"
+                         Text="Listen to music "
+                         x:Name="musicButton"
+                         Clicked="youtubeClicked"
+                        Style="{StaticResource buttonStyle}"/>
+                    <Button ContentLayout="Top,0"  Image="telephone.png"  HorizontalOptions="CenterAndExpand"
+                        Text="Call Friend"
+                         x:Name="callButton"
+                        Clicked="callFreind"
+                        Style="{StaticResource buttonStyle}"/>
+
+                </StackLayout>
+            </Grid>
+        </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>
