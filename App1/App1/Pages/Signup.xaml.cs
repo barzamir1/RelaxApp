@@ -142,5 +142,11 @@ namespace App1
             }
             return new string(selectedChars);
         }
+
+        private void Name_Completed(object sender, EventArgs e)
+        {
+            if (sender == firstName)
+                lastName.Focus();
+        }
     }
 }
