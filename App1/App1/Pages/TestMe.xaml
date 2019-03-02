@@ -7,13 +7,21 @@
         <local:TestMeViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+    <RelativeLayout Padding="0">
+        <Image
+            Aspect="AspectFill"
+            Source="stones.jpg"
+            RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+            RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}"></Image>
+        <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
+                       RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+
+          <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
-                <Label Text="Test me now!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-                <Label x:Name="isConnectedLabel" Text="{Binding IsConnected, StringFormat='connected: {0}'}"
-                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Medium"/>
-                <!--<Label x:Name="GSRLabel" Text="{Binding GSR, StringFormat='your GSR is: {0}'}"
+                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+                        <Label x:Name="isConnectedLabel" Text="{Binding IsConnected, StringFormat='connected: {0}'}"
+                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Medium" FontAttributes="Bold" />
+                        <!--<Label x:Name="GSRLabel" Text="{Binding GSR, StringFormat='your GSR is: {0}'}"
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand"/>
                 <Label x:Name="GSRWindowLabel" Text="{Binding GsrList}"
@@ -42,5 +50,6 @@
             </StackLayout>
         </ScrollView>
     </StackLayout>
-
+   </Grid>
+   </RelativeLayout>
 </ContentPage>

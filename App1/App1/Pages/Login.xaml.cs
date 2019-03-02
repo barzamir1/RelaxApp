@@ -22,7 +22,6 @@ namespace App1
             InitializeComponent();
             Default = this;
             _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
-
             //Get our sync table that will call out to azure
             UsersTable = ServiceClient.GetSyncTable<Users>();
             UsersTable.PullAsync("Users", UsersTable.CreateQuery());

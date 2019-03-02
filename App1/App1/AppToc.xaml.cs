@@ -11,6 +11,9 @@ namespace App1
         public Page1()
         {
             InitializeComponent();
+            // change to navigation bar color
+            //((NavigationPage)Application.Current.MainPage).BarBackgroundColor = Color.DarkCyan;
+
             if (Login.Default.CurrentUser != null)
             {
                 LabelUserName.Text = "Hello " + Login.Default.CurrentUser.FirstName;
