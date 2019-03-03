@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Android.App;
 using Android.Widget;
+using Android.Util;
 
 /*
  * this class implements the BandInterface interface.
@@ -133,6 +134,7 @@ namespace App1
             if (currentMotionTyp == MotionType.Walking || currentMotionTyp == MotionType.Jogging || currentMotionTyp == MotionType.Running)
             {
                 b.StressResult = "Error: can't measure during sports activity";
+                Log.Error("motion", "user is " + currentMotionTyp.ToString());
                 return false;
             }
             _rrIntervalsReadings.Clear();
@@ -158,7 +160,7 @@ namespace App1
             _rrIntervalsReadings.Clear();
             _hrReadings.Clear();
         }
-        public async void InitSensors(TestMeViewModel b)
+        public void InitSensors(TestMeViewModel b)
         {
             if (!_client.IsConnected)
                 return;
@@ -220,8 +222,6 @@ namespace App1
             //register RR Intervals listener
             _rrSensor.ReadingChanged += (sender, e) =>
             {
-                //activity.RunOnUiThread(() =>
-                // {
                 if (_bandState != BandContactState.Worn) //user took off the band while reading
                 {
                     _rrSensor.StopReadings();
@@ -232,14 +232,12 @@ namespace App1
                 }
                 var rrEvent = e.SensorReading;
                 _rrIntervalsReadings.Add(rrEvent.Interval);
-                //  });
             };
             _distancerSensor.ReadingChanged += (sender, e) =>
             {
                 currentMotionTyp = e.SensorReading.MotionType;
                 _distancerSensor.StopReadings();
             };
-           
         }
         public async Task RequestConsent()
         {
