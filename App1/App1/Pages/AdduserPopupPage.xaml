@@ -25,27 +25,27 @@
             HorizontalOptions="Center"
             VerticalOptions="Center">
                 <AbsoluteLayout>
-                    <Frame
+            <Frame
                             x:Name="FrameContainer"
                             Margin="15"
                             HorizontalOptions="Center"
-                            BackgroundColor="White" CornerRadius="10">
-                            <StackLayout
+                            BackgroundColor="White" CornerRadius="15">
+                <StackLayout
                                 IsClippedToBounds="True"
                                 Padding="10, 5"
                                 Spacing="3">
-                                    <Entry
+                    <Entry
                                           HorizontalOptions="Center"
                                           x:Name="entryUserCode"
                                           Style="{StaticResource EntryStyle}"
                                           Placeholder="Enter user code" />
-                                    <Button
+                    <Button
                                             Margin="10, 5"
                                             Style="{StaticResource buttonStyle}"
                                             Clicked="OnAdd"
                                             x:Name="buttonAddUser"
                                             Text="Add">
-                                    </Button>
+                    </Button>
 
                     <Label x:Name="labelUserCodeError" TextColor="lightcoral"/>
                 </StackLayout>

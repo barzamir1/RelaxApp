@@ -130,10 +130,12 @@ namespace App1
             activityIndicator.IsRunning = true;
             loginButton.IsEnabled = false;
         }
+
         private void StopLoadingAnimation()
         {
             activityIndicator.IsRunning = false;
             loginButton.IsEnabled = true;
         }
+
     }
 }

@@ -20,19 +20,24 @@
 
                 <StackLayout>
                     <Button ContentLayout="Top,0"  Image="dog.png"  HorizontalOptions="CenterAndExpand" 
-                        Text="Cute Animal GIFS"
+                        Text="Cute animal GIFS"
                         Clicked="openAnimalGifs" 
-                        Style="{StaticResource buttonStyle}"/>
-                     <Button ContentLayout="Top,0"  Image="youtube.png"  HorizontalOptions="CenterAndExpand"
-                         Text="Listen to music "
+                        Style="{StaticResource smallbuttonStyle}"/>
+                    <Button ContentLayout="Top,0"  Image="breathing.png"  HorizontalOptions="CenterAndExpand"
+                         Text="1-minute breathing exercise"
+                         x:Name="breatheButton"
+                         Clicked="breatheClicked"
+                        Style="{StaticResource smallbuttonStyle}"/>
+                    <Button ContentLayout="Top,0"  Image="youtube.png"  HorizontalOptions="CenterAndExpand"
+                         Text="Listen to music"
                          x:Name="musicButton"
                          Clicked="youtubeClicked"
-                        Style="{StaticResource buttonStyle}"/>
+                         Style="{StaticResource smallbuttonStyle}"/>
                     <Button ContentLayout="Top,0"  Image="telephone.png"  HorizontalOptions="CenterAndExpand"
                         Text="Call Friend"
                          x:Name="callButton"
                         Clicked="callFreind"
-                        Style="{StaticResource buttonStyle}"/>
+                        Style="{StaticResource smallbuttonStyle}"/>
 
                 </StackLayout>
             </Grid>

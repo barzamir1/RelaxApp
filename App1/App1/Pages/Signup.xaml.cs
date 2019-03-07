@@ -26,6 +26,17 @@ namespace App1
             isTherapistPicker.SelectedIndex = 0;
         }
 
+        public Signup(String first, String last, String occ, DateTime dob, String gender, Users user , String emergencyName, String emergencyPhone)
+        {
+            InitializeComponent();
+
+            _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
+            UsersTable = _mobileServiceClient.GetSyncTable<Users>();
+            UsersTable.PullAsync("Users", UsersTable.CreateQuery());
+            isTherapistPicker.SelectedIndex = 0;
+        }
+
+
         private async void Signup_Clicked(object sender, EventArgs e)
         {
             if (!ValidateInput())
@@ -141,6 +152,17 @@ namespace App1
                 selectedChars[i] = chars[rand.Next(chars.Length)];
             }
             return new string(selectedChars);
+        }
+
+        private async void pick_contact_clicked(object sender, EventArgs e)
+        {
+            MessagingCenter.Subscribe<EmergencyContactPage, string>(this, "ContactName", (mysender, arg) => {
+                emergencyContactName.Text = arg;
+            });
+            MessagingCenter.Subscribe<EmergencyContactPage, string>(this, "ContactPhone", (mysender, arg) => {
+                emergencyContactPhone.Text = arg;
+            });
+            await Navigation.PushAsync(new EmergencyContactPage());
         }
     }
 }
