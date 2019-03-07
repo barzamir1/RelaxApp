@@ -20,9 +20,11 @@
                    FontSize="Medium"/>
             <Label Text="This will allow him/her to view all your stressed moments statistics and locations"
                    FontSize="Medium"/>
-            <Label x:Name="labelUserShortId" FontSize="Large" TextColor="Red" 
+            <Label x:Name="labelUserShortId" FontSize="26" TextColor="Red" 
                    HorizontalOptions="Center"/>
-        </StackLayout>
+                    <Button  x:Name="copyButton" Text="Copy to clipboard" HorizontalOptions="Center" 
+                             Clicked="copyButton_Clicked" BackgroundColor="MediumAquamarine" BorderRadius="25" WidthRequest="150" TextColor="White"/>
+                </StackLayout>
         </Grid>
         </RelativeLayout>
     </ContentPage.Content>

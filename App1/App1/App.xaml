@@ -13,6 +13,15 @@
                 <!--<Setter Property="BackgroundColor" Value="#008B8B"/>-->
                 <Setter Property="BackgroundColor" Value="MediumAquamarine"/>
             </Style>
+            <Style x:Key="smallbuttonStyle" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="BorderRadius" Value="25" />
+                <Setter Property="WidthRequest" Value="180" />
+                <Setter Property="TextColor" Value="White" />
+                <!--<Setter Property="BackgroundColor" Value="#008B8B"/>-->
+                <Setter Property="BackgroundColor" Value="MediumAquamarine"/>
+            </Style>
 
         </ResourceDictionary>
     </Application.Resources>
