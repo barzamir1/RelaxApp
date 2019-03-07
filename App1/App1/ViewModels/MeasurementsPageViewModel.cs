@@ -18,17 +18,6 @@ namespace App1.ViewModels
         private ObservableCollection<Measurements> _filteredMeasurements;
         private List<String> _activities;
         private List<Activities> allActivities;
-        //private string _userID;
-        //private DateTime _date;
-        //private int _tRI;
-        //private double _pNN50;
-        //private double _sDNN;
-        //private double _sDSD;
-        //private string _activityID;
-        //private int _stressIndex;
-        //private int _isStressed;
-        //private double _gPSLat;
-        //private double  _gPSLng; 
         private ICommand _addMeasurement;
         private AzureDataService _azureDataService = AzureDataService.Instance;
 
@@ -43,7 +32,6 @@ namespace App1.ViewModels
                 FilteredMeasurementsObj = new ObservableCollection<Measurements>();
                 _activities = new List<string>();
                 //InitializeMeasurement();
-                
             }
         }
         public static async Task<MeasurementsPageViewModel> GetInstance()

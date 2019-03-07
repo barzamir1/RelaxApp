@@ -9,7 +9,6 @@
                 <Entry x:Name="firstName" Placeholder="Enter First Name"></Entry>
                 <Label Text="Last Name"></Label>
                 <Entry x:Name="lastName" Placeholder="Enter Last Name"></Entry>
-                
                 <Label Text="Date Of Birth" FontSize="Medium"></Label>
                 <DatePicker x:Name="dobPicker" Format="dd/MM/yyyy"></DatePicker>
                 <Picker x:Name="genderPicker" HorizontalOptions="FillAndExpand" Title="Choose Gender">
