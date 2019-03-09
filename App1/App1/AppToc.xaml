@@ -65,9 +65,7 @@
                             <Button Text="Therapist"
                             Clicked="therapist"
                             Style="{StaticResource buttonStyle}" IsVisible="False"/>
-                            <Button Text="test Mail"
-                            Clicked="sendMail"
-                            Style="{StaticResource buttonStyle}" IsVisible="False"/>
+                            
                         </Grid>
 
                         <Grid HorizontalOptions="Center">

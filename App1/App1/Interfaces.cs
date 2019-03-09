@@ -21,6 +21,11 @@ namespace App1
         Task RequestConsent();
         void SendVibration();
     }
+    public interface IBluetooth
+    {
+        bool TurnOn();
+        bool TurnOff();
+    }
     public interface ILocation
     {
         Task<Android.Locations.Location> GetLastLocationFromDevice();

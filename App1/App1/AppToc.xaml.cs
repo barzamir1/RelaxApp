@@ -1,5 +1,4 @@
 ﻿using App1.Pages;
-using App1.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -65,7 +64,5 @@ namespace App1
         {
             await Navigation.PushAsync(new EditUserProfile());
         }
-
-
     }
 }
