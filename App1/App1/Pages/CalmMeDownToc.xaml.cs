@@ -36,6 +36,11 @@ namespace App1
             await Navigation.PushAsync(new Pages.YoutubePage());
         }
 
+        public async void breatheClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new Pages.BreathePage());
+        }
+
 
 
     }

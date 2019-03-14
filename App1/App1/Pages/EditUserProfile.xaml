@@ -7,10 +7,8 @@
         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
             <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
                 <StackLayout>
-
-                    <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                        <Label Text="First Name"> </Label>
-                      
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="First Name"></Label>
                         <Entry x:Name="firstName" Placeholder="First Name"></Entry>
                         <Label Text="Last Name"></Label>
                         <Entry x:Name="lastName" Placeholder="Last Name?"></Entry>

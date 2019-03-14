@@ -8,36 +8,47 @@
         <viewModels:UserAuthorizationModel/>
     </ContentPage.BindingContext>
 
-    <StackLayout>
-        <Label Text="My Clients"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+    <RelativeLayout Padding="0">
+        <Image
+            Aspect="AspectFill"
+            Source="stones.jpg"
+            RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+            RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}"></Image>
+        <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
+                       RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+
+
+        <StackLayout>
+                <Image Source="myPatientsLogo.png" Aspect="AspectFill" HorizontalOptions="Center"/>
+        
         <StackLayout Orientation="Vertical"
                  HorizontalOptions="FillAndExpand"
                  VerticalOptions="FillAndExpand">
 
-            <ListView x:Name="allowedUsersListView" ItemsSource="{Binding AllowedUsers}" Margin="10" HasUnevenRows="True"
+            <ListView x:Name="allowedUsersListView" ItemsSource="{Binding AllowedUsers}" HasUnevenRows="True"
                           IsPullToRefreshEnabled="False" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                                             Orientation="Horizontal" Margin="5,5,5,5">
-                                <Label Text="{Binding FirstName}" FontSize="Medium"/>
-                                <Label Text="{Binding LastName}" FontSize="Medium"/>
-                                <Label Text="{Binding id}" IsVisible="False"/>
-                            </StackLayout>
-                        </ViewCell>
+                                    <Frame BorderColor="MediumAquamarine" CornerRadius="20" OutlineColor="MediumAquamarine"
+                                         Padding="15" Margin="85,0,85,10" BackgroundColor="MediumAquamarine" Opacity="0.55">
+                                        <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
+                                             Margin="5,5,5,5" HorizontalOptions="Center" >
+                                            <Label Text="{Binding FirstName}" FontSize="Medium" TextColor="Black"/>
+                                            <Label Text="{Binding LastName}" FontSize="Medium"  TextColor="Black"/>
+                                            <Label Text="{Binding id}" IsVisible="False"/>
+                                        </StackLayout>
+                                </Frame>
+                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <StackLayout Margin="10,10,10,10">
-                <StackLayout Orientation="Horizontal">
-                    <Entry x:Name="entryUserCode" Placeholder="Add user code"/>
-                    <Button x:Name="buttonAddUser" Text="Add" Clicked="AddUser_Clicked" />
+
+                <StackLayout Margin="10,10,10,10">
+                        <Button Text="Add Patient" Clicked="OnOpenPupup" Style="{StaticResource buttonStyle}" HorizontalOptions="Center"></Button>
                 </StackLayout>
-                <Label x:Name="labelUserCodeError" TextColor="Red"/>
-            </StackLayout>
         </StackLayout>
     </StackLayout>
+     </Grid>
+    </RelativeLayout>
 </ContentPage>

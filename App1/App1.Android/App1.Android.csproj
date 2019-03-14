@@ -87,6 +87,9 @@
     <PackageReference Include="Xamarin.Microsoft.Band">
       <Version>1.3.10.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Plugins.Clipboard">
+      <Version>2.2.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Band.cs" />
@@ -135,7 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\App1\App1.csproj">
-      <Project>{FC7C64E1-CB9C-4043-8A3C-AB04F1DAFA0A}</Project>
+      <Project>{EAE955A5-7791-45D3-88AD-4C9DF5990984}</Project>
       <Name>App1</Name>
     </ProjectReference>
   </ItemGroup>
@@ -188,6 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\telephone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\myPatientsLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\breathing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -158,11 +158,14 @@
     <PackageReference Include="Xamarin.Forms.Contacts">
       <Version>1.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Plugins.Clipboard">
+      <Version>2.2.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\App1\App1.csproj">
-      <Project>{FC7C64E1-CB9C-4043-8A3C-AB04F1DAFA0A}</Project>
+      <Project>{EAE955A5-7791-45D3-88AD-4C9DF5990984}</Project>
       <Name>App1</Name>
     </ProjectReference>
   </ItemGroup>

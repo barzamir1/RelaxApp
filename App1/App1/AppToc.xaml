@@ -11,7 +11,7 @@
             RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}"></Image>
             <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
                        RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
-
+            <ScrollView>
                 <StackLayout>
                     <StackLayout HorizontalOptions="Center">
                         <Label x:Name="LabelUserName" Text="Hello -name-!"
@@ -65,7 +65,6 @@
                             <Button Text="Therapist"
                             Clicked="therapist"
                             Style="{StaticResource buttonStyle}" IsVisible="False"/>
-                            
                         </Grid>
 
                         <Grid HorizontalOptions="Center">
@@ -83,6 +82,7 @@
                     </StackLayout>
 
             </StackLayout>
+            </ScrollView>
             </Grid>
         </RelativeLayout>
     </ContentPage.Content>
