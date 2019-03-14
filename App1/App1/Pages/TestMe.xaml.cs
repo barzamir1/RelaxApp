@@ -24,64 +24,6 @@ namespace App1
                 StartMeasure(-1); //auto start
         }
 
-        //private void ButtonConnect_Clicked(object sender, EventArgs e)
-        //{
-        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
-
-        //    Task<bool> isConnected = DependencyService.Get<BandInterface>().ConnectToBand(b);
-        //    //this.buttonConnect.IsEnabled = !isConnected.Result;
-        //}
-
-        //private void ButtonHR_Clicked(object sender, EventArgs e)
-        //{
-        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
-        //    b.HR = 0;
-        //    Task<int> o = DependencyService.Get<BandInterface>().getHR(b);
-        //}
-
-        //private void ButtonGSR_Clicked(object sender, EventArgs e)
-        //{
-        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
-        //    b.GSR = 0;
-        //    Task<int> o = DependencyService.Get<BandInterface>().getGSR(b, 3);
-        //}
-
-        //private async void ButtonGSRWindow_Clicked(object sender, EventArgs e)
-        //{
-        //    TestMeViewModel b = (TestMeViewModel)BindingContext;
-        //    b.GSR = 0;
-        //    this.buttonGSRWindow.IsEnabled = false;
-        //    await DependencyService.Get<BandInterface>().getGSR(b,40);
-        //    //List<int> windowReads = DependencyService.Get<BandInterface>().getList();
-        //    this.buttonGSRWindow.IsEnabled = true;
-        //}
-
-        //private void ButtonRRInterval_Clicked(object sender, EventArgs e)
-        //{
-        //    ////this.buttonGSRWindow.IsEnabled = false;
-        //    //TestMeViewModel b = (TestMeViewModel)BindingContext;
-        //    //b.PNN50 = 0;
-        //    //double PNN50 = 0;
-        //    //Action onCompleted = () =>
-        //    //{
-        //    //    b.PNN50 = PNN50;
-        //    //};
-        //    ////don't make the UI thread wait
-        //    //var thread = new Thread(
-        //    //  () =>
-        //    //  {
-        //    //      try
-        //    //      {
-        //    //         PNN50 = StressCalculator.CalcStressIndex();
-        //    //      }
-        //    //      finally
-        //    //      {
-        //    //          onCompleted();
-        //    //      }
-        //    //  });
-        //    //thread.Start();
-        //}
-
         private void StartMeasure(int pseudo)
         {
             TestMeViewModel b = (TestMeViewModel)BindingContext;
@@ -141,6 +83,6 @@ namespace App1
         {
             stressResult = "";
             StartMeasure(-1); //real measurement
-        }
+        }       
     }
 }

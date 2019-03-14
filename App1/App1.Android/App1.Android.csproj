@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Band.cs" />
+    <Compile Include="Bluetooth.cs" />
     <Compile Include="ContactHelper.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MainActivity.cs" />

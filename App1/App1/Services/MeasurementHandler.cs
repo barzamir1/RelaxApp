@@ -19,12 +19,18 @@ namespace App1
         public static async Task GetStressResult(int pseudo, TestMeViewModel b)
         {
             List<double> rrIntervals = null;
+            bool bluetoothWasOn = false;
             if (pseudo < 0)
             {
+                //turn on bluetooth if needed
+                bluetoothWasOn = DependencyService.Get<IBluetooth>().TurnOn();
+                if (!bluetoothWasOn) { await Task.Delay(3 * 1000); }
+
                 bool isBandConnected = DependencyService.Get<IBand>().ConnectToBand(b).Result;
                 if (!isBandConnected)
                 {
                     b.StressResult = "Error: band isn't connected";
+                    if (!bluetoothWasOn) { DependencyService.Get<IBluetooth>().TurnOff(); }
                     return; //can't connect to band
                 }
                 b.StressResult = "Reading...";
@@ -37,6 +43,7 @@ namespace App1
             {
                 b.StressResult = "Error: can't read heart rate. make sure your band is worn and connected.";
                 b.Progress = 1;
+                if (!bluetoothWasOn) { DependencyService.Get<IBluetooth>().TurnOff(); }
                 return;
             }
             Uri measurementUri = BuildMeasurementUri(rrIntervals, pseudo);
@@ -44,6 +51,7 @@ namespace App1
             if (!success)
                 StoreIntervalsToLocalMemory(measurementUri);
             b.Progress = 1;
+            if (!bluetoothWasOn) { DependencyService.Get<IBluetooth>().TurnOff(); }
         }
 
         static Uri BuildMeasurementUri(List<double> intervals, int isPseudo)

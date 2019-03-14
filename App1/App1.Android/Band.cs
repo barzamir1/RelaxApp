@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Android.App;
 using Android.Widget;
+using Android.Util;
 
 /*
  * this class implements the BandInterface interface.
  * it is used to get data from the band, using the Microsoft.Band SDK
- * we save multiple measurements in a list since we might need mean and SD
+ * we save multiple measurements in a list since we need mean and SD
  * when reading data from each sensor (HR or GSR), we also check if the BandContactState is changed
  * by reading the contact sensor, so we could terminate in case the band is no longer worn.
  */
@@ -26,15 +27,17 @@ namespace App1
         private List<int> _gsrReadings = new List<int>();
         private List<double> _rrIntervalsReadings = new List<double>();
         private bool _gsrDone = false;
+        private MotionType currentMotionTyp;
         private BandContactState _bandState = null;
         public List<int> windowGsr = new List<int>();
+
 
         //sensors
         private HeartRateSensor _hrSensor;
         private GsrSensor _gsrSensor;
         private RRIntervalSensor _rrSensor;
         private ContactSensor _contactSensor;
-
+        private DistanceSensor _distancerSensor;
 
 
         public async Task<bool> ConnectToBand(TestMeViewModel b)
@@ -126,6 +129,14 @@ namespace App1
                 //TODO: notify the user by sending a notification
                 return false;
             }
+            _distancerSensor.StartReadings();
+            while(currentMotionTyp == null) { }
+            if (currentMotionTyp == MotionType.Walking || currentMotionTyp == MotionType.Jogging || currentMotionTyp == MotionType.Running)
+            {
+                b.StressResult = "Error: can't measure during sports activity";
+                Log.Error("motion", "user is " + currentMotionTyp.ToString());
+                return false;
+            }
             _rrIntervalsReadings.Clear();
             //RequestConsent();
             _rrSensor.StartReadings();
@@ -149,7 +160,7 @@ namespace App1
             _rrIntervalsReadings.Clear();
             _hrReadings.Clear();
         }
-        public async void InitSensors(TestMeViewModel b)
+        public void InitSensors(TestMeViewModel b)
         {
             if (!_client.IsConnected)
                 return;
@@ -157,8 +168,9 @@ namespace App1
             _gsrSensor = _gsrSensor ?? _client.SensorManager.CreateGsrSensor();
             _rrSensor = _rrSensor ?? _client.SensorManager.CreateRRIntervalSensor();
             _contactSensor = _contactSensor ?? _client.SensorManager.CreateContactSensor();
+            _distancerSensor = _distancerSensor ?? _client.SensorManager.CreateDistanceSensor();
 
-            if (_contactSensor == null || _hrSensor == null || _gsrSensor == null || _rrSensor == null)
+            if (_contactSensor == null || _hrSensor == null || _gsrSensor == null || _rrSensor == null || _distancerSensor == null)
                 return;
             Activity activity = Droid.MainActivity.instance;
 
@@ -210,8 +222,6 @@ namespace App1
             //register RR Intervals listener
             _rrSensor.ReadingChanged += (sender, e) =>
             {
-                //activity.RunOnUiThread(() =>
-                // {
                 if (_bandState != BandContactState.Worn) //user took off the band while reading
                 {
                     _rrSensor.StopReadings();
@@ -222,7 +232,11 @@ namespace App1
                 }
                 var rrEvent = e.SensorReading;
                 _rrIntervalsReadings.Add(rrEvent.Interval);
-                //  });
+            };
+            _distancerSensor.ReadingChanged += (sender, e) =>
+            {
+                currentMotionTyp = e.SensorReading.MotionType;
+                _distancerSensor.StopReadings();
             };
         }
         public async Task RequestConsent()
