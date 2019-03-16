@@ -1,17 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Rg.Plugins.Popup.Extensions;
-using Rg.Plugins.Popup.Pages;
-using Xamarin.Forms;
-using Rg.Plugins.Popup.Services;
-using App1.DataObjects;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using App1.DataObjects;
 using App1.Services;
-using System.Collections;
+using App1.ViewModels;
 using dotMorten.Xamarin.Forms;
-using System.Text.RegularExpressions;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace App1.Pages
 {
@@ -76,13 +73,21 @@ namespace App1.Pages
                 }
                 measurement.ActivityID = newActivity.Id;
                 azure.UpdateMeasurement(measurement); //doesn't wait
-
+                UpdateViewModel();
                 if (isNewActivity)
                     CallbackEvent.Invoke(this, newActivity);
                 else
                     CallbackEvent.Invoke(this, null);
             }
             CloseAllPopup();
+        }
+
+        private async void UpdateViewModel()
+        {
+            var model = await MeasurementsPageViewModel.GetInstance();
+            int index = model.MeasurementsObj.IndexOf(measurement);
+            model.MeasurementsObj.Remove(measurement);
+            model.MeasurementsObj.Insert(index, measurement);
         }
 
         private async void CloseAllPopup()

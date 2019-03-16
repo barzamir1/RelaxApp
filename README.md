@@ -1,7 +1,7 @@
 # RelaxApp
 TAU e-Health workshop
 
-RelaxApp is an app that allows users to measure and monitor thier stress level using Microsoft Band.
+RelaxApp allows users to measure and monitor their stress level using Microsoft Band.
 
 
 ## Product's website
