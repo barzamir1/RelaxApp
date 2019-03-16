@@ -33,7 +33,7 @@
                     <Label Text="Pick an emergency contact to call when your are stressed (optional)"></Label>
                     <Entry x:Name="emergencyContactName" Placeholder="Emergency Contact Name"></Entry>
                     <Entry x:Name="emergencyContactPhone" Placeholder="Emergency Contact Phone" Keyboard="Telephone"></Entry>
-                    <Entry x:Name="emergencyContactEmail" Placeholder="Emergency Contact Email" Keyboard="Telephone"></Entry>
+                    <Entry x:Name="emergencyContactEmail" Placeholder="Emergency Contact Email" Keyboard="Email"></Entry>
                     <Button Text="Choose an emergency contact from phone contacts" Clicked="pick_contact_clicked" Style="{StaticResource buttonStyle}"></Button>
                     <Label x:Name="errorLabel" Text="" IsVisible="False" TextColor="Red"/>
                 </StackLayout>
