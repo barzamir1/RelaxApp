@@ -12,7 +12,11 @@ namespace App1
 		public CalmMeDownToc ()
         { 
             InitializeComponent();
-            callButton.Text = "Call " + Login.Default.CurrentUser.EmergencyContactName;
+            var user = Login.Default.CurrentUser;
+            if (user.EmergencyContactName != null && user.EmergencyContactPhone != null)
+                callButton.Text = "Call " + Login.Default.CurrentUser.EmergencyContactName;
+            else
+                callButton.IsVisible = false;
         }
 
         public async void openAnimalGifs(object sender, EventArgs args)

@@ -9,7 +9,7 @@
     <ContentPage.BindingContext>
         <viewModels:MeasurementsPageViewModel/>
     </ContentPage.BindingContext>
-    <StackLayout>
+    <StackLayout Margin="10,10,10,10">
         <StackLayout>
             <StackLayout>
                     <!--Calendar-->
@@ -45,26 +45,6 @@
                                                 <TapGestureRecognizer Tapped="Activity_Clicked"/>
                                             </Label.GestureRecognizers>
                                         </Label>
-                                        <!--<Button Text="{Binding ActivityName}" BackgroundColor="Transparent" TextColor="Default"
-                                                Clicked="Activity_Clicked"/>
-                                        <Label Text="{Binding ActivityName}" TextDecorations="Underline"  x:Name="labelListActivityName"/>
-                                        <Entry Text="{Binding ActivityName}" FontSize="Micro" 
-                                               Completed="TextEntryListActivityName_Completed"/>
-                                        <forms1:AutoSuggestBox WidthRequest="150"
-                                                               TextChanged="AutoSuggestBox_TextChanged" PlaceholderText="{Binding ActivityName}"
-                                                               SuggestionChosen="AutoSuggestBox_SuggestionChosen"
-                                                               QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>-->
-
-                                        <!--<controls:AutoCompleteView x:Name="autoCompleteView"
-
-                                   BindingContextChanged="AutoCompleteView_BindingContextChanged"
-                                   Placeholder="{Binding ActivityName}"
-                                   HorizontalOptions="StartAndExpand"
-                                   TextColor="Black"
-                                   SearchTextColor="Black"
-                                                                   
-                                   ShowSearchButton="False"/>-->
-
                                     </StackLayout>
                                 </StackLayout>
                             </StackLayout>
