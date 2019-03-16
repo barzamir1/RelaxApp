@@ -34,8 +34,8 @@
                                          Padding="15" Margin="85,0,85,10" BackgroundColor="MediumAquamarine" Opacity="0.55">
                                         <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
                                              Margin="5,5,5,5" HorizontalOptions="Center" >
-                                            <Label Text="{Binding FirstName}" FontSize="Medium" TextColor="Black"/>
-                                            <Label Text="{Binding LastName}" FontSize="Medium"  TextColor="Black"/>
+                                            <Label Text="{Binding FirstName}" FontSize="Medium" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding LastName}" FontSize="Medium"  TextColor="Black"  FontAttributes="Bold"/>
                                             <Label Text="{Binding id}" IsVisible="False"/>
                                         </StackLayout>
                                 </Frame>
