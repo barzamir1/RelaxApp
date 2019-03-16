@@ -16,8 +16,8 @@ namespace App1
             // send mail to EmergencyContactEmail
             if (Login.Default.CurrentUser.EmergencyContactEmail != null && Login.Default.CurrentUser.EmergencyContactEmail != "")
             {
-                //var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
-                string apiKey = "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";
+                //apikey must be private
+                string apiKey = "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";
                 var client = new SendGridClient(apiKey);
                 var msg = new SendGridMessage()
                 {
@@ -26,9 +26,10 @@ namespace App1
                     // msg content is that the current user (first+last name) is having a stress moment
                     Subject = "Stress Moment Alert!",
                     PlainTextContent = "Hello from relaxApp! \n",
-                    HtmlContent = string.Format("<p dir=ltr><strong>Hello {0}!</strong><br /><br />{1} {2} is having a stress moment<br />Why don &#39;t you give&nbsp;a call?<br /><br /> RelaxApp Team </p>", Login.Default.CurrentUser.EmergencyContactName, Login.Default.CurrentUser.FirstName, Login.Default.CurrentUser.LastName)
+                    HtmlContent = string.Format("<p dir=ltr><strong>Hello {0}!</strong><br /><br />{1} {2} is having a stress moment<br />Why don&#39;t you reach out?<br /><br /><br /> RelaxApp Team </p>", Login.Default.CurrentUser.EmergencyContactName, Login.Default.CurrentUser.FirstName, Login.Default.CurrentUser.LastName)
                 };
                 msg.AddTo(new EmailAddress(Login.Default.CurrentUser.EmergencyContactEmail, Login.Default.CurrentUser.EmergencyContactName));
+
                 // send message without waiting
                 var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
             }

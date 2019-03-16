@@ -20,7 +20,7 @@ namespace App1.Pages
             Users currUser = Login.Default.CurrentUser;
             if (currUser != null)
                 labelUserShortId.Text = currUser.shortID.Insert(4, "-");
-		}
+        }
 
         private async void copyButton_Clicked(object sender, EventArgs e)
         {

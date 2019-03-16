@@ -18,6 +18,7 @@ namespace App1.Pages
         private String occupation = null;
         private DateTime dob;
         private String gender = null;
+        private String emergencyEmail = null;
         private bool backToSignupPage = false;
         private Users user;
 
@@ -28,7 +29,7 @@ namespace App1.Pages
             showContacts_Clicked(null, null);
         }
 
-        public EmergencyContactPage(string first, string last, string occ, DateTime dob, string gender, Users user)
+        public EmergencyContactPage(string first, string last, string occ, DateTime dob, string gender, Users user, String mail)
         {
 
             InitializeComponent();
@@ -40,12 +41,13 @@ namespace App1.Pages
             this.dob = dob;
             this.gender = gender;
             this.user = user;
+            this.emergencyEmail = mail;
 
             this.backToSignupPage = true;
             showContacts_Clicked(null, null);
         }
 
-        public EmergencyContactPage (String first, string last, string occ)
+        public EmergencyContactPage (String first, string last, string occ, String mail)
 		{
 			InitializeComponent ();
 
@@ -53,6 +55,7 @@ namespace App1.Pages
             this.firstName = first;
             this.lastName = last;
             this.occupation = occ;
+            this.emergencyEmail = mail;
             showContacts_Clicked(null, null);
 		}
 
@@ -80,7 +83,7 @@ namespace App1.Pages
             // go back to the previous page after choosing contact
             if (this.backToSignupPage == false)
             {
-                await Navigation.PushAsync(new EditUserProfile(firstName, lastName, occupation, selectedItem.DisplayName, selectedItem.ContactNumber));
+                await Navigation.PushAsync(new EditUserProfile(firstName, lastName, occupation, selectedItem.DisplayName, selectedItem.ContactNumber, emergencyEmail));
             }
             else
             {
