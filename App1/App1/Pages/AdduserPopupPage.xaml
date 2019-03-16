@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             x:Class="App1.Pages.AdduserPopupPage">
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="Black"/>
+                <Setter Property="TextColor" Value="Gray"/>
+            </Style>
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+                  PositionIn="Bottom"
+                  PositionOut="Center"
+                  ScaleIn="1"
+                  ScaleOut="0.7"
+                  DurationIn="700"
+                  EasingIn="BounceOut"/>
+        </pages:PopupPage.Animation>
+    <ScrollView
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+                <AbsoluteLayout>
+            <Frame
+                            x:Name="FrameContainer"
+                            Margin="15"
+                            HorizontalOptions="Center"
+                            BackgroundColor="White" CornerRadius="15">
+                <StackLayout
+                                IsClippedToBounds="True"
+                                Padding="10, 5"
+                                Spacing="3">
+                    <Entry
+                                          HorizontalOptions="Center"
+                                          x:Name="entryUserCode"
+                                          Style="{StaticResource EntryStyle}"
+                                          Placeholder="Enter user code" />
+                    <Button
+                                            Margin="10, 5"
+                                            Style="{StaticResource buttonStyle}"
+                                            Clicked="OnAdd"
+                                            x:Name="buttonAddUser"
+                                            Text="Add">
+                    </Button>
+
+                    <Label x:Name="labelUserCodeError" TextColor="lightcoral"/>
+                </StackLayout>
+            </Frame>
+        </AbsoluteLayout>
+    </ScrollView>
+</pages:PopupPage>

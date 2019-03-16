@@ -6,9 +6,9 @@
   <uses-permission android:name="com.microsoft.band.service.access.BIND_BAND_SERVICE" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-permission android:name="android.permission.READ_CONTACTS" />
-  <application android:label="App1.Android" android:icon="@drawable/Calendar">
-    <!--For the maps-->
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
+	<application android:label="RelaxApp" android:icon="@drawable/relaxAppLogo">
+		<!--For the maps-->
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCMLzB9F6q79qxkt7BKVn3bhgW90FXHTfk" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 		<uses-permission android:name="android.permission.INTERNET" />

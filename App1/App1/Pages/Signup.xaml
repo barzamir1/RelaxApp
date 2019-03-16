@@ -5,20 +5,20 @@
     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
             <StackLayout Margin="10,10,10,10">
-                <StackLayout Orientation="Horizontal">
-                    <Entry x:Name="firstName" Placeholder="First Name" Completed="Name_Completed"></Entry>
-                    <Entry x:Name="lastName" Placeholder="Last Name" Completed="Name_Completed"></Entry>
-                </StackLayout>
+                <Label Text="First Name"></Label>
+                <Entry x:Name="firstName" Placeholder="Enter First Name"></Entry>
+                <Label Text="Last Name"></Label>
+                <Entry x:Name="lastName" Placeholder="Enter Last Name"></Entry>
                 <Label Text="Date Of Birth" FontSize="Medium"></Label>
                 <DatePicker x:Name="dobPicker" Format="dd/MM/yyyy"></DatePicker>
-                <Picker x:Name="genderPicker" HorizontalOptions="FillAndExpand" Title="Gender">
+                <Picker x:Name="genderPicker" HorizontalOptions="FillAndExpand" Title="Choose Gender">
                     <Picker.Items>
                         <x:String>male</x:String>
                         <x:String>female</x:String>
                         <x:String>other</x:String>
                     </Picker.Items>
                 </Picker>
-                <Label Text="select type"/>
+                <Label Text="User / Therapist ?"/>
                 <Picker x:Name="isTherapistPicker" HorizontalOptions="FillAndExpand" 
                         Title="User Type" SelectedIndexChanged="IsTherapistPicker_SelectedIndexChanged">
                     <Picker.Items>
@@ -27,11 +27,14 @@
                     </Picker.Items>
                 </Picker>
                 <StackLayout x:Name="UserExtraDetails">
-                    <Entry x:Name="occupation" Placeholder="Occupation"></Entry>
+                    <Label Text="Occupation"></Label>
+                    <Entry x:Name="occupation" Placeholder="Enter Occupation"></Entry>
+                    <Label Text=""></Label>
                     <Label Text="Pick an emergency contact to call when your are stressed (optional)"></Label>
                     <Entry x:Name="emergencyContactName" Placeholder="Emergency Contact Name"></Entry>
                     <Entry x:Name="emergencyContactPhone" Placeholder="Emergency Contact Phone" Keyboard="Telephone"></Entry>
                     <Entry x:Name="emergencyContactEmail" Placeholder="Emergency Contact Email" Keyboard="Telephone"></Entry>
+                    <Button Text="Choose an emergency contact from phone contacts" Clicked="pick_contact_clicked" Style="{StaticResource buttonStyle}"></Button>
                     <Label x:Name="errorLabel" Text="" IsVisible="False" TextColor="Red"/>
                 </StackLayout>
                 
