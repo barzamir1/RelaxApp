@@ -95,6 +95,11 @@ namespace App1.Services
             await SyncAuthUsers();
             return await _userAuthorizations.ToListAsync();
         }
+        public async Task RemoveAuthUsers(UserAuthorizations user)
+        {
+            await _userAuthorizations.DeleteAsync(user);
+            await SyncAuthUsers();
+        }
 
         public async Task SyncAuthUsers()
         {

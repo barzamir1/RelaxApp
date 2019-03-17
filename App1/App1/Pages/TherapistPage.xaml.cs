@@ -2,20 +2,17 @@
 using App1.ViewModels;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms.Xaml;
+using App1.Services;
 
 namespace App1.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TherapistPage : ContentPage
 	{
         bool firstUserClicked = true;
@@ -63,7 +60,16 @@ namespace App1.Pages
                 allowedUsersListView.SelectedItem = null;
             }
         }
-    
+
+        private void ButtonRemoved_Clicked(object sender, EventArgs e)
+        {
+            Button b = (Button)sender;
+            Label idLabel = (Label)b.Parent.FindByName("id");
+            string UserID = idLabel.Text;
+            var model = (UserAuthorizationModel)BindingContext;
+            model.RemoveAuthUser(UserID);
+        }
+
         /* moved to popup
          * 
         private void AddUser_Clicked(object sender, EventArgs e)

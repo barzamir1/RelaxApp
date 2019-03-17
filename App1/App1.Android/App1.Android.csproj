@@ -43,6 +43,10 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <BundleAssemblies>false</BundleAssemblies>
+    <AndroidSupportedAbis />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -93,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Band.cs" />
+    <Compile Include="Bluetooth.cs" />
     <Compile Include="ContactHelper.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MainActivity.cs" />
