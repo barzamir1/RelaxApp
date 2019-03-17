@@ -31,12 +31,20 @@
                     <DataTemplate>
                         <ViewCell>
                                     <Frame BorderColor="MediumAquamarine" CornerRadius="20" OutlineColor="MediumAquamarine"
-                                         Padding="15" Margin="85,0,85,10" BackgroundColor="MediumAquamarine" Opacity="0.55">
+                                         Padding="15" Margin="5,5,5,5" BackgroundColor="MediumAquamarine" Opacity="0.55">
                                         <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
-                                             Margin="5,5,5,5" HorizontalOptions="Center" >
-                                            <Label Text="{Binding FirstName}" FontSize="Medium" TextColor="Black"/>
-                                            <Label Text="{Binding LastName}" FontSize="Medium"  TextColor="Black"/>
-                                            <Label Text="{Binding id}" IsVisible="False"/>
+                                             Margin="5,5,5,5" HorizontalOptions="StartAndExpand" >
+                                            <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
+                                             Margin="5,5,5,5" HorizontalOptions="Start" >
+                                                <Label Text="{Binding FirstName}" FontSize="Medium" TextColor="Black"/>
+                                                <Label Text="{Binding LastName}" FontSize="Medium"  TextColor="Black"/>
+                                                <Label x:Name="id" Text="{Binding id}" IsVisible="False"/>
+                                            </StackLayout>
+                                            <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
+                                             Margin="5,5,5,5" HorizontalOptions="End" >
+                                                <Button Text="X" Clicked="ButtonRemoved_Clicked" x:Name="{Binding id}" BackgroundColor="White"
+                                                        TextColor="MediumAquamarine"/>
+                                            </StackLayout>
                                         </StackLayout>
                                 </Frame>
                          </ViewCell>
