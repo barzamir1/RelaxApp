@@ -65,7 +65,7 @@
                             <Button Text="Therapist"
                             Clicked="therapist"
                             Style="{StaticResource buttonStyle}" IsVisible="False"/>
-                        </Grid>
+                            </Grid>
 
                         <Grid HorizontalOptions="Center">
                             <Grid.RowDefinitions>

@@ -51,7 +51,7 @@ namespace WorkingWithMaps
         {
             MeasurementsPageViewModel model = await MeasurementsPageViewModel.GetInstance();
 
-            DateTime weekAgo = DateTime.Today.AddDays(-7);
+            DateTime weekAgo = DateTime.Today.AddDays(-30);
             filteredMeasurements = model.MeasurementsObj
                 .Where(item => item.Date.CompareTo(weekAgo) > 0) //measurements from last week
                 .Where(item => item.IsStressed>0) //show only stressed measurements

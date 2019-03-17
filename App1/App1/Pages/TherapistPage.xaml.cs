@@ -41,6 +41,7 @@ namespace App1.Pages
             await PopupNavigation.Instance.PushAsync(_adduserPopup);
         }
 
+
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var selectedUser = (Users)allowedUsersListView.SelectedItem;
