@@ -23,7 +23,9 @@ namespace App1
             _mobileServiceClient = Services.AzureDataService.Instance._mobileServiceClient;
             UsersTable = _mobileServiceClient.GetSyncTable<Users>();
             UsersTable.PullAsync("Users", UsersTable.CreateQuery());
-            isTherapistPicker.SelectedIndex = 0;
+            isTherapistPicker.SelectedIndex = 1;
+            // don't show the extra details unless it isn't a therapist
+            UserExtraDetails.IsVisible = false;
         }
 
         public Signup(String first, String last, String occ, DateTime dob, String gender, Users user , String emergencyName, String emergencyPhone)
@@ -39,8 +41,33 @@ namespace App1
 
         private async void Signup_Clicked(object sender, EventArgs e)
         {
-            if (!ValidateInput())
-                return;
+            int validInputRes = ValidateInput();
+            if (validInputRes > 0)
+            {
+                switch (validInputRes)
+                {
+                    case 1:
+                        await DisplayAlert("Invalid First Name", "Make sure it contains only english letters", "OK");
+                        return;
+                    case 2:
+                        await DisplayAlert("Invalid Last Name", "Make sure it contains only english letters", "OK");
+                        return;
+                    case 3:
+                        await DisplayAlert("Invalid Occupation", "Make sure it contains only english letters", "OK");
+                        return;
+                    case 4:
+                        await DisplayAlert("Invalid Emergency Conatct Name", "Make sure it contains only english letters", "OK");
+                        return;
+                    case 5:
+                        await DisplayAlert("Invalid Emergency Conatct Phone", "Make sure it contains only digits", "OK");
+                        return;
+                    case 6:
+                        await DisplayAlert("Invalid Emergency Conatct Email", "Make sure it's a valid email address", "OK");
+                        return;
+
+                }
+            }
+                
             user.FirstName = firstName.Text;
             user.LastName = lastName.Text;
             user.DateOfBirth = dobPicker.Date;
@@ -71,39 +98,33 @@ namespace App1
             Navigation.RemovePage(this);
         }
 
-        private bool ValidateInput()
+        private int ValidateInput()
         {
             if (firstName.Text == null || !isAlphabetic(firstName.Text))
-                return false;
+                return 1;
             if (lastName.Text == null || !isAlphabetic(lastName.Text))
-                return false;
-            if (dobPicker.Date.CompareTo(DateTime.Now) > 0) //birthday is later than today
-                return false;
-            if (genderPicker.SelectedIndex < 0)
-                return false;
-            if (isTherapistPicker.SelectedIndex > 0)
-                return true;
+                return 2;
             if (occupation.Text == null || !isAlphabetic(occupation.Text))
-                return false;
+                return 3;
             if (emergencyContactName.Text != null)
             {
                 if (!isAlphabetic(emergencyContactName.Text))
-                    return false;
+                    return 4;
                 if (emergencyContactPhone.Text == null)
-                    return false;
+                    return 5;
                 if (!isNumeric(emergencyContactPhone.Text))
-                    return false;
+                    return 5;
             }
-            // validate email address - allow empty field
+            // validate email address & allow empty field
             if (emergencyContactEmail.Text != null && emergencyContactEmail.Text != "")
             {
                 if (!isValidEmail(emergencyContactEmail.Text))
-                    return false;
+                    return 6;
             }
 
-            return true;
-
+            return 0;
         }
+
         private bool isAlphabetic(String text)
         {
             Regex pattern = new Regex("^[a-zA-Z ]+$");

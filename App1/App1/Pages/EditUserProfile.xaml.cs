@@ -30,7 +30,7 @@ namespace App1.Pages
         }
 
         // constructor overloading
-        public EditUserProfile(String first, String last, String occ, String emergencyName, String emergencyPhone) //, String emergencyEmail
+        public EditUserProfile(String first, String last, String occ, String emergencyName, String emergencyPhone, String emergencyEmail) //, String emergencyEmail
         {
             InitializeComponent();
             user = Login.Default.CurrentUser;
@@ -39,7 +39,7 @@ namespace App1.Pages
             occupation.Text = occ;
             emergencyContactName.Text = emergencyName;
             emergencyContactPhone.Text = emergencyPhone;
-            //emergencyContactEmail.Text = emergencyEmail;
+            emergencyContactEmail.Text = emergencyEmail;
         }
 
         
@@ -149,7 +149,7 @@ namespace App1.Pages
         // pass to pick_contact_clicked the values that the user already changed in order to save those changes
         private async void pick_contact_clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new EmergencyContactPage(firstName.Text, lastName.Text, occupation.Text));
+            await Navigation.PushAsync(new EmergencyContactPage(firstName.Text, lastName.Text, occupation.Text, emergencyContactEmail.Text));
         }
 
 
