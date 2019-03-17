@@ -15,6 +15,7 @@ namespace App1.ViewModels
     {
         private ObservableCollection<Users> _allowedUsers;
         private List<Users> allUsers;
+        private List<UserAuthorizations> _authUsers;
         private AzureDataService _azureDataService = AzureDataService.Instance;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,9 +41,9 @@ namespace App1.ViewModels
         public async Task InitializeAuthorizedUsers()
         {
             allUsers = await _azureDataService.GetAllUsers();
-            var authUsers = await _azureDataService.GetAllAuthUsers();
+            _authUsers = await _azureDataService.GetAllAuthUsers();
 
-            foreach (var currUserID in authUsers)
+            foreach (var currUserID in _authUsers)
             {
                 var currUser = allUsers.Where(item => item.id == currUserID.AuthorizedToViewUserID).ToList();
                 if (currUser != null && currUser.Count > 0)
@@ -76,6 +77,13 @@ namespace App1.ViewModels
             }
             else
                 return false;
+        }
+        public async void RemoveAuthUser(string UserID)
+        {
+            var AuthUserToRemove = _authUsers.Where(item => item.AuthorizedToViewUserID == UserID).FirstOrDefault();
+            var UserToRemove = allUsers.Where(item => item.id == AuthUserToRemove.AuthorizedToViewUserID).FirstOrDefault();
+            AllowedUsers.Remove(UserToRemove);
+            await _azureDataService.RemoveAuthUsers(AuthUserToRemove);
         }
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

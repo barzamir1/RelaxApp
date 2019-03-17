@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 /App1/App1/check.png
 /App1/App1.Android/Resources/drawable/chec1.png
+/com.companyname.App1.apk
+/App1/App1/Properties/PublishProfiles/FolderProfile.pubxml
