@@ -33,7 +33,7 @@ namespace App1.Pages
             if (!success) { labelUserCodeError.Text = "Code Error: wrong user code"; }
             buttonAddUser.IsEnabled = true;
 
-            await Navigation.PopAsync();
+            await PopupNavigation.Instance.PopAllAsync();
         }
 
         private bool ValidateUserCode()

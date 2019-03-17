@@ -16,22 +16,25 @@
         <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
                        RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
 
-          <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Margin="20,20,20,20">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
-                <Label Text="Measure your stress level" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Medium"/>
+                <Label Text="Measure your stress level" HorizontalOptions="CenterAndExpand" 
+                       VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"/>
                 <Label x:Name="isConnectedLabel" Text="{Binding IsConnected, StringFormat='connected: {0}'}"
-                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontSize="Small"/>
+                       HorizontalOptions="Center" TextColor="White" VerticalOptions="CenterAndExpand" FontSize="20"/>
                 <ProgressBar x:Name="progressBar" 
                          HorizontalOptions="Center"
                          VerticalOptions="End"
                          WidthRequest="60"
+                         ProgressColor="White"
                          Margin="20,0,20,0"
                          Scale="5"
                     Progress="{Binding Progress}">
                 </ProgressBar>
 
-                <Label x:Name="labelStressResults" Text="{Binding StressResult}" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
+                <Label Text="" />
+                <Label x:Name="labelStressResults" FontSize="26" TextColor="White" Text="{Binding StressResult}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
                 <Button x:Name="buttonRRTest" Text="Test Me Now" Clicked="ButtonReal_Clicked" IsEnabled="{Binding IsFinished}" Style="{StaticResource buttonStyle}"/>
                 <Button x:Name="buttonRRrelax" IsVisible="False" Text="Test Me Relaxed" Clicked="ButtonRRrelax_Clicked" Style="{StaticResource buttonStyle}"/>
                 <Button x:Name="buttonRRstress" IsVisible="False" Text="Test Me Stressed" Clicked="ButtonRRstress_Clicked" Style="{StaticResource buttonStyle}"/>

@@ -4,7 +4,7 @@
              x:Class="App1.Pages.EditUserProfile">
     <ContentPage.Content>
 
-        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Margin="10,10,10,10">
             <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
                 <StackLayout>
                     <StackLayout Orientation="Vertical">

@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.Pages.SignupStressTest">
     <ContentPage.Content>
-        <StackLayout Margin="10,10,10,10">
+        <StackLayout Margin="10,10,10,10" HorizontalOptions="CenterAndExpand">
+            <Image Source="relaxAppLogo.png" HeightRequest="120" WidthRequest="120" VerticalOptions="Center"/>
             <Label Text="Last Step!"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" FontSize="Large"/>
-            <Label Text="You are going to play a simple game of Pong, while we'll be running some tests. Make sure to turn up the volume"
+                HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="Large"/>
+            <Label Text="You are going to play a simple game of Pong, while we'll be running some tests. &#x0a;
+                   It will take about 90 seconds and then you'll be able to continue or keep playing if you want to!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" FontSize="Medium"/>
             <Button Text="continue" Clicked="Start_Clicked"  Style="{StaticResource buttonStyle}"/>
