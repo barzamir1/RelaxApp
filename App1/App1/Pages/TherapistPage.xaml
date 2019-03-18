@@ -30,22 +30,31 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                                    <Frame BorderColor="MediumAquamarine" CornerRadius="20" OutlineColor="MediumAquamarine"
-                                         Padding="15" Margin="5,5,5,5" BackgroundColor="MediumAquamarine" Opacity="0.55">
-                                        <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
-                                             Margin="5,5,5,5" HorizontalOptions="StartAndExpand" >
-                                            <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
-                                             Margin="5,5,5,5" HorizontalOptions="Start" >
-                                                <Label Text="{Binding FirstName}" FontSize="Medium" TextColor="Black"/>
-                                                <Label Text="{Binding LastName}" FontSize="Medium"  TextColor="Black"/>
+                                    <Frame BorderColor="MediumAquamarine" Margin="70,0,70,10" CornerRadius="20" OutlineColor="MediumAquamarine" HeightRequest="40"
+                                           WidthRequest="80"
+                                         Padding="15"  BackgroundColor="MediumAquamarine" Opacity="0.55">
+
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="42" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="40" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalOptions="CenterAndExpand" 
+                                                         HorizontalOptions="CenterAndExpand" >
+                                                <Label Text="{Binding FirstName}" FontAttributes="Bold" FontSize="Medium" TextColor="Black"   />
+                                                <Label Text="{Binding LastName}" FontAttributes="Bold" FontSize="Medium"  TextColor="Black"   />
                                                 <Label x:Name="id" Text="{Binding id}" IsVisible="False"/>
                                             </StackLayout>
-                                            <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal" 
-                                             Margin="5,5,5,5" HorizontalOptions="End" >
-                                                <Button Text="X" Clicked="ButtonRemoved_Clicked" x:Name="{Binding id}" BackgroundColor="White"
-                                                        TextColor="MediumAquamarine"/>
-                                            </StackLayout>
-                                        </StackLayout>
+                                           
+                                            <Button Text="X" FontAttributes="Bold" Clicked="ButtonRemoved_Clicked" x:Name="{Binding id}" 
+                                                        BackgroundColor="Red"
+                                                        CornerRadius="20" TextColor="White"
+                                                        Grid.Row="0" Grid.Column="1" />
+                                        </Grid>
                                 </Frame>
                          </ViewCell>
                     </DataTemplate>
