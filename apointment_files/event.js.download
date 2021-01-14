@@ -1,0 +1,215 @@
+﻿function showRecurringEventDayUpdate() {
+    $("#pickEditTypeModal").modal('hide');
+    //setRecurringModal setRecurringModalContent sSetRecurringErrorContainer dSetRecurringError   
+    loadingBegin();
+    var _siteID = $("#hstati").val();
+    var _eventID = $("#hetati").val();
+    var _groupID = $("#hGroupID").val();
+
+    if (_groupID !== undefined && _groupID.length > 0) {
+        _groupID = parseInt(_groupID);
+    }
+
+    var URL = getBaseURL() + _siteID + '/Event/' + _eventID + '/getSetRecurringDayAndTimePV';
+
+    $.ajax({
+        url: URL,
+        data: {
+            siteID: _siteID,
+            eventID: _eventID,
+            groupID: _groupID
+        },
+        cache: true,
+        type: "POST",
+        dataType: "html",
+        success: function (data, textStatus, XMLHttpRequest) {
+
+            $("#setRecurringDayAndTimeModalContent").html(data);
+
+            $("#dSetRecurringDayAndTimeErrorContainer").hide();
+            $("#dSetRecurringDayAndTimeError").html('');
+
+            $("#setRecurringDayAndTimeModal").modal('show');
+            loadingEnd();
+        }
+    });
+}
+function getAvailableSlotsForWeekDayUpdate() {
+
+    $("#dSetRecurringDayAndTimeErrorContainer").hide();
+    $("#dSetRecurringDayAndTimeError").html('');
+
+    loadingBegin();
+    $("#ddlRecurringSlots").empty();
+    $('#dRecurringEventsDayAndTimeSave').hide();
+    var _weekDay = $("#_recurringDayOfWeek").val();
+    var _siteID = $("#hstati").val();
+    var _eventID = $("#hetati").val();
+    var _groupID = $("#hGroupID").val();
+    if (_groupID !== undefined && _groupID.length > 0) {
+        _groupID = parseInt(_groupID);
+    }
+
+    $("#recurringEventsDayAndTimeSaveBtn").attr('disabled', 'true');
+    $("#recurringEventsDayAndTimeSavStepOneBtn").attr('disabled', 'true');
+
+    if ($("#recurringEventsDayAndTimeSaveBtn").hasClass('form-submitted') || $("#recurringEventsDayAndTimeSavStepOneBtn").hasClass('form-submitted')) {
+        return;
+    }
+
+    $("#recurringEventsDayAndTimeSaveBtn").addClass('form-submitted');
+    $("#recurringEventsDayAndTimeSavStepOneBtn").addClass('form-submitted');
+
+    var URL = getBaseURL() + _siteID + '/Event/' + _eventID + '/getAvailableSlotsForWeekDayUpdate';
+    $.ajax({
+        url: URL,
+        data: {
+            siteID: _siteID,
+            eventID: _eventID,
+            groupID: _groupID,
+            weekDay: _weekDay
+        },
+        cache: true,
+        type: "POST",
+        dataType: "html",
+        success: function (data, textStatus, XMLHttpRequest) {
+            var Res = JSON.parse(data);
+            if (Res.error !== undefined) {
+                //dSetRecurringErrorContainer 
+                $("#dSetRecurringDayAndTimeError").html(Res.error);
+                $("#dSetRecurringDayAndTimeErrorContainer").show();
+
+                enableFormBtns();
+            }
+            else if (Res.times !== undefined) {
+                if (Res.times.length > 0) {
+                    //TODO add slots to DDL + show set appointment btn                    
+
+                    $('#dRecurringEventsDayAndTimeSaveStepOne').hide();
+                    $('#dRecurringEventsDayAndTimeStepTwo').show();
+                    $('#dRecurringEventsDayAndTimeSave').show();
+                    $.each(Res.times, function (index, value) {
+                        var optionValue = value;
+                        var optionText = GetTimeString(value);
+                        $('#ddlRecurringSlots').append(`<option value="${optionValue}"> 
+                                       ${optionText} 
+                                  </option>`);
+                    });
+
+                    enableFormBtns();
+                }
+                else {
+                    //var optionValue = '-1';
+                    //var optionText = 'לא נמצאו מועדים פנויים ביום זה בשבוע';
+
+                    //$('#ddlRecurringSlots').append(`<option value="${optionValue}"> 
+                    //                   ${optionText} 
+                    //              </option>`); 
+                    $("#dSetRecurringDayAndTimeError").html('לא נמצאו מועדים פנויים ביום זה בשבוע');
+                    $("#dSetRecurringDayAndTimeErrorContainer").show();
+
+                    enableFormBtns();
+                }
+            }
+            loadingEnd();
+        }
+    });
+}
+function GetTimeString(timeM) {
+    var sHour = (timeM / 60).toString().length > 1 ? parseInt(parseInt(timeM) / 60).toString() : "0" + parseInt(parseInt(timeM) / 60).toString();
+    var sMinuts = parseInt(timeM % 60);
+    sMinuts = sMinuts.toString().length > 1 ? sMinuts : "0" + sMinuts;
+    return sHour + ":" + sMinuts;
+}
+function updateRecurringWeekDay() {
+    var weekDay = $("#ddlRecurringWeekDay").val();
+    $("#_recurringDayOfWeek").val(weekDay);
+
+    $("#dRecurringEventsDayAndTimeSaveStepOne").show();
+    $("#dRecurringEventsDayAndTimeSave").hide();
+    $("#dRecurringEventsDayAndTimeStepTwo").hide();
+
+    //$("#dRecurringEventsConflicts").hide();
+    //$("#dRecurringEventsDayAndTimeSave").show();
+}
+function setRecurringDayAndTime(skipValidation) {
+
+    //recurringEventsDayAndTimeSaveBtn
+
+
+
+    $("#timeValiRecurringEdit").hide();
+    $("#dSetRecurringDayAndTimeErrorContainer").hide();
+    $("#dSetRecurringDayAndTimeError").html('');
+    $("#dRecurringConflictsContent").html('');
+    $("#dRecurringEventsConflicts").hide();
+
+    var _weekDay = parseInt($("#ddlRecurringWeekDay").val());
+
+    var _sTime = parseInt($("#ddlRecurringSlots").val());
+
+    if (_sTime > 0) {
+
+        //disable btn
+        $("#recurringEventsDayAndTimeSaveBtn").attr('disabled', 'true');
+        $("#recurringEventsDayAndTimeSavStepOneBtn").attr('disabled', 'true');
+
+        if ($("#recurringEventsDayAndTimeSaveBtn").hasClass('form-submitted') || $("#recurringEventsDayAndTimeSavStepOneBtn").hasClass('form-submitted')) {
+            return;
+        }
+        $("#recurringEventsDayAndTimeSaveBtn").addClass('form-submitted');
+        $("#recurringEventsDayAndTimeSavStepOneBtn").addClass('form-submitted');
+
+        loadingBegin();
+
+
+        var _siteID = $("#hstati").val();
+        var _eventID = $("#hetati").val();
+        var _groupID = $("#hGroupID").val();
+        if (_groupID !== undefined && _groupID.length > 0) {
+            _groupID = parseInt(_groupID);
+        }
+        var URL = getBaseURL() + _siteID + '/Event/' + _eventID + '/goSetRecurringDayAndTime';
+        //var URL = getBaseURL() + "Event/goSetRecurringDayAndTime";//string eventID, int groupID, int weekDay, int sTime, int eTime, bool skipValidation = false, List<string> excludedEvents = null
+        $.ajax({
+            url: URL,
+            data: {
+                siteID: _siteID,
+                eventID: _eventID,
+                groupID: _groupID,
+                weekDay: _weekDay,
+                sTime: _sTime
+            },
+            cache: true,
+            type: "POST",
+            dataType: "html",
+            success: function (data, textStatus, XMLHttpRequest) {
+                var Res = JSON.parse(data);
+                if (Res.error !== undefined) {
+                    //dSetRecurringErrorContainer 
+                    $("#dSetRecurringDayAndTimeError").html(Res.error);
+                    $("#dSetRecurringDayAndTimeErrorContainer").show();
+                    enableFormBtns();
+                }
+                else if (Res.success !== undefined) {
+                    refreshPage();
+                }
+                loadingEnd();
+            }
+        });
+    }
+    else {
+        loadingEnd();
+    }
+
+}
+function enableFormBtns() {
+    $("#recurringEventsDayAndTimeSaveBtn").removeClass('form-submitted');
+    $("#recurringEventsDayAndTimeSaveBtn").removeAttr("disabled");
+
+    $("#recurringEventsDayAndTimeSavStepOneBtn").removeClass('form-submitted');
+    $("#recurringEventsDayAndTimeSavStepOneBtn").removeAttr("disabled");
+}
+function refreshPage() {
+    window.location.reload();
+}

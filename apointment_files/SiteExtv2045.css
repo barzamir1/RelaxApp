@@ -1,0 +1,419 @@
+﻿.disbaleLink {
+    text-decoration: none !important;
+    color: #ccc !important;
+    cursor: default;
+}
+
+    .disbaleLink:hover, .disbaleLink:focus, .disbaleLink:active {
+        text-decoration: none;
+        color: #ccc;
+    }
+
+
+.TBL_Calendar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 8px;
+}
+
+    .TBL_Calendar > li {
+        float: right;
+        text-align: center;
+    }
+
+    .TBL_Calendar .weekActionLink {
+        line-height: 64px;
+        text-align: center;
+        padding: 0 20px;
+        border-radius: 8px;
+    }
+
+        .TBL_Calendar .weekActionLink a {
+            color: #666;
+        }
+
+            .TBL_Calendar .weekActionLink a:hover {
+                color: #111;
+            }
+
+    .TBL_Calendar .daysAction {
+        width: 100%;
+        position: relative;
+    }
+
+.LB_goNextMonth {
+    float: left;
+}
+
+.LB_goPrevMonth {
+    float: right;
+}
+
+.LBL_CalendarDayTitle {
+    text-align: center;
+    color: #cdcdcd;
+    font-size: 12px;
+}
+
+.calDay {
+    background: #FFF;
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: default;
+    color: #ccc;
+    float: right;
+    font-size: 20px;
+    /*font-weight: lighter;*/
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px 8px;
+    margin: 0 5px;
+    display: inline-block;
+    position: relative;
+    width: calc(100%/7.57);
+}
+
+    .calDay:hover, .calDay:focus, .calDay:active {
+        text-decoration: none;
+        color: #ccc;
+    }
+
+    .calDay .today {
+        position: absolute;
+        top: -18px;
+        font-size: 11px;
+        width: 100%;
+        right: 0;
+        text-align: center;
+    }
+
+
+
+.calDay-active {
+    background: #fff;
+    border-width: 1px;
+    border-radius: 8px;
+    border-style: solid;
+    color: #333;
+    padding-bottom: 10px;
+}
+
+    .calDay-active:hover, .calDay-active:focus, .calDay-active:active {
+        text-decoration: none;
+        color: #333;
+    }
+
+.calDay-enabeled {
+    color: #333 !important;
+    cursor: pointer;
+}
+
+    .calDay-enabeled .LBL_CalendarDayTitle, .calDay-active .LBL_CalendarDayTitle {
+        color: #666;
+    }
+
+
+
+.calDay-active:not(.disbaleLink) .LB_CalendarDay {
+    color: #333 !important;
+}
+
+.disbaleLink .LBL_CalendarDayTitle {
+    color: #cdcdcd !important;
+}
+
+.calDay-enabeled:hover {
+    background: #f5f5f5;
+}
+
+
+.calDay .LB_CalendarDay {
+    text-align: center;
+}
+
+.calDay-enabeled:hover, .calDay-enabeled:focus, .calDay-enabeled:active {
+    text-decoration: none;
+    color: #333;
+}
+
+/***************************/
+
+
+.timeSlotItem {
+    margin: 5px 10px;
+    font-size: 22px;
+    border-bottom: 1px solid #CECECE;
+    padding-bottom: 5px;
+}
+
+    .timeSlotItem .btn {
+        float: left;
+    }
+
+    .timeSlotItem .timeTitle {
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+
+
+
+
+/*************SumBox**************/
+.scheduleTotalBox {
+    padding: 10px 15px;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.07),1px 2px 5px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.07),1px 2px 5px 0 rgba(0, 0, 0, 0.06);
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 2px;
+    background: #eee;
+    margin: 20px 0;
+    min-height: 200px;
+    font-size: 20px;
+    border: 2px solid #DDD;
+}
+
+    .scheduleTotalBox .scheduleTotalBox-title {
+        color: #555;
+        margin-bottom: 10px;
+        text-align: center;
+        padding: 10px;
+        /*border-bottom: 1px solid #ddd;*/
+        padding-bottom: 17px;
+        font-size: 36px;
+    }
+
+    .scheduleTotalBox .scheduleTotalBox-services {
+        list-style-type: none;
+    }
+
+        .scheduleTotalBox .scheduleTotalBox-services .service-title {
+            padding: 5px;
+            margin: 5px;
+            font-size: 26px;
+        }
+
+        .scheduleTotalBox .scheduleTotalBox-services .service-desc {
+            padding: 8px;
+            margin: 10px;
+            font-size: 16px;
+            margin-bottom: 0;
+            border-bottom: 1px solid #DDD;
+            padding-right: 10px;
+        }
+
+            .scheduleTotalBox .scheduleTotalBox-services .service-desc:last-child {
+                border-bottom: 0;
+            }
+
+            .scheduleTotalBox .scheduleTotalBox-services .service-desc .sHead {
+                width: 80px;
+                display: inline-block;
+                font-weight: bold;
+            }
+
+            .scheduleTotalBox .scheduleTotalBox-services .service-desc .sBody {
+                display: inline-block;
+            }
+
+
+.termsTitle {
+    font-size: 20px;
+    padding: 0;
+    color: #777;
+}
+
+.termsContent {
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+}
+
+.loadingDiv {
+    text-align: center;
+    font-size: 28px;
+    color: #888;
+    margin: 40px 0;
+}
+
+.sectionOptions {
+    margin-bottom: 15px;
+}
+
+    .sectionOptions .title {
+        font-size: 26px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #EEE;
+    }
+
+    .sectionOptions .btn {
+        color: #FFF !important;
+        border: 0;
+    }
+
+.timeSlots .timeSlotsTitle {
+    font-size: 26px;
+    text-align: right;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 15px;
+}
+
+.daySlotsTitle {
+    font-size: 22px;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+
+
+.weekDaysDesk {
+    display: block;
+}
+
+.weekDaysMobile {
+    display: none;
+}
+
+    .weekDaysMobile .weekDay {
+        font-size: 22px;
+        margin: 0 1px;
+    }
+
+.changeDate {
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 768px) {
+    .calDay {
+        width: calc(100%/8);
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dateTime {
+        text-align: center;
+    }
+    #d-service-btn {
+        width: 100%;
+    }
+
+        #d-service-btn .btnService {
+            width: 100%;
+        }
+
+    .btnRemoveLocation {
+        width: 100%;
+        margin-top: 20px !important;
+    }
+
+    .daysForSlots {
+        display: none;
+    }
+
+    .btn-lg {
+        padding: 8px;
+        font-size: initial;
+        line-height: normal;
+    }
+
+    .TATnoPadding-xs {
+        padding: 0;
+    }
+
+    .weekDaysDesk {
+        display: none;
+    }
+
+    .weekDaysMobile {
+        display: block;
+    }
+
+    .changeDate {
+        width: 100%;
+        text-align: center;
+    }
+
+    .calDay {
+        margin: 0 1px;
+        margin-bottom: 5px !important;
+        padding: 0;
+        min-height: 41px;
+        font-size: 20px;
+        padding-top: 8px;
+    }
+    .weekDaysContainer {
+        margin-bottom:0 !important;
+    }
+    
+    .calDay .today {
+        top: -20px;
+    }
+
+    /*.TBL_Calendar .weekActionLink {
+        width: 100%;
+        font-size: 24px;
+    }
+
+        .TBL_Calendar .weekActionLink .weekTitle {
+            display: inline !important;
+        }*/
+
+    .TBL_Calendar .daysAction {
+        width: 100%;
+    }
+
+    .timeSlots .timeSlotsTitle {
+        margin-top: 30px;
+        font-size:20px;
+    }
+
+    .timeSum {
+        margin-top: 0 !important;
+    }
+
+    .timeSlots {
+        margin-top: -20px;
+    }
+
+    .serviceImgDiv {
+        text-align: center;
+    }
+
+    .s-content > .h2 {
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    .s-content > p {
+        text-align: center;
+    }
+
+    .btnPickEvent {
+        min-width: inherit !important;
+    }
+
+    .scheduleTotalBox .scheduleTotalBox-services .service-desc {
+        padding-top: 10px !important;
+    }
+}
+
+.btnService {
+    min-width: 250px;
+}
+
+.btnRemoveLocation {
+    min-width: 250px;
+}
+
+.btnPickEvent {
+    min-width: 250px;
+}
